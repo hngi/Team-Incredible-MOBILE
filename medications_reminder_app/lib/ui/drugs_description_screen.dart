@@ -48,19 +48,24 @@ class _DrugsDescriptionState extends State<DrugsDescription> {
                 width: 500.0,
                 height: 200.0,
                 decoration: BoxDecoration(
-                  color: appThemeLight.primaryColor,
-                ),
-                child: Container(
-                  alignment: Alignment.bottomCenter,
-                  child: Padding(
-                    padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
-                    child: Text(
-                      'Aspirin',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 35,
-                        fontWeight: FontWeight.bold,
+                    color: appThemeLight.primaryColor,
+                    image: DecorationImage(
+                      image: AssetImage('images/pill.png'),
+                    )),
+                child: Padding(
+                  padding: EdgeInsets.only(right: 15),
+                  child: Container(
+                    alignment: Alignment.bottomRight,
+                    child: Padding(
+                      padding: EdgeInsets.only(bottom: 6),
+                      child: Text(
+                        'Aspirin',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 35,
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
                     ),
                   ),
@@ -235,7 +240,9 @@ class _DrugsDescriptionState extends State<DrugsDescription> {
             height: 50,
             child: RaisedButton(
               elevation: 0.0,
-              onPressed: () {},
+              onPressed: () {
+                Navigator.pushNamed(context, '/addreminders');
+              },
               color: appThemeLight.buttonColor,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(80.0),
