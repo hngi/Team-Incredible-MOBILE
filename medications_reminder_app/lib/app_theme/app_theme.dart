@@ -1,11 +1,11 @@
-
 import 'package:flutter/material.dart';
 
 ThemeData appThemeLight = ThemeData(
-  primaryColor: Colors.green[600],
-  primaryColorDark: Colors.green[900],
-  primaryColorLight: Colors.white,
+  primaryColor: Color(0xff2c7b4b),
+  primaryColorDark: Colors.green[800],
+  primaryColorLight: Color(0xfffdfcff),
   backgroundColor: Colors.grey[300],
   primaryColorBrightness: Brightness.light,
-  buttonColor: Colors.green[700]
+  buttonColor: Color(0xff40b26d),
+  primarySwatch: Colors.grey
 );
