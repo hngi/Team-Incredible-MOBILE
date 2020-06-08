@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:medications_reminder_app/app_theme/app_theme.dart';
 
 import '../app_theme/app_theme.dart';
+import '../app_theme/app_theme.dart';
 
 //Note that the colours are #fdfcff and #40b26d for button
 //I already added the google fonts package, use poppins
@@ -23,18 +24,18 @@ class _DrugsDescriptionState extends State<DrugsDescription> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: appThemeLight.backgroundColor,
+      backgroundColor: appThemeLight.primaryColorLight,
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(50.0),
         child: AppBar(
+          actions: <Widget>[
+            IconButton(
+                icon: Icon(Icons.info), tooltip: 'Back', onPressed: () {}),
+          ],
           leading: IconButton(
-            icon: Icon(
-              Icons.keyboard_backspace,
-              color: Colors.white,
-              size: 30,
-            ),
-            onPressed: () {},
-          ),
+              icon: Icon(Icons.keyboard_backspace),
+              tooltip: 'Info',
+              onPressed: () {}),
           backgroundColor: appThemeLight.primaryColor,
           elevation: 0.0,
         ),
@@ -51,17 +52,25 @@ class _DrugsDescriptionState extends State<DrugsDescription> {
             ),
           ),
           SizedBox(
-            height: 10,
+            height: 20,
           ),
           Container(
             width: 400,
-            height: 450,
-            child: Card(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(15.0),
-              ),
-              color: appThemeLight.primaryColorLight,
-              elevation: 2.0,
+            height: 400,
+            child: Container(
+              height: 100.0,
+              width: 100.0,
+              decoration: BoxDecoration(
+                  color: appThemeLight.primaryColorLight,
+                  shape: BoxShape.rectangle,
+                  borderRadius: BorderRadius.circular(15),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Color(0xFFEDEFF2),
+                      blurRadius: 25.0,
+                      spreadRadius: 2.0,
+                    ),
+                  ]),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 // mainAxisSize: MainAxisSize.min,
@@ -78,7 +87,7 @@ class _DrugsDescriptionState extends State<DrugsDescription> {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(25, 18, 0, 0),
+                    padding: const EdgeInsets.fromLTRB(25, 15, 0, 0),
                     child: Row(
                       children: <Widget>[
                         Text(
@@ -89,54 +98,65 @@ class _DrugsDescriptionState extends State<DrugsDescription> {
                           ),
                         ),
                         SizedBox(
-                          width: 10,
+                          width: 20,
                         ),
-                        FlatButton(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(5.0),
-                          ),
-                          color: appThemeLight.buttonColor,
-                          onPressed: () {},
-                          child: Text(
-                            '9am',
-                            style: TextStyle(
-                              color: Colors.white,
+                        ButtonTheme(
+                          minWidth: 15,
+                          height: 30,
+                          child: FlatButton(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(5.0),
+                            ),
+                            color: appThemeLight.buttonColor,
+                            onPressed: () {},
+                            child: Text(
+                              '9am',
+                              style: TextStyle(
+                                color: Colors.white,
+                              ),
                             ),
                           ),
                         ),
                         SizedBox(
                           width: 10,
                         ),
-                        FlatButton(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(5.0),
-                          ),
-                          color: appThemeLight.buttonColor,
-                          onPressed: () {},
-                          child: Text(
-                            '3pm',
-                            style: TextStyle(
-                              color: Colors.white,
+                        ButtonTheme(
+                          minWidth: 15,
+                          height: 30,
+                          child: FlatButton(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(5.0),
+                            ),
+                            color: appThemeLight.buttonColor,
+                            onPressed: () {},
+                            child: Text(
+                              '3pm',
+                              style: TextStyle(
+                                color: Colors.white,
+                              ),
                             ),
                           ),
                         ),
                         SizedBox(
                           width: 10,
                         ),
-                        // This button is not fitting in to the size, so i need to resize all the buttons
-//                        FlatButton(
-//                          shape: RoundedRectangleBorder(
-//                            borderRadius: BorderRadius.circular(5.0),
-//                          ),
-//                          color: appThemeLight.buttonColor,
-//                          onPressed: () {},
-//                          child: Text(
-//                            '9am',
-//                            style: TextStyle(
-//                              color: Colors.white,
-//                            ),
-//                          ),
-//                        ),
+                        ButtonTheme(
+                          minWidth: 15,
+                          height: 30,
+                          child: FlatButton(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(5.0),
+                            ),
+                            color: appThemeLight.buttonColor,
+                            onPressed: () {},
+                            child: Text(
+                              '3pm',
+                              style: TextStyle(
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                        ),
                       ],
                     ),
                   ),
@@ -190,13 +210,28 @@ class _DrugsDescriptionState extends State<DrugsDescription> {
               ),
             ),
           ),
-          RaisedButton(
-            onPressed: () {},
-            color: appThemeLight.buttonColor,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(15.0),
+          SizedBox(
+            height: 25,
+          ),
+          ButtonTheme(
+            minWidth: 270,
+            height: 50,
+            child: RaisedButton(
+              elevation: 0.0,
+              onPressed: () {},
+              color: appThemeLight.buttonColor,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(80.0),
+              ),
+              child: Text(
+                'Change Schedule',
+                style: TextStyle(
+                  fontSize: 20,
+                ),
+              ),
+              textColor: Colors.white,
             ),
-          )
+          ),
         ],
       ),
     );
