@@ -12,7 +12,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      initialRoute: '/',
+      initialRoute: '/drugsdescription',
       routes: {
         '/': (BuildContext context) => SplashScreen(),
         '/home': (BuildContext context) => HomeScreen(),
@@ -20,6 +20,6 @@ class MyApp extends StatelessWidget {
         '/addreminders': (BuildContext context) => RemindersScreen(),
       },
       title: 'Medications Reminder',
-      );
+    );
   }
 }
