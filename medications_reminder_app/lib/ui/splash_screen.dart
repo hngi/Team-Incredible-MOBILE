@@ -14,6 +14,16 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+
+  @override
+  void initState() {
+    super.initState();
+
+    Timer(
+        Duration(seconds: 4),
+            () => Navigator.pushReplacementNamed(context, '/home'));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,6 +46,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
 
             Container(
+
               width: 200.0,
               height: 60.0,
               margin: EdgeInsets.fromLTRB(0, 180.0, 0, 0.0),
@@ -55,9 +66,7 @@ class _SplashScreenState extends State<SplashScreen> {
                     fontWeight: FontWeight.normal,
                   ),
                 ),
-                onPressed: (){
-                  Navigator.pushNamed(context, '/home');
-                },
+                onPressed: (){},
               ),
             ),
         ],
