@@ -42,14 +42,31 @@ class _DrugsDescriptionState extends State<DrugsDescription> {
       ),
       body: Column(
         children: <Widget>[
-          Container(
-            height: 200.0,
-            decoration: BoxDecoration(
-              color: appThemeLight.primaryColor,
-              image: DecorationImage(
-                image: AssetImage('images/pill.png'),
+          Column(
+            children: <Widget>[
+              Container(
+                width: 500.0,
+                height: 200.0,
+                decoration: BoxDecoration(
+                  color: appThemeLight.primaryColor,
+                ),
+                child: Container(
+                  alignment: Alignment.bottomCenter,
+                  child: Padding(
+                    padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
+                    child: Text(
+                      'Aspirin',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 35,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
               ),
-            ),
+            ],
           ),
           SizedBox(
             height: 20,
