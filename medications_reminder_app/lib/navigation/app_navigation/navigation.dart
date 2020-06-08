@@ -1,6 +1,8 @@
 import '../page_transitions/animations.dart';
 import 'package:flutter/material.dart';
 
+//TODO: Modify class to handle navigation with named routes
+
 class Navigation{
 
 ///Navigates from a base screen to another screen with backward animation and with replacement
