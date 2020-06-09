@@ -56,7 +56,7 @@ class _SplashScreenState extends State<SplashScreen> {
                           padding: EdgeInsets.only(top: 10.0),
                         ),
                         Text(
-                          "MediRemind",
+                          "MediBuzz",
                           style: TextStyle(
                               color:Colors.white,
                               fontSize: 24.0,
@@ -65,20 +65,7 @@ class _SplashScreenState extends State<SplashScreen> {
                       ],
                     ),
                   ),
-                  Expanded(
-                    flex: 1,
-                    child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          CircularProgressIndicator(),
-                          Padding(
-                            padding: EdgeInsets.only(top: 20.0),
-                          ),
-                          Text("Reminder You \n Can Trust", style: TextStyle(color: Colors.white, fontSize: 18.0, fontWeight: FontWeight.bold),
-                          )
-                        ]
-                    ),
-                  )
+                  
                 ]
             )
           ]
