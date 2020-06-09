@@ -28,6 +28,8 @@ class _RemindersState extends State<Reminders> {
   int selectedIndex = 0;
   int _dosage = 1;
   TimeOfDay _currentTime = TimeOfDay.now();
+  TimeOfDay _currentTime2 = TimeOfDay.now();
+  TimeOfDay _currentTime3 = TimeOfDay.now();
   DateTime startDate = DateTime.now();
   DateTime endDate = DateTime.now();
   @override
@@ -56,17 +58,27 @@ class _RemindersState extends State<Reminders> {
               child: ListView(
                 children: <Widget>[
                   TextFormField(
+                    cursorColor: Theme.of(context).primaryColorDark,
                     style: TextStyle(
                       color: Theme.of(context).primaryColorDark,
                       fontSize: config.xMargin(context, 5.5)
                     ),
                     decoration: InputDecoration(
-                      hintText: 'Drug name',
+                      hintText: 'Drug name...',
                       hintStyle: TextStyle(
                         fontSize: config.xMargin(context, 5),
                         color: Theme.of(context).primaryColor
-                      )
-                    )
+                      ),
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide(color: Theme.of(context).primaryColorDark)
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Theme.of(context).primaryColorDark)
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Theme.of(context).primaryColorLight)
+                      ),
+                    ),
                   ),
                   SizedBox(height:config.yMargin(context, 5)),
                   Container(
@@ -97,7 +109,7 @@ class _RemindersState extends State<Reminders> {
                               )),
                             ),
                           ),
-                          SizedBox(width: config.xMargin(context, 4.5))
+                          SizedBox(width: config.xMargin(context, 1.1))
                         ],
                       ),
                       
@@ -119,6 +131,7 @@ class _RemindersState extends State<Reminders> {
                         ),
                         SizedBox(width: config.xMargin(context, 4.5)),
                         DropdownButton<String>(
+                          underline: Text(''),
                           items: times.map((String time){
                             return DropdownMenuItem<String>(
                               value:time,
@@ -134,7 +147,7 @@ class _RemindersState extends State<Reminders> {
                           )
                       ],),
 
-                       SizedBox(height: config.yMargin(context, 3)),
+                       SizedBox(height: config.yMargin(context, 2.5)),
                     
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -175,6 +188,15 @@ class _RemindersState extends State<Reminders> {
                         
 
                       ],),
+                      SizedBox(height: config.yMargin(context, 2.5)),
+
+                      Text(
+                          'Set time to receive notifications',
+                          style: TextStyle(
+                                          fontSize: config.xMargin(context, 5.5),
+                                          fontWeight: FontWeight.bold
+                                        ),
+                        ),
                        SizedBox(height: config.yMargin(context, 4)),
 
                       _selectedTime == 'Once' ? _once(localizations) : _selectedTime == 'Twice' ? _twice(localizations) :
@@ -182,7 +204,7 @@ class _RemindersState extends State<Reminders> {
 
                       SizedBox(height: config.yMargin(context, 3)),
                       
-                      SizedBox(height: config.yMargin(context, 6)),
+                      SizedBox(height: config.yMargin(context, 4.5)),
                       Container(
                         height: config.yMargin(context, 50),
                         width: MediaQuery.of(context).size.width,
@@ -195,14 +217,21 @@ class _RemindersState extends State<Reminders> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: <Widget>[
                                 Text(
-                                  'Start'
+                                  'Start',
+                                  style: TextStyle(
+                                        fontSize: config.xMargin(context, 5)
+                                      ),
                                 ),
                                 SizedBox(width:config.xMargin(context, 3)),
                                 FlatButton(
                                   onPressed: ()=>selectStartDate(context),
                                   child: Row(
                                     children: <Widget>[
-                                      Text('${localizations.formatShortMonthDay(startDate)}'),
+                                      Text('${localizations.formatShortMonthDay(startDate)}',
+                                      style: TextStyle(
+                                        fontSize: config.xMargin(context, 4.2)
+                                      ),
+                                      ),
                                       Icon(Icons.keyboard_arrow_down)
                                     ],
                                   )
@@ -214,14 +243,21 @@ class _RemindersState extends State<Reminders> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: <Widget>[
                                 Text(
-                                  'End'
+                                  'End',
+                                  style: TextStyle(
+                                        fontSize: config.xMargin(context, 5)
+                                      ),
                                 ),
                                 SizedBox(width:config.xMargin(context, 3)),
                                 FlatButton(
                                   onPressed: ()=>selectendDate(context),
                                   child: Row(
                                     children: <Widget>[
-                                      Text('${localizations.formatShortMonthDay(endDate)}'),
+                                      Text('${localizations.formatShortMonthDay(endDate)}',
+                                      style: TextStyle(
+                                        fontSize: config.xMargin(context, 4.2)
+                                      ),
+                                      ),
                                       Icon(Icons.keyboard_arrow_down)
                                     ],
                                   )
@@ -291,7 +327,7 @@ class _RemindersState extends State<Reminders> {
                             onTap: ()=>selectTime(context),
                             child: Text(localizations.formatTimeOfDay(_currentTime)),
                             ),
-                            SizedBox(width: config.xMargin(context, 4)),
+                            SizedBox(width: config.xMargin(context, 5)),
         Icon(
                             Icons.access_time,
                           ),
@@ -299,10 +335,10 @@ class _RemindersState extends State<Reminders> {
                           InkWell(
                             focusColor: Theme.of(context).primaryColorLight,
                             splashColor: Colors.greenAccent,
-                            onTap: ()=>selectTime(context),
-                            child: Text(localizations.formatTimeOfDay(_currentTime)),
+                            onTap: ()=>selectTime2(context),
+                            child: Text(localizations.formatTimeOfDay(_currentTime2)),
                             ),
-                            SizedBox(width: config.xMargin(context, 4)),
+                            SizedBox(width: config.xMargin(context, 5)),
         Icon(
                             Icons.access_time,
                           ),
@@ -310,8 +346,8 @@ class _RemindersState extends State<Reminders> {
                           InkWell(
                             focusColor: Theme.of(context).primaryColorLight,
                             splashColor: Colors.greenAccent,
-                            onTap: ()=>selectTime(context),
-                            child: Text(localizations.formatTimeOfDay(_currentTime)),
+                            onTap: ()=>selectTime3(context),
+                            child: Text(localizations.formatTimeOfDay(_currentTime3)),
                             ),
                         ],
     );
@@ -329,7 +365,7 @@ class _RemindersState extends State<Reminders> {
                             onTap: ()=>selectTime(context),
                             child: Text(localizations.formatTimeOfDay(_currentTime)),
                             ),
-                             SizedBox(width: config.xMargin(context, 4)),
+                             SizedBox(width: config.xMargin(context, 5)),
         Icon(
                             Icons.access_time,
                           ),
@@ -337,8 +373,8 @@ class _RemindersState extends State<Reminders> {
                           InkWell(
                             focusColor: Theme.of(context).primaryColorLight,
                             splashColor: Colors.greenAccent,
-                            onTap: ()=>selectTime(context),
-                            child: Text(localizations.formatTimeOfDay(_currentTime)),
+                            onTap: ()=>selectTime2(context),
+                            child: Text(localizations.formatTimeOfDay(_currentTime2)),
                             ),
                         ],
     );
@@ -352,6 +388,30 @@ class _RemindersState extends State<Reminders> {
     if (selectedTime != null && selectedTime != _currentTime){
       setState((){
         _currentTime = selectedTime;
+      });
+    }
+
+  }
+   Future<Null> selectTime2(BuildContext context) async{
+    final TimeOfDay selectedTime = await showTimePicker(
+        context: context,
+        initialTime: _currentTime2,
+    );
+    if (selectedTime != null && selectedTime != _currentTime2){
+      setState((){
+        _currentTime2 = selectedTime;
+      });
+    }
+
+  }
+   Future<Null> selectTime3(BuildContext context) async{
+    final TimeOfDay selectedTime = await showTimePicker(
+        context: context,
+        initialTime: _currentTime3,
+    );
+    if (selectedTime != null && selectedTime != _currentTime3){
+      setState((){
+        _currentTime3 = selectedTime;
       });
     }
 
