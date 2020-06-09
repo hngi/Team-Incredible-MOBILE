@@ -4,8 +4,11 @@ import './ui/splash_screen.dart';
 import './ui/drugs_description_screen.dart';
 import './ui/add_reminders_screen.dart';
 import 'app_theme/app_theme.dart';
+import 'DB/db.dart';
 
-void main() {
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  DB().initializeDB();
   runApp(MyApp());
 }
 

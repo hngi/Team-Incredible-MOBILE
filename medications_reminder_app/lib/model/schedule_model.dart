@@ -24,4 +24,5 @@ class Schedule {
 
   @HiveField(6)
   DateTime endAt;
+
 }

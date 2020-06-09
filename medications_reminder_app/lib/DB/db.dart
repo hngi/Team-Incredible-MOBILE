@@ -1,11 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:medications_reminder_app/model/schedule_model.dart';
+import 'package:path_provider/path_provider.dart' as path_provider;
 
 class DB extends ChangeNotifier {
   static const String _boxName = "scheduleBox";
 
   List<Schedule> _schedule = [];
+
+  void initializeDB() async {
+    final docsDirectory = await path_provider.getApplicationDocumentsDirectory();
+    Hive.init(docsDirectory.path);
+    getSchedules();
+  }
 
   void getSchedules() async {
     var box = await Hive.openBox<Schedule>(_boxName);
