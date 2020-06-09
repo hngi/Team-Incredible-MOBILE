@@ -101,7 +101,7 @@ class _RemindersState extends State<Reminders> {
                                       ? Theme.of(context).buttonColor
                                       : Theme.of(context).primaryColorLight,
                                   borderRadius: BorderRadius.circular(
-                                    config.xMargin(context, 4),
+                                    config.xMargin(context, 2),
                                   ),
                                   boxShadow: [
                                     BoxShadow(
