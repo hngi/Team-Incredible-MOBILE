@@ -11,7 +11,10 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       body: CustomHomeScreen(),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        //Navigate to add reminders screen
+        onPressed: () {
+          Navigator.pushNamed(context, '/addreminders');
+        },
         backgroundColor: Theme.of(context).buttonColor,
         focusColor: Colors.greenAccent,
         splashColor: Colors.greenAccent,
