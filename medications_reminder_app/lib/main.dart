@@ -23,6 +23,6 @@ class MyApp extends StatelessWidget {
       },
       theme: appThemeLight,
       title: 'Medications Reminder',
-      );
+    );
   }
 }
