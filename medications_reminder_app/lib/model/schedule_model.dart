@@ -26,8 +26,10 @@ class Schedule {
   DateTime endAt;
 
   @HiveField(7)
-  DateTime seconfTime;
+  DateTime secondTime;
 
   @HiveField(8)
   DateTime thirdTime;
+
+  Schedule(this.name,this.drugType,this.duration,this.frequency, this.startAt, this.time, this.endAt, this.secondTime, this.thirdTime);
 }

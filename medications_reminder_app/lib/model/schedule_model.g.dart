@@ -13,16 +13,17 @@ class ScheduleAdapter extends TypeAdapter<Schedule> {
     var fields = <int, dynamic>{
       for (var i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return Schedule()
-      ..name = fields[0] as String
-      ..drugType = fields[1] as String
-      ..duration = fields[2] as int
-      ..frequency = fields[3] as int
-      ..startAt = fields[4] as DateTime
-      ..time = fields[5] as DateTime
-      ..endAt = fields[6] as DateTime
-      ..seconfTime = fields[7] as DateTime
-      ..thirdTime = fields[8] as DateTime;
+    return Schedule(
+      fields[0] as String,
+      fields[1] as String,
+      fields[2] as int,
+      fields[3] as int,
+      fields[4] as DateTime,
+      fields[5] as DateTime,
+      fields[6] as DateTime,
+      fields[7] as DateTime,
+      fields[8] as DateTime,
+    );
   }
 
   @override
@@ -44,7 +45,7 @@ class ScheduleAdapter extends TypeAdapter<Schedule> {
       ..writeByte(6)
       ..write(obj.endAt)
       ..writeByte(7)
-      ..write(obj.seconfTime)
+      ..write(obj.secondTime)
       ..writeByte(8)
       ..write(obj.thirdTime);
   }
