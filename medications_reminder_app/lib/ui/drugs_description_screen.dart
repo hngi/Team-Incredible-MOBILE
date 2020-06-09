@@ -29,6 +29,7 @@ class _DrugsDescriptionState extends State<DrugsDescription> {
         children: <Widget>[
           Container(
             margin: EdgeInsets.only(top: 50, left: 35),
+            //Button to take the user back to the home screen
             child: IconButton(
               onPressed: () {
                 Navigator.pop(context);
@@ -44,6 +45,7 @@ class _DrugsDescriptionState extends State<DrugsDescription> {
             margin: EdgeInsets.only(top: 50, left: 10),
             child: Row(
               children: <Widget>[
+                //This image section should be based on whatever kind of drug the user selects upon creation of schedule.
                 Image.asset(
                   'images/tablet.png',
                   height: 110,
@@ -52,10 +54,12 @@ class _DrugsDescriptionState extends State<DrugsDescription> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
+
                     Text(
                       'Drug name',
                       style: TextStyle(color: Color(0xff808080)),
                     ),
+                    //The drug name and further details below should be in line with the users inputs upon schedule creation
                     Text(
                       'Aspirin',
                       style: TextStyle(
@@ -104,6 +108,7 @@ class _DrugsDescriptionState extends State<DrugsDescription> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
+                //Carefully look through the design chosen to understand what should happen here
                 Text(
                   'Dose',
                   style: TextStyle(
@@ -229,6 +234,7 @@ class _DrugsDescriptionState extends State<DrugsDescription> {
           SizedBox(
             height: 70,
           ),
+          //This button should navigate the user to a screen exactly like the add reminders screen. But in this case, the various fields should be filled with details found in this screen.
           Center(
             child: ButtonTheme(
               minWidth: 350,
@@ -255,211 +261,3 @@ class _DrugsDescriptionState extends State<DrugsDescription> {
     );
   }
 }
-
-// Column(
-//             children: <Widget>[
-//               Container(
-//                 width: 500.0,
-//                 height: 200.0,
-//                 decoration: BoxDecoration(
-//                   color: appThemeLight.primaryColor,
-//                 ),
-//                 child: Container(
-//                   alignment: Alignment.bottomCenter,
-//                   child: Padding(
-//                     padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
-//                     child: Text(
-//                       'Aspirin',
-//                       textAlign: TextAlign.center,
-//                       style: TextStyle(
-//                         color: Colors.white,
-//                         fontSize: 35,
-//                         fontWeight: FontWeight.bold,
-//                       ),
-//                     ),
-//                   ),
-//                 ),
-//               ),
-//             ],
-//           ),
-//           SizedBox(
-//             height: 20,
-//           ),
-//           Container(
-//             width: 400,
-//             height: 400,
-//             child: Container(
-//               height: 100.0,
-//               width: 100.0,
-//               decoration: BoxDecoration(
-//                   color: appThemeLight.primaryColorLight,
-//                   shape: BoxShape.rectangle,
-//                   borderRadius: BorderRadius.circular(15),
-//                   boxShadow: [
-//                     BoxShadow(
-//                       color: Color(0xFFEDEFF2),
-//                       blurRadius: 25.0,
-//                       spreadRadius: 2.0,
-//                     ),
-//                   ]),
-//               child: Column(
-//                 crossAxisAlignment: CrossAxisAlignment.start,
-//                 // mainAxisSize: MainAxisSize.min,
-//                 children: <Widget>[
-//                   Padding(
-//                     padding: const EdgeInsets.fromLTRB(25.0, 25.0, 0.0, 0.0),
-//                     child: Text(
-//                       'Dosage',
-//                       textAlign: TextAlign.left,
-//                       style: TextStyle(
-//                         fontSize: 20,
-//                         fontWeight: FontWeight.bold,
-//                       ),
-//                     ),
-//                   ),
-//                   Padding(
-//                     padding: const EdgeInsets.fromLTRB(25, 15, 0, 0),
-//                     child: Row(
-//                       children: <Widget>[
-//                         Text(
-//                           '3 Times:',
-//                           textAlign: TextAlign.left,
-//                           style: TextStyle(
-//                             fontSize: 20,
-//                           ),
-//                         ),
-//                         SizedBox(
-//                           width: 20,
-//                         ),
-//                         ButtonTheme(
-//                           minWidth: 15,
-//                           height: 30,
-//                           child: FlatButton(
-//                             shape: RoundedRectangleBorder(
-//                               borderRadius: BorderRadius.circular(5.0),
-//                             ),
-//                             color: appThemeLight.buttonColor,
-//                             onPressed: () {},
-//                             child: Text(
-//                               '9am',
-//                               style: TextStyle(
-//                                 color: Colors.white,
-//                               ),
-//                             ),
-//                           ),
-//                         ),
-//                         SizedBox(
-//                           width: 10,
-//                         ),
-//                         ButtonTheme(
-//                           minWidth: 15,
-//                           height: 30,
-//                           child: FlatButton(
-//                             shape: RoundedRectangleBorder(
-//                               borderRadius: BorderRadius.circular(5.0),
-//                             ),
-//                             color: appThemeLight.buttonColor,
-//                             onPressed: () {},
-//                             child: Text(
-//                               '3pm',
-//                               style: TextStyle(
-//                                 color: Colors.white,
-//                               ),
-//                             ),
-//                           ),
-//                         ),
-//                         SizedBox(
-//                           width: 10,
-//                         ),
-//                         ButtonTheme(
-//                           minWidth: 15,
-//                           height: 30,
-//                           child: FlatButton(
-//                             shape: RoundedRectangleBorder(
-//                               borderRadius: BorderRadius.circular(5.0),
-//                             ),
-//                             color: appThemeLight.buttonColor,
-//                             onPressed: () {},
-//                             child: Text(
-//                               '3pm',
-//                               style: TextStyle(
-//                                 color: Colors.white,
-//                               ),
-//                             ),
-//                           ),
-//                         ),
-//                       ],
-//                     ),
-//                   ),
-//                   SizedBox(
-//                     height: 40,
-//                   ),
-//                   Padding(
-//                     padding: const EdgeInsets.fromLTRB(25.0, 25.0, 0.0, 0.0),
-//                     child: Text(
-//                       'Program',
-//                       textAlign: TextAlign.left,
-//                       style: TextStyle(
-//                         fontSize: 20,
-//                         fontWeight: FontWeight.bold,
-//                       ),
-//                     ),
-//                   ),
-//                   Padding(
-//                     padding: const EdgeInsets.fromLTRB(25.0, 15.0, 0.0, 0.0),
-//                     child: Text(
-//                       'Total 8 weeks : 6 Weeks Left',
-//                       textAlign: TextAlign.left,
-//                       style: TextStyle(
-//                         fontSize: 20,
-//                       ),
-//                     ),
-//                   ),
-//                   SizedBox(
-//                     height: 40,
-//                   ),
-//                   Padding(
-//                     padding: const EdgeInsets.fromLTRB(25.0, 25.0, 0.0, 0.0),
-//                     child: Text(
-//                       'Quantity',
-//                       textAlign: TextAlign.left,
-//                       style:
-//                           TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-//                     ),
-//                   ),
-//                   Padding(
-//                     padding: const EdgeInsets.fromLTRB(25.0, 15.0, 0.0, 0.0),
-//                     child: Text(
-//                       'Total 169 Tablets : 104 Left',
-//                       textAlign: TextAlign.left,
-//                       style: TextStyle(
-//                         fontSize: 20,
-//                       ),
-//                     ),
-//                   ),
-//                 ],
-//               ),
-//             ),
-//           ),
-//           SizedBox(
-//             height: 25,
-//           ),
-//           ButtonTheme(
-//             minWidth: 350,
-//             height: 60,
-//             child: RaisedButton(
-//               elevation: 0.0,
-//               onPressed: () {},
-//               color: appThemeLight.buttonColor,
-//               shape: RoundedRectangleBorder(
-//                 borderRadius: BorderRadius.circular(10.0),
-//               ),
-//               child: Text(
-//                 'Change Schedule',
-//                 style: TextStyle(
-//                   fontSize: 20,
-//                 ),
-//               ),
-//               textColor: Colors.white,
-//             ),
-//           ),
