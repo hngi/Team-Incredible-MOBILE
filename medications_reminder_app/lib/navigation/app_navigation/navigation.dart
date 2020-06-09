@@ -22,10 +22,5 @@ pushToAndReplace(BuildContext context, Widget child){
 
 ///Navigates from a base screen to former screen with backward animation
 ///Exits application
-pop(BuildContext context){
-
-}
-
-
-
+pop(BuildContext context){}
 }
