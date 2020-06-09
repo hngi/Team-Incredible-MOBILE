@@ -21,14 +21,14 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
 
     Timer(
-        Duration(seconds: 4),
+        Duration(seconds: 3),
             () => Navigator.pushReplacementNamed(context, '/home'));
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.green[900],
+      backgroundColor: Colors.white,
       body: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
@@ -44,32 +44,6 @@ class _SplashScreenState extends State<SplashScreen> {
               )
 
           ),
-
-
-            Container(
-
-              width: 200.0,
-              height: 60.0,
-              margin: EdgeInsets.fromLTRB(0, 180.0, 0, 0.0),
-              decoration: BoxDecoration(
-                color: Colors.green[600],
-                shape: BoxShape.rectangle,
-                borderRadius: BorderRadius.all(
-                  Radius.circular(10.0),
-                ),
-              ),
-
-              child: FlatButton(
-                child: Text('Get Started' ,
-                  style: TextStyle(
-                    fontSize: 18.0,
-                    color: Colors.white,
-                    fontWeight: FontWeight.normal,
-                  ),
-                ),
-                onPressed: (){},
-              ),
-            ),
         ],
           ),
 
