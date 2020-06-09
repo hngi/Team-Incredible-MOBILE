@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'dart:async';
+import 'package:flutter/cupertino.dart';
+
+
 
 
 //Note that the colors are #40b26d(main colour) and sub colour #fdfcff
@@ -11,12 +15,41 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+
+  @override
+  void initState() {
+    super.initState();
+
+    Timer(
+        Duration(seconds: 3),
+            () => Navigator.pushReplacementNamed(context, '/home'));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-          body: Center(
-          child: Text('Splash Screen')
-      ),
+      backgroundColor: Colors.white,
+      body: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+
+        Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Container(
+              alignment: Alignment.center,
+              child:
+                  Center(
+                    child: Image.asset('assets/YouDose.png', width: MediaQuery.of(context).size.width*.9,),
+              )
+
+          ),
+        ],
+          ),
+
+
+        ],
+    ),
     );
   }
 }
