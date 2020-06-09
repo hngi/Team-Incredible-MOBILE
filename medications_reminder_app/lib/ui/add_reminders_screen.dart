@@ -52,13 +52,13 @@ class _RemindersState extends State<Reminders> {
                 TextFormField(
                   cursorColor: Theme.of(context).primaryColorDark,
                   style: TextStyle(
-                      color: Color(0xff808080),
+                      color: Theme.of(context).primaryColor,
                       fontSize: config.xMargin(context, 5.5)),
                   decoration: InputDecoration(
                     hintText: 'Drug name',
                     hintStyle: TextStyle(
                         fontSize: config.xMargin(context, 5),
-                        color: Theme.of(context).primaryColor),
+                        color: Color(0xff808080),
                     border: OutlineInputBorder(
                         borderSide: BorderSide(
                             color: Theme.of(context).primaryColorDark)),
