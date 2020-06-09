@@ -20,13 +20,15 @@ class ScheduleAdapter extends TypeAdapter<Schedule> {
       ..frequency = fields[3] as int
       ..startAt = fields[4] as DateTime
       ..time = fields[5] as DateTime
-      ..endAt = fields[6] as DateTime;
+      ..endAt = fields[6] as DateTime
+      ..seconfTime = fields[7] as DateTime
+      ..thirdTime = fields[8] as DateTime;
   }
 
   @override
   void write(BinaryWriter writer, Schedule obj) {
     writer
-      ..writeByte(7)
+      ..writeByte(9)
       ..writeByte(0)
       ..write(obj.name)
       ..writeByte(1)
@@ -40,10 +42,14 @@ class ScheduleAdapter extends TypeAdapter<Schedule> {
       ..writeByte(5)
       ..write(obj.time)
       ..writeByte(6)
-      ..write(obj.endAt);
+      ..write(obj.endAt)
+      ..writeByte(7)
+      ..write(obj.seconfTime)
+      ..writeByte(8)
+      ..write(obj.thirdTime);
   }
 
   @override
   // TODO: implement typeId
-  int get typeId => null;
+  int get typeId => throw UnimplementedError();
 }

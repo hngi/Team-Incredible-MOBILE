@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import 'package:flutter/cupertino.dart';
 import 'package:medications_reminder_app/app_theme/app_theme.dart';
 
 import '../app_theme/app_theme.dart';

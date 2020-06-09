@@ -24,4 +24,10 @@ class Schedule {
 
   @HiveField(6)
   DateTime endAt;
+
+  @HiveField(7)
+  DateTime seconfTime;
+
+  @HiveField(8)
+  DateTime thirdTime;
 }
