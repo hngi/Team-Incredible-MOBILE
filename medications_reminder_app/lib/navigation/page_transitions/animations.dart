@@ -18,7 +18,7 @@ class _ForwardAnimationState extends State<ForwardAnimation> with SingleTickerPr
 
   start(){
     animationController =
-        AnimationController(duration: Duration(milliseconds: 500), vsync: this);
+        AnimationController(duration: Duration(milliseconds: 450), vsync: this);
     animation = Tween(begin: 1.0, end: 0.0).animate(CurvedAnimation(
         parent: animationController, curve: Curves.easeIn));
 
@@ -70,7 +70,7 @@ class _BackwardAnimationState extends State<BackwardAnimation> with SingleTicker
 
   start(){
     animationController =
-        AnimationController(duration: Duration(milliseconds: 500), vsync: this);
+        AnimationController(duration: Duration(milliseconds: 450), vsync: this);
     animation = Tween(begin: -1.0, end: 0.0).animate(CurvedAnimation(
         parent: animationController, curve: Curves.easeIn));
 

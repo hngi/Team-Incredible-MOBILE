@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:medications_reminder_app/navigation/app_navigation/navigation.dart';
+import 'package:medications_reminder_app/responsiveness/size_config.dart';
+import 'package:medications_reminder_app/ui/add_reminders_screen.dart';
 
 
 //Note that the colours are #fdfcff and #40b26d
@@ -6,14 +9,16 @@ import 'package:flutter/material.dart';
 //I already added the google fonts package, use poppins
 //I'M COUNTING ON YOU!!!
 class HomeScreen extends StatelessWidget {
+ 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey[200],
       body: CustomHomeScreen(),
       floatingActionButton: FloatingActionButton(
         //Navigate to add reminders screen
         onPressed: () {
-          Navigator.pushNamed(context, '/addreminders');
+          Navigation().pushTo(context, RemindersScreen());
         },
         backgroundColor: Theme.of(context).buttonColor,
         focusColor: Colors.greenAccent,
@@ -34,46 +39,197 @@ class CustomHomeScreen extends StatefulWidget {
 }
 
 class _CustomHomeScreenState extends State<CustomHomeScreen> {
+   List<Schedule> schedules = [
+      Schedule(drugType:'Tablet',
+      drugName: 'Aspirin',
+      dosage:2,
+      frequency: 'Twice'
+       ),
+      Schedule(drugType:'Capsule',
+      drugName: 'Ampicilin',
+      dosage:1,
+      frequency: 'Thrice'
+       ),
+      Schedule(drugType:'Drops',
+      drugName: 'Eye drop',
+      dosage:2,
+      frequency: 'Once'
+       ),
+      Schedule(drugType:'Tablet',
+      drugName: 'Paracetamol',
+      dosage:2,
+      frequency: 'Thrice'
+       ),
+      Schedule(drugType:'Tablet',
+      drugName: 'Aspirin',
+      dosage:2,
+      frequency: 'Twice'
+       ),
+      Schedule(drugType:'Capsule',
+      drugName: 'Ampicilin',
+      dosage:1,
+      frequency: 'Thrice'
+       ),
+      Schedule(drugType:'Drops',
+      drugName: 'Eye drop',
+      dosage:2,
+      frequency: 'Once'
+       ),
+      Schedule(drugType:'Tablet',
+      drugName: 'Paracetamol',
+      dosage:2,
+      frequency: 'Thrice'
+       ),
+      Schedule(drugType:'Tablet',
+      drugName: 'Aspirin',
+      dosage:2,
+      frequency: 'Twice'
+       ),
+      Schedule(drugType:'Capsule',
+      drugName: 'Ampicilin',
+      dosage:1,
+      frequency: 'Thrice'
+       ),
+      Schedule(drugType:'Drops',
+      drugName: 'Eye drop',
+      dosage:2,
+      frequency: 'Once'
+       ),
+      Schedule(drugType:'Tablet',
+      drugName: 'Paracetamol',
+      dosage:2,
+      frequency: 'Thrice'
+       ),
+      Schedule(drugType:'Tablet',
+      drugName: 'Aspirin',
+      dosage:2,
+      frequency: 'Twice'
+       ),
+      Schedule(drugType:'Capsule',
+      drugName: 'Ampicilin',
+      dosage:1,
+      frequency: 'Thrice'
+       ),
+      Schedule(drugType:'Drops',
+      drugName: 'Eye drop',
+      dosage:2,
+      frequency: 'Once'
+       ),
+      Schedule(drugType:'Tablet',
+      drugName: 'Paracetamol',
+      dosage:2,
+      frequency: 'Thrice'
+       ),
+      Schedule(drugType:'Injection',
+      drugName: 'Paracetamol',
+      dosage:2,
+      frequency: 'Thrice'
+       ),
+
+    ];
+
+    //Instantiating SizeConfig class for responsiveness
+    SizeConfig config = SizeConfig();
   @override
   Widget build(BuildContext context) {
+  
     return CustomScrollView(
       slivers: <Widget>[
         SliverAppBar(
           automaticallyImplyLeading: false,
-          backgroundColor: Theme.of(context).primaryColor,
+          backgroundColor: Theme.of(context).primaryColorDark,
           expandedHeight: MediaQuery.of(context).size.height * .2,
-          centerTitle: true,
-          pinned: true,
-          title: Text(
-            'Medications Reminder',
+          floating: false,
+          pinned:true,
+          flexibleSpace: FlexibleSpaceBar(
+            background: Image(
+              image: AssetImage('assets/medbuzz_icon-1.png')
+            ),
+            centerTitle: true,
+            title: Text(
+            'My Schedules',
             style: Theme.of(context).textTheme.headline6.copyWith(color:Theme.of(context).primaryColorLight,)
           ),
+          ),
+          
+          
         ),
 
         //Drug reminders are read from DB and rendered with SliverGrid
-        // SliverGrid.count(
-        //   crossAxisCount: 2,
-        //   children: numbers.map((e) => Row(
-        //     children: <Widget>[
-        //       Container(
-        //         width:50,
-        //         height:50,
-        //         color: Colors.green,
-        //         child: Center(
-        //           child:Text(
-        //             '$e',
-        //             style: TextStyle(
-        //               fontSize: SizeConfig().textSize(context, 4.5)
-        //             ),
-                    
-        //           )
-        //         ),
-        //       ),
-        //       SizedBox(width:20),
-        //     ],
-        //   )).toList(),
-        //   )
+        SliverPadding(
+          padding: EdgeInsets.fromLTRB(config.xMargin(context, 4), config.yMargin(context, 3.5), 0, config.yMargin(context, 3.5)),
+          sliver: SliverGrid.count(
+            crossAxisCount: 2,
+            children: schedules.map((e) => Row(
+              children: <Widget>[
+                Container(
+                      width:MediaQuery.of(context).size.width * .45,
+                      height:MediaQuery.of(context).size.width * .45,
+                      child: FlatButton(
+                        //Navigate to drug description screen
+                        onPressed: (){},
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(config.xMargin(context, 6)),
+                        ),
+                        color: Theme.of(context).primaryColorLight,
+                        splashColor: Theme.of(context).buttonColor,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children:[
+                            e.drugType == 'Tablet' ? shape('assets/tablet.png') :  e.drugType == 'Capsule' ? shape('assets/capsule.png') :
+                             e.drugType == 'Drops' ? shape('assets/drop.png') :  e.drugType == 'Injection' ? shape('assets/syringe.png') :
+                          SizedBox(height: config.yMargin(context, 1),),
+                            Text(
+                            '${e.drugName}',
+                            style: TextStyle(
+                              fontSize: config.textSize(context, 5),
+                              fontWeight: FontWeight.w600,
+                              color: Theme.of(context).primaryColor
+                            ),
+                            
+                          ),
+                          SizedBox(height: config.yMargin(context, 2),),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Text(
+                                '${e.dosage} ${e.drugType.toLowerCase()} ${e.frequency} daily',
+                                style: TextStyle(
+                              fontSize: config.textSize(context, 3),
+                              fontWeight: FontWeight.w600,
+                              color: Colors.grey[400]
+                            ),
+                              )
+                            ],
+                          ),
+                          ]
+                        ),
+                      ),
+                    ),
+              ],
+            )).toList(),
+            ),
+        ),
+        
       ],
     );
   }
+
+  shape(String path){
+    return Image(
+      image: AssetImage(path),
+      color: Theme.of(context).primaryColor,
+    );
+  }
+
 }
+
+class Schedule {
+    String drugType;
+    String drugName;
+    int dosage;
+    String frequency;
+    Schedule({this.drugType, this.drugName, this.dosage, this.frequency});
+
+    
+  }
