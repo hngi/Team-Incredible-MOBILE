@@ -14,4 +14,4 @@ This app is designed with a clean UI and an interactive user experience whereby 
 
 It notifies the user at the said time through a chime sound and alert of which medication to take along with the dosage.
 
-The user receives a push notification when he/she misses the reminder while offline and the medication is marked as missed.  
+The user receives a push notification when he/she misses the reminder while offline and the medication is marked as missed. 
