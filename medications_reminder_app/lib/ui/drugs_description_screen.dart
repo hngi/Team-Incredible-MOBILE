@@ -1,8 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
 import 'package:flutter/cupertino.dart';
 import 'package:medications_reminder_app/app_theme/app_theme.dart';
 
-
+import '../app_theme/app_theme.dart';
 
 //Note that the colours are #fdfcff and #40b26d for button
 //! Colours have now been included in the app_theme.dart file so you can use Theme.of(context).whatever_color you like
@@ -24,6 +26,7 @@ class _DrugsDescriptionState extends State<DrugsDescription> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
         backgroundColor: appThemeLight.primaryColorLight,
         body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -255,6 +258,7 @@ class _DrugsDescriptionState extends State<DrugsDescription> {
     ),
         ],
         ),
+
     );
   }
 }
