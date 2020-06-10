@@ -1,7 +1,7 @@
 import '../page_transitions/animations.dart';
 import 'package:flutter/material.dart';
 
-//TODO: Modify class to handle navigation with named routes
+
 
 class Navigation{
 

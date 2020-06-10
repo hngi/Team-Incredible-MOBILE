@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:medications_reminder_app/model/schedule.dart';
+import './home_screen.dart';
 import 'package:medications_reminder_app/responsiveness/size_config.dart';
 // import '../helpers/db.dart';
 
@@ -8,19 +9,23 @@ import 'package:medications_reminder_app/responsiveness/size_config.dart';
 //! Colours have now been included in the app_theme.dart file so you can use Theme.of(context).whatever_color you like
 //I already added the google fonts package, use poppins
 //I'M COUNTING ON YOU!!!
-class RemindersScreen extends StatelessWidget {
+class EditRemindersScreen extends StatelessWidget {
+  final reminderid;
+  EditRemindersScreen({this.reminderid});
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: Reminders());
+    return Scaffold(body: EditReminders());
   }
 }
 
-class Reminders extends StatefulWidget {
+class EditReminders extends StatefulWidget {
+  final reminderid;
+  EditReminders({this.reminderid});
   @override
-  _RemindersState createState() => _RemindersState();
+  _EditRemindersState createState() => _EditRemindersState();
 }
 
-class _RemindersState extends State<Reminders> {
+class _EditRemindersState extends State<EditReminders> {
   SizeConfig config = SizeConfig();
   Box<Schedule> scheduleBox;
 
