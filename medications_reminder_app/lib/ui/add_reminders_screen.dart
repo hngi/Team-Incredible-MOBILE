@@ -300,7 +300,7 @@ class _RemindersState extends State<Reminders> {
                                       ..endAt = _EndDate
                                       ..time = new DateTime.now()
                                       ..startAt = _statDate
-                                      ..frequency = 2
+                                      ..frequency = 1
                                       ..duration = difference
                                       ..drugType = drug_type;
                               if(_drugNameControler.text.length  > 1 && difference >= 1){
