@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:medications_reminder_app/responsiveness/size_config.dart';
+
+import 'drugs_description_screen.dart';
 //Note that the colors are #2c7b4b(main colour) and sub colours #fdfcff and #40b26d for button
 //! Colours have now been included in the app_theme.dart file so you can use Theme.of(context).whatever_color you like
 //I already added the google fonts package, use poppins
@@ -226,7 +228,7 @@ class _RemindersState extends State<Reminders> {
                                 onPressed: ()=>selectStartDate(context),
                                 child: Row(
                                   children: <Widget>[
-                                    Text('${localizations.formatShortMonthDay(startDate)}',
+                                    Text('${localizations.formatFullDate(startDate)}',
                                       style: TextStyle(
                                           fontSize: config.xMargin(context, 4.2)
                                       ),
@@ -252,7 +254,7 @@ class _RemindersState extends State<Reminders> {
                                 onPressed: ()=>selectendDate(context),
                                 child: Row(
                                   children: <Widget>[
-                                    Text('${localizations.formatShortMonthDay(endDate)}',
+                                    Text('${localizations.formatFullDate(endDate)}',
                                       style: TextStyle(
                                           fontSize: config.xMargin(context, 4.2)
                                       ),
@@ -269,7 +271,13 @@ class _RemindersState extends State<Reminders> {
                           width: MediaQuery.of(context).size.width,
                           child: FlatButton(
                             //Navigate to home screen after saving details in db
-                            onPressed: (){},
+                            onPressed: (){
+                              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                                return DrugsDescription();
+                              },
+                              ),
+                              );
+                            },
                             child: Text(
                               'Add Schedule',
                               style: TextStyle(

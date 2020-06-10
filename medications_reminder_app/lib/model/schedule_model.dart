@@ -24,4 +24,7 @@ class Schedule {
 
   @HiveField(6)
   DateTime endAt;
+
+  Schedule(this.name, this.drugType, this.duration, this.frequency,
+      this.startAt, this.time, this.endAt);
 }

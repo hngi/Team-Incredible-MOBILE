@@ -1,10 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import 'package:flutter/cupertino.dart';
 import 'package:medications_reminder_app/app_theme/app_theme.dart';
+import 'package:provider/provider.dart';
 
+import '../DB/db.dart';
+import '../DB/db.dart';
 import '../app_theme/app_theme.dart';
+import '../model/schedule_model.dart';
+import '../model/schedule_model.dart';
+import '../model/schedule_model.dart';
+import '../model/schedule_model.dart';
 
 //Note that the colours are #fdfcff and #40b26d for button
 //! Colours have now been included in the app_theme.dart file so you can use Theme.of(context).whatever_color you like
@@ -18,11 +24,26 @@ class DrugsDescriptionScreen extends StatelessWidget {
 }
 
 class DrugsDescription extends StatefulWidget {
+  final Schedule currentSchedule;
+
+  const DrugsDescription({@required this.currentSchedule});
   @override
   _DrugsDescriptionState createState() => _DrugsDescriptionState();
 }
 
 class _DrugsDescriptionState extends State<DrugsDescription> {
+
+
+  void _editSchedule(contest) {
+//update logic
+  }
+
+
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _dosageController = TextEditingController();
+  final TextEditingController _programController = TextEditingController();
+  final TextEditingController _quantityController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -61,12 +82,12 @@ class _DrugsDescriptionState extends State<DrugsDescription> {
               'Drug name',
                style: TextStyle(color: Color(0xff808080)),
             ),
-            Text(
-            'Aspirin',
-            style: TextStyle(
-                fontSize: 20,
-                color: appThemeLight.buttonColor,
-                 fontWeight: FontWeight.bold),
+            TextField(
+              autofocus: true,
+              controller: _nameController,
+              decoration: InputDecoration(
+                hintText: 'Drug Name here',
+              ),
                  ),
        SizedBox(
                 height: 30,
@@ -75,12 +96,12 @@ class _DrugsDescriptionState extends State<DrugsDescription> {
                 'Dosage',
                  style: TextStyle(color: Color(0xff808080)),
                ),
-              Text(
-                  '300 mg',
-                   style: TextStyle(
-                   fontSize: 20,
-                    color: appThemeLight.buttonColor,
-                     fontWeight: FontWeight.bold),
+              TextField(
+                autofocus: true,
+                controller: _dosageController,
+                decoration: InputDecoration(
+                  hintText: 'Drug dosage here',
+                ),
                  ),
         SizedBox(
               height: 30,
@@ -131,32 +152,15 @@ class _DrugsDescriptionState extends State<DrugsDescription> {
               SizedBox(
                  width: 20,
                     ),
-             Text(
-                    '3pm',
-                  style: TextStyle(
-                       fontSize: 20,
-                color: Color(0xff808080),
-                  ),
-                   ),
+             TextField(
+               autofocus: true,
+               controller: _dosageController,
+               decoration: InputDecoration(
+               hintText: 'Drug dosage here'
+             )
+             ),
                   SizedBox(
                       width: 5,
-                     ),
-              Text(
-                   '3pm',
-                      style: TextStyle(
-                    fontSize: 20,
-                    color: Color(0xff808080),
-                      ),
-                   ),
-           SizedBox(
-                    width: 5,
-                    ),
-                Text(
-                   '3pm',
-                      style: TextStyle(
-                         fontSize: 20,
-                        color: Color(0xff808080),
-                       ),
                      ),
                        ],
                      ),
@@ -175,23 +179,16 @@ class _DrugsDescriptionState extends State<DrugsDescription> {
                        ),
             Row(
               children: <Widget>[
-                   Text(
-                        'Total: ' + '8' + ' weeks',
-                          style: TextStyle(
-                          fontSize: 20,
-                          color: Color(0xff808080),
-                      ),
-                  ),
+                   TextField(
+                     autofocus: true,
+                     controller: _programController,
+                     decoration: InputDecoration(
+                     hintText: 'Drug program here',
+                  )
+                   ),
                SizedBox(
                     width: 20,
                     ),
-          Text(
-                 '6' + ' weeks' + ' left',
-                      style: TextStyle(
-                        fontSize: 20,
-                          color: Color(0xff808080),
-                      ),
-                   ),
                   ],
                  ),
     SizedBox(
@@ -209,23 +206,16 @@ class _DrugsDescriptionState extends State<DrugsDescription> {
            ),
     Row(
              children: <Widget>[
-            Text(
-              'Total: ' + '150' + ' capsules',
-                style: TextStyle(
-                fontSize: 20,
-              color: Color(0xff808080),
-             ),
+            TextField(
+              autofocus: true,
+              controller: _quantityController,
+              decoration: InputDecoration(
+              hintText: 'Drug quantity here',
+              )
           ),
     SizedBox(
          width: 20,
     ),
-         Text(
-               '120' + ' capsules' + ' left',
-                style: TextStyle(
-                  fontSize: 20,
-                  color: Color(0xff808080),
-               ),
-              ),
             ],
           ),
           ],
@@ -240,7 +230,9 @@ class _DrugsDescriptionState extends State<DrugsDescription> {
                                height: 60,
                           child: RaisedButton(
                                 elevation: 0.0,
-                       onPressed: () {},
+                       onPressed: () {
+                                  _editSchedule(context);
+                       },
                             color: appThemeLight.buttonColor,
                            shape: RoundedRectangleBorder(
                            borderRadius: BorderRadius.circular(10.0),
