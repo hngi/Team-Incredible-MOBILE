@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:medications_reminder_app/DB/db.dart';
-import 'package:medications_reminder_app/model/schedule_model.dart';
 import 'package:medications_reminder_app/navigation/app_navigation/navigation.dart';
 import 'package:medications_reminder_app/responsiveness/size_config.dart';
 import 'package:medications_reminder_app/ui/add_reminders_screen.dart';
