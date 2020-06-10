@@ -66,7 +66,7 @@ class _DrugsDescriptionState extends State<DrugsDescription> {
                style: TextStyle(color: Color(0xff808080)),
             ),
             Text(
-            '$drugNAme',
+            'nn',
             style: TextStyle(
                 fontSize: 20,
                 color: appThemeLight.buttonColor,
@@ -265,13 +265,5 @@ class _DrugsDescriptionState extends State<DrugsDescription> {
 
     );
   }
-  Schedule _scheduleData;
-  var drugNAme;
-  @override
-  void initState() {
-    dataHolder scheduleData;
-    scheduleData = new dataHolder();
-    _scheduleData = scheduleData.getActiveSchedule();
-    drugNAme = _scheduleData.name == null ? "" : _scheduleData.name;
-  }
+
 }

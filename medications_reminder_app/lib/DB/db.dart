@@ -1,3 +1,7 @@
+import 'dart:developer';
+
+
+
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import '../model/schedule_model.dart';
@@ -25,6 +29,10 @@ class dataHolder extends ChangeNotifier {
     var box = await Hive.openBox<Schedule>(_boxName);
     await box.add(schedule);
     _schedule = box.values.toList();
+    var len = _schedule.length;
+    log(_schedule[2].name);
+    log("saved");
+    log("saved lenght $len");
     notifyListeners();
   }
 

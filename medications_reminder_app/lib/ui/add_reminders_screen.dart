@@ -1,4 +1,8 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:medications_reminder_app/DB/db.dart';
+import 'package:medications_reminder_app/model/schedule_model.dart';
 import 'package:medications_reminder_app/responsiveness/size_config.dart';
 //Note that the colors are #2c7b4b(main colour) and sub colours #fdfcff and #40b26d for button
 //! Colours have now been included in the app_theme.dart file so you can use Theme.of(context).whatever_color you like
@@ -19,7 +23,7 @@ class Reminders extends StatefulWidget {
 
 class _RemindersState extends State<Reminders> {
   SizeConfig config = SizeConfig();
-
+  final _drugNameControler = TextEditingController();
   final List drugTypes = ['Tablet', 'Capsule', 'Drops', 'Injection'];
   final List<String> times = ['Once', 'Twice', 'Thrice'];
   var _selectedTime = 'Once';
@@ -57,6 +61,7 @@ class _RemindersState extends State<Reminders> {
             child: ListView(
               children: <Widget>[
                 TextFormField(
+                  controller: _drugNameControler,
                   cursorColor: Theme.of(context).primaryColorDark,
                   style: TextStyle(
                       color: Theme.of(context).primaryColorDark,
@@ -269,7 +274,42 @@ class _RemindersState extends State<Reminders> {
                           width: MediaQuery.of(context).size.width,
                           child: FlatButton(
                             //Navigate to home screen after saving details in db
-                            onPressed: (){},
+                            onPressed: (){
+                              var drugName = "";
+                              if(_drugNameControler.text.length < 1){
+                                SnackBar snackBar = SnackBar(
+                                    content: Text('Please Enter a Valid Dose Name')
+                                );
+                                Scaffold.of(context).showSnackBar(snackBar);
+                              }else{
+                                drugName = _drugNameControler.text;
+                                var drug_type = drugTypes[selectedIndex];
+                                var _remiderFreq = _selectedTime;
+                                var dose = _dosage;
+                                var _statDate = startDate;
+                                var _EndDate = endDate;
+                                final difference = _EndDate.difference(_statDate).inDays;
+                                if(difference < 1){
+                                  SnackBar snackBar = SnackBar(
+                                      content: Text('Please Select Valid Dates')
+                                  );
+                                  Scaffold.of(context).showSnackBar(snackBar);
+                                }
+                                final scheduledate = Schedule()
+                                      ..name = drugName
+                                      ..endAt = _EndDate
+                                      ..time = new DateTime.now()
+                                      ..startAt = _statDate
+                                      ..frequency = 2
+                                      ..duration = difference
+                                      ..drugType = drug_type;
+                              if(_drugNameControler.text.length  > 1 && difference >= 1){
+                                dataHolder().addSchedule(scheduledate);
+                                log('data saved');
+                                Navigator.pop(context);
+                              }
+                              }
+                            },
                             child: Text(
                               'Add Schedule',
                               style: TextStyle(
@@ -295,6 +335,12 @@ class _RemindersState extends State<Reminders> {
           ),
 
         ));
+  }
+
+  @override
+  void dispose() {
+    _drugNameControler.dispose();
+    super.dispose();
   }
 
   _once(MaterialLocalizations localizations){
