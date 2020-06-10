@@ -30,7 +30,9 @@ class DB extends ChangeNotifier {
 
   void deleteSchedule(key) async {
     var box = await Hive.openBox<Schedule>(_boxName);
-    await box.add(key);
+
+    await box.delete(key);
+    Hive.box(_boxName).compact();
 
     _schedule = box.values.toList();
 

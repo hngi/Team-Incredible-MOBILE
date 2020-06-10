@@ -1,6 +1,7 @@
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:medications_reminder_app/responsiveness/size_config.dart';
+import 'package:medications_reminder_app/app_theme/app_theme.dart';
 
 //Note that the colors are #2c7b4b(main colour) and sub colours #fdfcff and #40b26d for button
 //! Colours have now been included in the app_theme.dart file so you can use Theme.of(context).whatever_color you like
@@ -41,7 +42,10 @@ class _RemindersState extends State<Reminders> {
             backgroundColor: Theme.of(context).primaryColorLight,
             elevation: 0,
             leading: IconButton(
-                icon: Icon(Icons.arrow_back),
+                icon: Icon(
+                  Icons.keyboard_backspace,
+                  size: 35,
+                ),
                 color: Theme.of(context).primaryColor,
                 //Navigate to previous screen
                 onPressed: () {
@@ -49,193 +53,223 @@ class _RemindersState extends State<Reminders> {
                 })),
         body: Padding(
           padding:
-              EdgeInsets.symmetric(horizontal: config.xMargin(context, 5.5)),
+              EdgeInsets.symmetric(horizontal: config.xMargin(context, 5.2)),
           child: Container(
             color: Theme.of(context).primaryColorLight,
             height: MediaQuery.of(context).size.height,
             width: MediaQuery.of(context).size.width,
-            child: ListView(
-              children: <Widget>[
-                TextFormField(
-                  cursorColor: Theme.of(context).primaryColorDark,
-                  style: TextStyle(
-                      color: Theme.of(context).primaryColorDark,
-                      fontSize: config.xMargin(context, 5.5)),
-                  decoration: InputDecoration(
-                    hintText: 'Drug name...',
-                    hintStyle: TextStyle(
-                        fontSize: config.xMargin(context, 5),
-                        color: Theme.of(context).primaryColor),
-                    border: OutlineInputBorder(
-                        borderSide: BorderSide(
-                            color: Theme.of(context).primaryColorDark)),
-                    focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                            color: Theme.of(context).primaryColorDark)),
-                    enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                            color: Theme.of(context).primaryColorLight)),
+            child: Container(
+              child: ListView(
+                children: <Widget>[
+                  TextFormField(
+                    cursorColor: Theme.of(context).primaryColorDark,
+                    style: TextStyle(
+                        color: Theme.of(context).primaryColorDark,
+                        fontSize: config.xMargin(context, 5.5)),
+                    decoration: InputDecoration(
+                      hintText: 'Enter Drug name...',
+                      hintStyle: TextStyle(
+                          fontSize: config.xMargin(context, 5),
+                          color: Theme.of(context).primaryColor),
+                      border: OutlineInputBorder(
+                          borderSide: BorderSide(
+                              color: Theme.of(context).primaryColorDark)),
+                      focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                              color: Theme.of(context).primaryColorDark)),
+                      enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                              color: Theme.of(context).primaryColorLight)),
+                    ),
                   ),
-                ),
-                SizedBox(height: config.yMargin(context, 5)),
-                Container(
-                  height: config.yMargin(context, 8),
-                  child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: drugTypes.length,
-                    itemBuilder: (_, index) => Row(
-                      children: <Widget>[
-                        InkWell(
-                          onTap: () => setState(() {
-                            selectedIndex = index;
-                          }),
-                          child: Container(
-                            height: config.yMargin(context, 6.5),
-                            width: config.xMargin(context, 25),
-                            decoration: BoxDecoration(
-                                color: index == selectedIndex
-                                    ? Theme.of(context).buttonColor
-                                    : Theme.of(context).primaryColorLight,
-                                borderRadius: BorderRadius.circular(
-                                    config.xMargin(context, 4))),
-                            child: Center(
-                                child: Text(
-                              drugTypes[index],
-                              style: TextStyle(
+                  SizedBox(height: config.yMargin(context, 5)),
+                  Container(
+                    height: config.yMargin(context, 8),
+                    child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: drugTypes.length,
+                      itemBuilder: (_, index) => Row(
+                        children: <Widget>[
+                          InkWell(
+                            onTap: () => setState(() {
+                              selectedIndex = index;
+                            }),
+                            child: Container(
+                              height: config.yMargin(context, 6.5),
+                              width: config.xMargin(context, 25),
+                              decoration: BoxDecoration(
                                   color: index == selectedIndex
-                                      ? Theme.of(context).primaryColorLight
-                                      : Theme.of(context).primaryColorDark,
-                                  fontSize: config.xMargin(context, 4.5),
-                                  fontWeight: FontWeight.w700),
-                            )),
+                                      ? Theme.of(context).buttonColor
+                                      : Theme.of(context).primaryColorLight,
+                                  borderRadius: BorderRadius.circular(
+                                    config.xMargin(context, 2),
+                                  ),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Color(0xFFEDEFF2),
+                                      blurRadius: 5.0,
+                                      spreadRadius: 1.0,
+                                    ),
+                                  ]),
+                              child: Center(
+                                  child: Text(
+                                drugTypes[index],
+                                style: TextStyle(
+                                    color: index == selectedIndex
+                                        ? Theme.of(context).primaryColorLight
+                                        : Theme.of(context).primaryColorDark,
+                                    fontSize: config.xMargin(context, 4.5),
+                                    fontWeight: FontWeight.w700),
+                              )),
+                            ),
                           ),
-                        ),
-                        SizedBox(width: config.xMargin(context, 1.1))
-                      ],
+                          SizedBox(width: config.xMargin(context, 1.1))
+                        ],
+                      ),
                     ),
                   ),
-                ),
-                SizedBox(height: config.yMargin(context, 4.5)),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Text(
-                      'Reminder Frequency',
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.w700,
-                          fontSize: 18),
-                    ),
-                    SizedBox(width: config.xMargin(context, 4.5)),
-                    DropdownButton<String>(
-                        underline: Text(''),
-                        items: times.map((String time) {
-                          return DropdownMenuItem<String>(
-                              value: time, child: Text(time));
-                        }).toList(),
-                        value: _selectedTime,
-                        onChanged: (newTime) {
-                          setState(() {
-                            _selectedTime = newTime;
-                          });
-                        })
-                  ],
-                ),
-                SizedBox(height: config.yMargin(context, 2.5)),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Text(
-                      'Dosage (per day)',
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.w700,
-                          fontSize: config.xMargin(context, 5.5)),
-                    ),
-                    SizedBox(width: config.xMargin(context, 1.5)),
-                    Row(
-                      children: <Widget>[
-                        IconButton(
-                            color: Theme.of(context).buttonColor,
-                            icon: Icon(Icons.remove_circle),
-                            onPressed: () {
-                              setState(() {
-                                if (_dosage > 1) {
-                                  _dosage--;
-                                }
-                              });
-                            }),
-                        Text('$_dosage'),
-                        IconButton(
-                            color: Theme.of(context).buttonColor,
-                            icon: Icon(Icons.add_circle),
-                            onPressed: () {
-                              setState(() {
-                                _dosage++;
-                              });
-                            }),
-                      ],
-                    ),
-                  ],
-                ),
-                SizedBox(height: config.yMargin(context, 2.5)),
-                Text(
-                  'Set time to receive notifications',
-                  style: TextStyle(
-                      fontSize: config.xMargin(context, 5.5),
-                      fontWeight: FontWeight.bold),
-                ),
-                SizedBox(height: config.yMargin(context, 4)),
-                _selectedTime == 'Once'
-                    ? _once(localizations)
-                    : _selectedTime == 'Twice'
-                        ? _twice(localizations)
-                        : _thrice(localizations),
-                SizedBox(height: config.yMargin(context, 3)),
-                SizedBox(height: config.yMargin(context, 4.5)),
-                Container(
-                    height: config.yMargin(context, 50),
-                    width: MediaQuery.of(context).size.width,
-                    decoration: BoxDecoration(
-                        borderRadius:
-                            BorderRadius.circular(config.xMargin(context, 18))),
-                    child: Column(
-                      children: <Widget>[
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Text(
-                              'Start',
-                              style: TextStyle(
-                                  fontSize: config.xMargin(context, 5)),
+                  SizedBox(height: config.yMargin(context, 4.5)),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Text(
+                        'Reminder Frequency',
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.w700,
+                            fontSize: 18),
+                      ),
+                      SizedBox(width: config.xMargin(context, 4.5)),
+                      DropdownButton<String>(
+                          underline: Text(''),
+                          items: times.map((String time) {
+                            return DropdownMenuItem<String>(
+                              value: time,
+                              child: Text(time),
+                            );
+                          }).toList(),
+                          value: _selectedTime,
+                          onChanged: (newTime) {
+                            setState(() {
+                              _selectedTime = newTime;
+                            });
+                          })
+                    ],
+                  ),
+                  SizedBox(height: config.yMargin(context, 2.5)),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Text(
+                        'Dosage (per day)',
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.w700,
+                            fontSize: config.xMargin(context, 5.5)),
+                      ),
+                      SizedBox(
+                        width: config.xMargin(context, 1.5),
+                      ),
+                      Container(
+                        decoration: BoxDecoration(
+                            color: appThemeLight.primaryColorLight,
+                            shape: BoxShape.rectangle,
+                            borderRadius: BorderRadius.circular(
+                              config.xMargin(context, 4),
                             ),
-                            SizedBox(width: config.xMargin(context, 3)),
-                            FlatButton(
-                                onPressed: () => selectStartDate(context),
-                                child: Row(
-                                  children: <Widget>[
-                                    Text(
-                                      '${localizations.formatShortMonthDay(startDate)}',
-                                      style: TextStyle(
-                                          fontSize:
-                                              config.xMargin(context, 4.2)),
-                                    ),
-                                    Icon(Icons.keyboard_arrow_down)
-                                  ],
-                                ))
+                            boxShadow: [
+                              BoxShadow(
+                                color: Color(0xFFEDEFF2),
+                                blurRadius: 5.0,
+                                spreadRadius: 1.0,
+                              ),
+                            ]),
+                        child: Row(
+                          children: <Widget>[
+                            IconButton(
+                                color: Theme.of(context).buttonColor,
+                                icon: Icon(Icons.remove_circle),
+                                onPressed: () {
+                                  setState(() {
+                                    if (_dosage > 1) {
+                                      _dosage--;
+                                    }
+                                  });
+                                }),
+                            Text('$_dosage'),
+                            IconButton(
+                                color: Theme.of(context).buttonColor,
+                                icon: Icon(Icons.add_circle),
+                                onPressed: () {
+                                  setState(() {
+                                    _dosage++;
+                                  });
+                                }),
                           ],
                         ),
-                        SizedBox(width: config.yMargin(context, 6)),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Text(
-                              'End',
-                              style: TextStyle(
-                                  fontSize: config.xMargin(context, 5)),
-                            ),
-                            SizedBox(width: config.xMargin(context, 3)),
-                            FlatButton(
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: config.yMargin(context, 2.5)),
+                  Text(
+                    'Set time to receive notifications',
+                    style: TextStyle(
+                        fontSize: config.xMargin(context, 5.5),
+                        fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(height: config.yMargin(context, 4)),
+                  _selectedTime == 'Once'
+                      ? _once(localizations)
+                      : _selectedTime == 'Twice'
+                          ? _twice(localizations)
+                          : _thrice(localizations),
+                  SizedBox(height: config.yMargin(context, 3)),
+                  SizedBox(height: config.yMargin(context, 4.5)),
+                  Container(
+                      height: config.yMargin(context, 50),
+                      width: MediaQuery.of(context).size.width,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(
+                          config.xMargin(context, 18),
+                        ),
+                      ),
+                      child: Column(
+                        children: <Widget>[
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Text(
+                                'Start',
+                                style: TextStyle(
+                                    fontSize: config.xMargin(context, 5)),
+                              ),
+                              SizedBox(width: config.xMargin(context, 3)),
+                              FlatButton(
+                                  onPressed: () => selectStartDate(context),
+                                  child: Row(
+                                    children: <Widget>[
+                                      Text(
+                                        '${localizations.formatShortMonthDay(startDate)}',
+                                        style: TextStyle(
+                                            fontSize:
+                                                config.xMargin(context, 4.2)),
+                                      ),
+                                      Icon(Icons.keyboard_arrow_down)
+                                    ],
+                                  ))
+                            ],
+                          ),
+                          SizedBox(width: config.yMargin(context, 6)),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Text(
+                                'End',
+                                style: TextStyle(
+                                    fontSize: config.xMargin(context, 5)),
+                              ),
+                              SizedBox(width: config.xMargin(context, 3)),
+                              FlatButton(
                                 onPressed: () => selectendDate(context),
                                 child: Row(
                                   children: <Widget>[
@@ -247,43 +281,59 @@ class _RemindersState extends State<Reminders> {
                                     ),
                                     Icon(Icons.keyboard_arrow_down)
                                   ],
-                                ))
-                          ],
-                        ),
-                        SizedBox(height: config.yMargin(context, 7)),
-                        Center(
-                            child: Container(
-                          height: config.yMargin(context, 6.5),
-                          width: MediaQuery.of(context).size.width,
-                          child: FlatButton(
-                            //Navigate to home screen after saving details in db
-                            onPressed: () {
-                              
-                              
-                              /*
-                                validate then display notification if succeded or not
-                                on success:true
-                                snackNotification(title: 'error',message: 'error',success:false,seconds:5);
-                                snackNotification(title: 'success title',message: 'success message',success:true,seconds:3);
-                              */
-                            },
-                            child: Text(
-                              'Add Schedule',
-                              style: TextStyle(
-                                  color: Theme.of(context).primaryColorLight,
-                                  fontSize: config.xMargin(context, 5),
-                                  fontWeight: FontWeight.bold),
-                            ),
-                            color: Theme.of(context).buttonColor,
-                            splashColor: Colors.greenAccent,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(
-                                    config.xMargin(context, 6.3))),
+                                ),
+                              ),
+                            ],
                           ),
-                        ))
-                      ],
-                    )),
-              ],
+                          SizedBox(height: config.yMargin(context, 7)),
+                          Center(
+                              child: Container(
+                            height: config.yMargin(context, 6.5),
+                            width: MediaQuery.of(context).size.width,
+                            child: Padding(
+                              padding: EdgeInsets.only(
+                                left: config.xMargin(context, 4.5),
+                                right: config.xMargin(context, 4.5),
+                              ),
+                              child: FlatButton(
+                                //Navigate to home screen after saving details in db
+                                onPressed: () {
+                                  snackNotification(
+                                    title: 'success title',
+                                    message: 'success message',
+                                    success: true,
+                                    seconds: 3,
+                                    route: '/home',
+                                  );
+                                  /*
+                                    validate then display notification if succeded or not
+                                    on success:true
+                                    snackNotification(title: 'error',message: 'error',success:false,seconds:5);
+                                    snackNotification(title: 'success title',message: 'success message',success:true,seconds:3);
+                                  */
+                                },
+                                child: Text(
+                                  'Add Schedule',
+                                  style: TextStyle(
+                                      color:
+                                          Theme.of(context).primaryColorLight,
+                                      fontSize: config.xMargin(context, 5),
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                color: Theme.of(context).buttonColor,
+                                splashColor: Colors.greenAccent,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(
+                                    config.xMargin(context, 6.3),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ))
+                        ],
+                      )),
+                ],
+              ),
             ),
           ),
         ));
@@ -437,21 +487,12 @@ class _RemindersState extends State<Reminders> {
     }
   }
 
-
-/*
-  Snack Notification
-
-  validate then display notification if succeded or not
-  on success:true
-  snackNotification(title: 'error',message: 'error',success:false,seconds:5);
-  snackNotification(title: 'success title',message: 'success message',success:true,seconds:3);
-*/
-  snackNotification({
-    String title,
-    String message,
-    bool success=true,
-    int seconds=5,
-  }) {
+  snackNotification(
+      {String title,
+      String message,
+      bool success = true,
+      int seconds = 5,
+      String route = '/home'}) {
     return Flushbar(
       title: title,
       message: message,
@@ -462,18 +503,23 @@ class _RemindersState extends State<Reminders> {
       backgroundColor: Colors.red,
       boxShadows: [
         BoxShadow(
-            color:success? Colors.green[800]:Colors.red[300], offset: Offset(0.0, 2.0), blurRadius: 3.0)
+            color: success ? Colors.green[800] : Colors.red[300],
+            offset: Offset(0.0, 2.0),
+            blurRadius: 3.0)
       ],
-      backgroundGradient:
-          LinearGradient(colors: [success ? Theme.of(context).primaryColor : Colors.red[300],success ? Theme.of(context).primaryColor: Colors.red[300]]),
+      backgroundGradient: LinearGradient(colors: [
+        success ? Theme.of(context).primaryColor : Colors.red[300],
+        success ? Theme.of(context).primaryColor : Colors.red[300]
+      ]),
       isDismissible: true,
-      duration: Duration(seconds:seconds),
+      duration: Duration(seconds: seconds),
       icon: Icon(
-        success ?Icons.check:Icons.close,
-        color: success ? Colors.greenAccent:Colors.red,
+        success ? Icons.check : Icons.close,
+        color: success ? Colors.greenAccent : Colors.red,
       ),
       showProgressIndicator: true,
-      progressIndicatorBackgroundColor: success ? Colors.green : Colors.red[400],
+      progressIndicatorBackgroundColor:
+          success ? Colors.green : Colors.red[400],
       titleText: Text(
         title,
         style: TextStyle(
@@ -486,9 +532,11 @@ class _RemindersState extends State<Reminders> {
         message,
         style: TextStyle(
             fontSize: 18.0,
-            color:Theme.of(context).primaryColorLight,
+            color: Theme.of(context).primaryColorLight,
             fontFamily: "ShadowsIntoLightTwo"),
       ),
-    )..show(context);
+    )..show(context).then((value) {
+        Navigator.pushNamed(context, route);
+      });
   }
 }
