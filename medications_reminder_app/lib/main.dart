@@ -1,19 +1,32 @@
 import 'package:flutter/material.dart';
+import 'package:medications_reminder_app/DB/db.dart';
+import 'package:medications_reminder_app/model/schedule_model.dart';
+import 'package:provider/provider.dart';
 import './ui/home_screen.dart';
 import './ui/splash_screen.dart';
 import './ui/drugs_description_screen.dart';
 import './ui/add_reminders_screen.dart';
 import 'app_theme/app_theme.dart';
+import 'package:hive/hive.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:medications_reminder_app/model/time_of_day.dart';
 
-void main() {
+void main() async{
+   WidgetsFlutterBinding.ensureInitialized();
+  final directory = await getApplicationDocumentsDirectory();
+  Hive.init(directory.path);
+  Hive.registerAdapter(ScheduleAdapter());
+  Hive.registerAdapter(TimeOfDayAdapter());
+  await Hive.openBox<Schedule>('sheduleBox');
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
+  Widget build(BuildContext context) {      
+    return ChangeNotifierProvider<DB>(
+        create: (context)=> DB(),
+        child: MaterialApp(
       initialRoute: '/',
       routes: {
         '/': (BuildContext context) => SplashScreen(),
@@ -22,7 +35,7 @@ class MyApp extends StatelessWidget {
         '/addreminders': (BuildContext context) => RemindersScreen(),
       },
       theme: appThemeLight,
-      title: 'Medications Reminder',
-      );
+      title: 'MedBuzz',
+      ));
   }
 }

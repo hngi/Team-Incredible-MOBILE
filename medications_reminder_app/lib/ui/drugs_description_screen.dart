@@ -2,23 +2,25 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:medications_reminder_app/app_theme/app_theme.dart';
 import 'package:medications_reminder_app/responsiveness/size_config.dart';
+import 'package:medications_reminder_app/model/schedule_model.dart';
 
-import '../app_theme/app_theme.dart';
-import '../app_theme/app_theme.dart';
-import '../app_theme/app_theme.dart';
 import '../app_theme/app_theme.dart';
 
 //Note that the colours are #fdfcff and #40b26d for button
 //I already added the google fonts package, use poppins
 //I'M COUNTING ON YOU!!!
 class DrugsDescriptionScreen extends StatelessWidget {
+  final Schedule schedule;
+  DrugsDescriptionScreen({this.schedule});
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: DrugsDescription());
+    return Scaffold(body: DrugsDescription(schedule: schedule));
   }
 }
 
 class DrugsDescription extends StatefulWidget {
+  final Schedule schedule;
+  DrugsDescription({this.schedule});
   @override
   _DrugsDescriptionState createState() => _DrugsDescriptionState();
 }
@@ -66,7 +68,7 @@ class _DrugsDescriptionState extends State<DrugsDescription> {
                         child: Column(
                           children: <Widget>[
                             Text(
-                              'Aspirin',
+                              widget.schedule.drugName,
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 color: appThemeLight.primaryColor,
@@ -75,7 +77,7 @@ class _DrugsDescriptionState extends State<DrugsDescription> {
                               ),
                             ),
                             Text(
-                              'Tablet',
+                              widget.schedule.drugType,
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 color: appThemeLight.primaryColor,
@@ -137,7 +139,7 @@ class _DrugsDescriptionState extends State<DrugsDescription> {
                       child: Row(
                         children: <Widget>[
                           Text(
-                            '3 Times:',
+                            '${widget.schedule.dosage}',
                             textAlign: TextAlign.left,
                             style: TextStyle(
                               fontSize: config.xMargin(context, 5),

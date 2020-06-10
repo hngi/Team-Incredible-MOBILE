@@ -8,42 +8,48 @@ part of 'schedule_model.dart';
 
 class ScheduleAdapter extends TypeAdapter<Schedule> {
   @override
+  final typeId = 0;
+
+  @override
   Schedule read(BinaryReader reader) {
     var numOfFields = reader.readByte();
     var fields = <int, dynamic>{
       for (var i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return Schedule()
-      ..name = fields[0] as String
-      ..drugType = fields[1] as String
-      ..duration = fields[2] as int
-      ..frequency = fields[3] as int
-      ..startAt = fields[4] as DateTime
-      ..time = fields[5] as DateTime
-      ..endAt = fields[6] as DateTime;
+    return Schedule(
+      drugName: fields[0] as String,
+      drugType: fields[1] as String,
+      dosage: fields[2] as int,
+      frequency: fields[3] as String,
+      startAt: fields[4] as DateTime,
+      firstTime: fields[5] as TimeOfDay,
+      secondTime: fields[7] as TimeOfDay,
+      thirdTime: fields[8] as TimeOfDay,
+      endAt: fields[6] as DateTime,
+    );
   }
 
   @override
   void write(BinaryWriter writer, Schedule obj) {
     writer
-      ..writeByte(7)
+      ..writeByte(9)
       ..writeByte(0)
-      ..write(obj.name)
+      ..write(obj.drugName)
       ..writeByte(1)
       ..write(obj.drugType)
       ..writeByte(2)
-      ..write(obj.duration)
+      ..write(obj.dosage)
       ..writeByte(3)
       ..write(obj.frequency)
       ..writeByte(4)
       ..write(obj.startAt)
       ..writeByte(5)
-      ..write(obj.time)
+      ..write(obj.firstTime)
       ..writeByte(6)
-      ..write(obj.endAt);
+      ..write(obj.endAt)
+      ..writeByte(7)
+      ..write(obj.secondTime)
+      ..writeByte(8)
+      ..write(obj.thirdTime);
   }
-
-  @override
-  // TODO: implement typeId
-  int get typeId => null;
 }
