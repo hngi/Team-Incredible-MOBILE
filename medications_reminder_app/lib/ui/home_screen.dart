@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-
 //Note that the colours are #fdfcff and #40b26d
 //! Colours have now been included in the app_theme.dart file so you can use Theme.of(context).whatever_color you like
 //I already added the google fonts package, use poppins
@@ -19,10 +18,7 @@ class HomeScreen extends StatelessWidget {
         focusColor: Colors.greenAccent,
         splashColor: Colors.greenAccent,
         tooltip: "Add a reminder",
-        child: Icon(
-          Icons.add,
-          color: Theme.of(context).primaryColorLight
-        ),
+        child: Icon(Icons.add, color: Theme.of(context).primaryColorLight),
       ),
     );
   }
@@ -44,10 +40,10 @@ class _CustomHomeScreenState extends State<CustomHomeScreen> {
           expandedHeight: MediaQuery.of(context).size.height * .2,
           centerTitle: true,
           pinned: true,
-          title: Text(
-            'Medications Reminder',
-            style: Theme.of(context).textTheme.headline6.copyWith(color:Theme.of(context).primaryColorLight,)
-          ),
+          title: Text('Medications Reminder',
+/*textTheme.headline6*/ style: Theme.of(context).textTheme.headline.copyWith(
+                    color: Theme.of(context).primaryColorLight,
+                  )),
         ),
 
         //Drug reminders are read from DB and rendered with SliverGrid
@@ -65,7 +61,7 @@ class _CustomHomeScreenState extends State<CustomHomeScreen> {
         //             style: TextStyle(
         //               fontSize: SizeConfig().textSize(context, 4.5)
         //             ),
-                    
+
         //           )
         //         ),
         //       ),

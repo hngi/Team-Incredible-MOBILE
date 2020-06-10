@@ -6,10 +6,12 @@ import './ui/add_reminders_screen.dart';
 import 'app_theme/app_theme.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  static final navigatorKey = new GlobalKey<NavigatorState>();
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -23,6 +25,6 @@ class MyApp extends StatelessWidget {
       },
       theme: appThemeLight,
       title: 'Medications Reminder',
-      );
+    );
   }
 }
