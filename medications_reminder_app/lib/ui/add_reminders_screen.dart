@@ -438,9 +438,9 @@ class _RemindersState extends State<Reminders> {
   }
 
 
-  /*
+/*
   Snack Notification
-  
+
   validate then display notification if succeded or not
   on success:true
   snackNotification(title: 'error',message: 'error',success:false,seconds:5);
