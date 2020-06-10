@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:medications_reminder_app/DB/db.dart';
+import 'package:medications_reminder_app/model/schedule_model.dart';
 import 'package:medications_reminder_app/navigation/app_navigation/navigation.dart';
 import 'package:medications_reminder_app/responsiveness/size_config.dart';
 import 'package:medications_reminder_app/ui/home_screen.dart';
@@ -27,6 +29,9 @@ class _RemindersState extends State<Reminders> {
 //Instantiating a SizeConfig object to handle responsiveness
   SizeConfig config = SizeConfig();
 
+  //Instantiating a DB object to add data to DB
+  DB db = DB();
+
   final List drugTypes = ['Tablet', 'Capsule', 'Drops', 'Injection'];
   final List<String> times = ['Once', 'Twice', 'Thrice'];
   var _selectedTime = 'Once';
@@ -37,6 +42,7 @@ class _RemindersState extends State<Reminders> {
   TimeOfDay _currentTime3 = TimeOfDay.now();
   DateTime startDate = DateTime.now();
   DateTime endDate = DateTime.now();
+  TextEditingController nameController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     MaterialLocalizations localizations = MaterialLocalizations.of(context);
@@ -68,6 +74,7 @@ class _RemindersState extends State<Reminders> {
                 child: ListView(
                   children: <Widget>[
                     TextFormField(
+                      controller: nameController,
                       cursorColor: Theme.of(context).primaryColorDark,
                       style: TextStyle(
                         color: Theme.of(context).primaryColorDark,
@@ -294,7 +301,21 @@ class _RemindersState extends State<Reminders> {
                                 width: MediaQuery.of(context).size.width,
                                 child: FlatButton(
                       //Navigate to home screen after saving details in db
-                      onPressed: (){}, 
+                      onPressed: (){
+                        if(nameController.text.isNotEmpty){
+                          db.addSchedule(Schedule(
+                          drugName: nameController.text,
+                          drugType: drugTypes[selectedIndex],
+                          frequency: _selectedTime,
+                          startAt: startDate,
+                          endAt: endDate,
+                          time: _currentTime,
+                          time2: _currentTime2 ?? 0,
+                          time3: _currentTime3 ?? 0
+                        ));
+                        }
+                        
+                      }, 
                       child: Text(
                         'Add Schedule',
                         style: TextStyle(

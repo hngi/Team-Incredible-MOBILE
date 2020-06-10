@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:medications_reminder_app/DB/db.dart';
+import 'package:medications_reminder_app/model/schedule_model.dart';
 import 'package:medications_reminder_app/navigation/app_navigation/navigation.dart';
 import 'package:medications_reminder_app/responsiveness/size_config.dart';
 import 'package:medications_reminder_app/ui/add_reminders_screen.dart';
@@ -39,97 +41,12 @@ class CustomHomeScreen extends StatefulWidget {
 }
 
 class _CustomHomeScreenState extends State<CustomHomeScreen> {
-   List<Schedule> schedules = [
-      Schedule(drugType:'Tablet',
-      drugName: 'Aspirin',
-      dosage:2,
-      frequency: 'Twice'
-       ),
-      Schedule(drugType:'Capsule',
-      drugName: 'Ampicilin',
-      dosage:1,
-      frequency: 'Thrice'
-       ),
-      Schedule(drugType:'Drops',
-      drugName: 'Eye drop',
-      dosage:2,
-      frequency: 'Once'
-       ),
-      Schedule(drugType:'Tablet',
-      drugName: 'Paracetamol',
-      dosage:2,
-      frequency: 'Thrice'
-       ),
-      Schedule(drugType:'Tablet',
-      drugName: 'Aspirin',
-      dosage:2,
-      frequency: 'Twice'
-       ),
-      Schedule(drugType:'Capsule',
-      drugName: 'Ampicilin',
-      dosage:1,
-      frequency: 'Thrice'
-       ),
-      Schedule(drugType:'Drops',
-      drugName: 'Eye drop',
-      dosage:2,
-      frequency: 'Once'
-       ),
-      Schedule(drugType:'Tablet',
-      drugName: 'Paracetamol',
-      dosage:2,
-      frequency: 'Thrice'
-       ),
-      Schedule(drugType:'Tablet',
-      drugName: 'Aspirin',
-      dosage:2,
-      frequency: 'Twice'
-       ),
-      Schedule(drugType:'Capsule',
-      drugName: 'Ampicilin',
-      dosage:1,
-      frequency: 'Thrice'
-       ),
-      Schedule(drugType:'Drops',
-      drugName: 'Eye drop',
-      dosage:2,
-      frequency: 'Once'
-       ),
-      Schedule(drugType:'Tablet',
-      drugName: 'Paracetamol',
-      dosage:2,
-      frequency: 'Thrice'
-       ),
-      Schedule(drugType:'Tablet',
-      drugName: 'Aspirin',
-      dosage:2,
-      frequency: 'Twice'
-       ),
-      Schedule(drugType:'Capsule',
-      drugName: 'Ampicilin',
-      dosage:1,
-      frequency: 'Thrice'
-       ),
-      Schedule(drugType:'Drops',
-      drugName: 'Eye drop',
-      dosage:2,
-      frequency: 'Once'
-       ),
-      Schedule(drugType:'Tablet',
-      drugName: 'Paracetamol',
-      dosage:2,
-      frequency: 'Thrice'
-       ),
-      Schedule(drugType:'Injection',
-      drugName: 'Paracetamol',
-      dosage:2,
-      frequency: 'Thrice'
-       ),
-
-    ];
-
+   
     //Instantiating SizeConfig class for responsiveness
     SizeConfig config = SizeConfig();
+
+     //Instantiating a DB object to read data to DB
+  DB db = DB();
   @override
   Widget build(BuildContext context) {
   
@@ -156,60 +73,60 @@ class _CustomHomeScreenState extends State<CustomHomeScreen> {
         ),
 
         //Drug reminders are read from DB and rendered with SliverGrid
-        SliverPadding(
-          padding: EdgeInsets.fromLTRB(config.xMargin(context, 4), config.yMargin(context, 3.5), 0, config.yMargin(context, 3.5)),
-          sliver: SliverGrid.count(
-            crossAxisCount: 2,
-            children: schedules.map((e) => Row(
-              children: <Widget>[
-                Container(
-                      width:MediaQuery.of(context).size.width * .45,
-                      height:MediaQuery.of(context).size.width * .45,
-                      child: FlatButton(
-                        //Navigate to drug description screen
-                        onPressed: (){},
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(config.xMargin(context, 6)),
-                        ),
-                        color: Theme.of(context).primaryColorLight,
-                        splashColor: Theme.of(context).buttonColor,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children:[
-                            e.drugType == 'Tablet' ? shape('assets/tablet.png') :  e.drugType == 'Capsule' ? shape('assets/capsule.png') :
-                             e.drugType == 'Drops' ? shape('assets/drop.png') :  e.drugType == 'Injection' ? shape('assets/syringe.png') :
-                          SizedBox(height: config.yMargin(context, 1),),
-                            Text(
-                            '${e.drugName}',
-                            style: TextStyle(
-                              fontSize: config.textSize(context, 5),
-                              fontWeight: FontWeight.w600,
-                              color: Theme.of(context).primaryColor
-                            ),
+        // SliverPadding(
+        //   padding: EdgeInsets.fromLTRB(config.xMargin(context, 4), config.yMargin(context, 3.5), 0, config.yMargin(context, 3.5)),
+        //   sliver: SliverGrid.count(
+        //     crossAxisCount: 2,
+        //     children: schedules.map((e) => Row(
+        //       children: <Widget>[
+        //         Container(
+        //               width:MediaQuery.of(context).size.width * .45,
+        //               height:MediaQuery.of(context).size.width * .45,
+        //               child: FlatButton(
+        //                 //Navigate to drug description screen
+        //                 onPressed: (){},
+        //                 shape: RoundedRectangleBorder(
+        //                   borderRadius: BorderRadius.circular(config.xMargin(context, 6)),
+        //                 ),
+        //                 color: Theme.of(context).primaryColorLight,
+        //                 splashColor: Theme.of(context).buttonColor,
+        //                 child: Column(
+        //                   mainAxisAlignment: MainAxisAlignment.center,
+        //                   children:[
+        //                     e.drugType == 'Tablet' ? shape('assets/tablet.png') :  e.drugType == 'Capsule' ? shape('assets/capsule.png') :
+        //                      e.drugType == 'Drops' ? shape('assets/drop.png') :  e.drugType == 'Injection' ? shape('assets/syringe.png') :
+        //                   SizedBox(height: config.yMargin(context, 1),),
+        //                     Text(
+        //                     '${e.drugName}',
+        //                     style: TextStyle(
+        //                       fontSize: config.textSize(context, 5),
+        //                       fontWeight: FontWeight.w600,
+        //                       color: Theme.of(context).primaryColor
+        //                     ),
                             
-                          ),
-                          SizedBox(height: config.yMargin(context, 2),),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              Text(
-                                '${e.dosage} ${e.drugType.toLowerCase()} ${e.frequency} daily',
-                                style: TextStyle(
-                              fontSize: config.textSize(context, 3),
-                              fontWeight: FontWeight.w600,
-                              color: Colors.grey[400]
-                            ),
-                              )
-                            ],
-                          ),
-                          ]
-                        ),
-                      ),
-                    ),
-              ],
-            )).toList(),
-            ),
-        ),
+        //                   ),
+        //                   SizedBox(height: config.yMargin(context, 2),),
+        //                   Row(
+        //                     mainAxisAlignment: MainAxisAlignment.center,
+        //                     children: <Widget>[
+        //                       Text(
+        //                         '${e.dosage} ${e.drugType.toLowerCase()} ${e.frequency} daily',
+        //                         style: TextStyle(
+        //                       fontSize: config.textSize(context, 3),
+        //                       fontWeight: FontWeight.w600,
+        //                       color: Colors.grey[400]
+        //                     ),
+        //                       )
+        //                     ],
+        //                   ),
+        //                   ]
+        //                 ),
+        //               ),
+        //             ),
+        //       ],
+        //     )).toList(),
+        //     ),
+        // ),
         
       ],
     );
@@ -223,13 +140,3 @@ class _CustomHomeScreenState extends State<CustomHomeScreen> {
   }
 
 }
-
-class Schedule {
-    String drugType;
-    String drugName;
-    int dosage;
-    String frequency;
-    Schedule({this.drugType, this.drugName, this.dosage, this.frequency});
-
-    
-  }
