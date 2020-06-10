@@ -24,7 +24,7 @@ class HomeScreen extends StatelessWidget {
                 ..duration = 2
                 ..drugType = "test";
 
-//          DB().addSchedule(sampleSchedule);
+          dataHolder().addSchedule(sampleSchedule);
 
           Navigator.pushNamed(context, '/drugsdescription');
 
@@ -82,31 +82,32 @@ class _CustomHomeScreenState extends State<CustomHomeScreen> {
 //          ),
 //        ),
         //Drug reminders are read from DB and rendered with SliverGrid
-//         SliverGrid.count(
-//           crossAxisCount: 2,
-//           children: _scheduleContent.map((Schedule) => Row(
-//             children: <Widget>[
-//               Container(
-//                 width:50,
-//                 height:50,
-//                 color: Colors.green,
-//                 child: Center(
-//                   child:Text(
-//                     'ees',
-//                     style: TextStyle(
-//                       fontSize: SizeConfig().textSize(context, 4.5)
-//                     ),
-//
-//                   )
-//                 ),
-//               ),
-//               SizedBox(width:20),
-//             ],
-//           )).toList(),
-//           )
+         SliverGrid(
+           gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+               maxCrossAxisExtent: 200,
+                mainAxisSpacing: 10,
+                crossAxisSpacing: 10),
+           delegate: SliverChildBuilderDelegate((context,index){
+             Schedule _scheduleData = dataHolder().getschedule(index);
+             var name = _scheduleData.name;
+             return Container (
+               width:50,
+               height:50,
+               color: Colors.green,
+                 child:Text(
+                 '$name',
+                 style: TextStyle(
+                 fontSize: SizeConfig().textSize(context, 4.5)
+             )
+             )
+             );
+           }),
+           )
       ],
     );
   }
+
+
 
 
 

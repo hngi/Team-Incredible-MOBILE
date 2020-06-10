@@ -14,7 +14,7 @@ void main() async{
   final docsDirectory = await path_provider.getApplicationDocumentsDirectory();
   Hive.init(docsDirectory.path);
   Hive.registerAdapter(ScheduleAdapter());
-  DB().getSchedules();
+  dataHolder().getSchedules();
   runApp(MyApp());
 }
 

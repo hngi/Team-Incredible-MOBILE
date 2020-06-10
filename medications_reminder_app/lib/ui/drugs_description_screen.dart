@@ -2,7 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter/cupertino.dart';
+import 'package:medications_reminder_app/DB/db.dart';
 import 'package:medications_reminder_app/app_theme/app_theme.dart';
+import 'package:medications_reminder_app/model/schedule_model.dart';
 
 import '../app_theme/app_theme.dart';
 
@@ -25,8 +27,10 @@ class DrugsDescription extends StatefulWidget {
 class _DrugsDescriptionState extends State<DrugsDescription> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
 
+
+
+    return Scaffold(
         backgroundColor: appThemeLight.primaryColorLight,
         body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -62,7 +66,7 @@ class _DrugsDescriptionState extends State<DrugsDescription> {
                style: TextStyle(color: Color(0xff808080)),
             ),
             Text(
-            'Aspirin',
+            '$drugNAme',
             style: TextStyle(
                 fontSize: 20,
                 color: appThemeLight.buttonColor,
@@ -260,5 +264,14 @@ class _DrugsDescriptionState extends State<DrugsDescription> {
         ),
 
     );
+  }
+  Schedule _scheduleData;
+  var drugNAme;
+  @override
+  void initState() {
+    dataHolder scheduleData;
+    scheduleData = new dataHolder();
+    _scheduleData = scheduleData.getActiveSchedule();
+    drugNAme = _scheduleData.name == null ? "" : _scheduleData.name;
   }
 }

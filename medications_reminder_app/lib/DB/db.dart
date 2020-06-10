@@ -3,18 +3,17 @@ import 'package:hive/hive.dart';
 import '../model/schedule_model.dart';
 
 
-class DB extends ChangeNotifier {
+class dataHolder extends ChangeNotifier {
   static const String _boxName = "scheduleBox";
 
   List<Schedule> _schedule = [];
+  Schedule _activeSchedule;
 
 
 
   void getSchedules() async {
     var box = await Hive.openBox<Schedule>(_boxName);
-
     _schedule = box.values.toList();
-
     notifyListeners();
   }
 
@@ -25,7 +24,6 @@ class DB extends ChangeNotifier {
   void addSchedule(Schedule schedule) async {
     var box = await Hive.openBox<Schedule>(_boxName);
     await box.add(schedule);
-
     _schedule = box.values.toList();
     notifyListeners();
   }
@@ -45,10 +43,22 @@ class DB extends ChangeNotifier {
 
     _schedule = box.values.toList();
 
+    _activeSchedule = box.get(scheduleKey);
+
     notifyListeners();
   }
 
   int get scheduleLength {
     return _schedule.length;
+  }
+
+  void setActiveSchedule(key) async {
+    var box = await Hive.openBox<Schedule>(_boxName);
+    _activeSchedule = box.get(key);
+    notifyListeners();
+  }
+
+  Schedule getActiveSchedule(){
+    return _activeSchedule;
   }
 }
