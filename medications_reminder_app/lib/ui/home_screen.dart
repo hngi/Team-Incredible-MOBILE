@@ -101,7 +101,9 @@ class _CustomHomeScreenState extends State<CustomHomeScreen> {
              )
              )
              );
-           }),
+           },
+               childCount:dataHolder().scheduleLength
+           ),
            )
       ],
     );
