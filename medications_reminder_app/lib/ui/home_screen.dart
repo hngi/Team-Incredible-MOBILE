@@ -24,8 +24,9 @@ class HomeScreen extends StatelessWidget {
                 ..duration = 2
                 ..drugType = "test";
 
-          DB().addSchedule(sampleSchedule);
-//          Navigator.pushNamed(context, '/addreminders');
+//          DB().addSchedule(sampleSchedule);
+
+          Navigator.pushNamed(context, '/drugsdescription');
 
         },
         backgroundColor: Theme.of(context).buttonColor,
@@ -63,28 +64,23 @@ class _CustomHomeScreenState extends State<CustomHomeScreen> {
             style: Theme.of(context).textTheme.headline6.copyWith(color:Theme.of(context).primaryColorLight,)
           ),
         ),
-        SliverGrid(
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            childAspectRatio: 0.8,
-          ),
-          delegate: SliverChildBuilderDelegate(
-                (BuildContext context, int index) {
-             _scheduleContent = DB().getschedule(index) as List<Schedule>;
-              return Card(
-                child: Container(
-                  color: Colors.grey[400],
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(vertical: 30.0),
-                    child: Center(
-                        child: Text("Product")),
-                  ),
-                ),
-              );
-            },
-            childCount: DB().scheduleLength
-          ),
-        ),
+//        SliverGrid(
+//          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+//            crossAxisCount: 2,
+//            childAspectRatio: 0.8,
+//          ),
+//          delegate: SliverChildBuilderDelegate(
+//                (context,index) {
+//                  return(
+//                  Container(
+//                    width: 50,
+//                    height: 50,
+//                  )
+//                  );
+//             },
+//            childCount: DB().scheduleLength
+//          ),
+//        ),
         //Drug reminders are read from DB and rendered with SliverGrid
 //         SliverGrid.count(
 //           crossAxisCount: 2,
