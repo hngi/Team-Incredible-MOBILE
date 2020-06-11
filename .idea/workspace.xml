@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="cbc75f0c-2e80-44bb-8231-55aa828dc917" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/medications_reminder_app/lib/ui/drugs_description_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/medications_reminder_app/lib/ui/drugs_description_screen.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -105,29 +106,29 @@
       <screen x="39" y="27" width="1327" height="741" />
     </state>
     <state x="485" y="154" width="424" height="484" key="FileChooserDialogImpl/39.27.1327.741@39.27.1327.741" timestamp="1591713280565" />
-    <state width="1281" height="175" key="GridCell.Tab.0.bottom" timestamp="1591868931154">
+    <state width="1281" height="175" key="GridCell.Tab.0.bottom" timestamp="1591876114575">
       <screen x="39" y="27" width="1327" height="741" />
     </state>
-    <state width="1281" height="175" key="GridCell.Tab.0.bottom/39.27.1327.741@39.27.1327.741" timestamp="1591868931154" />
-    <state width="1281" height="175" key="GridCell.Tab.0.center" timestamp="1591868931153">
+    <state width="1281" height="175" key="GridCell.Tab.0.bottom/39.27.1327.741@39.27.1327.741" timestamp="1591876114575" />
+    <state width="1281" height="175" key="GridCell.Tab.0.center" timestamp="1591876114575">
       <screen x="39" y="27" width="1327" height="741" />
     </state>
-    <state width="1281" height="175" key="GridCell.Tab.0.center/39.27.1327.741@39.27.1327.741" timestamp="1591868931153" />
-    <state width="1281" height="175" key="GridCell.Tab.0.left" timestamp="1591868931152">
+    <state width="1281" height="175" key="GridCell.Tab.0.center/39.27.1327.741@39.27.1327.741" timestamp="1591876114575" />
+    <state width="1281" height="175" key="GridCell.Tab.0.left" timestamp="1591876114574">
       <screen x="39" y="27" width="1327" height="741" />
     </state>
-    <state width="1281" height="175" key="GridCell.Tab.0.left/39.27.1327.741@39.27.1327.741" timestamp="1591868931152" />
-    <state width="1281" height="175" key="GridCell.Tab.0.right" timestamp="1591868931154">
+    <state width="1281" height="175" key="GridCell.Tab.0.left/39.27.1327.741@39.27.1327.741" timestamp="1591876114574" />
+    <state width="1281" height="175" key="GridCell.Tab.0.right" timestamp="1591876114575">
       <screen x="39" y="27" width="1327" height="741" />
     </state>
-    <state width="1281" height="175" key="GridCell.Tab.0.right/39.27.1327.741@39.27.1327.741" timestamp="1591868931154" />
+    <state width="1281" height="175" key="GridCell.Tab.0.right/39.27.1327.741@39.27.1327.741" timestamp="1591876114575" />
     <state x="191" y="31" key="SettingsEditor" timestamp="1591693383339">
       <screen x="39" y="27" width="1327" height="741" />
     </state>
     <state x="191" y="31" key="SettingsEditor/39.27.1327.741@39.27.1327.741" timestamp="1591693383339" />
-    <state x="358" y="224" key="com.intellij.ide.util.TipDialog" timestamp="1591712279643">
+    <state x="358" y="224" key="com.intellij.ide.util.TipDialog" timestamp="1591873538300">
       <screen x="39" y="27" width="1327" height="741" />
     </state>
-    <state x="358" y="224" key="com.intellij.ide.util.TipDialog/39.27.1327.741@39.27.1327.741" timestamp="1591712279643" />
+    <state x="358" y="224" key="com.intellij.ide.util.TipDialog/39.27.1327.741@39.27.1327.741" timestamp="1591873538300" />
   </component>
 </project>

@@ -39,10 +39,29 @@ class _DrugsDescriptionState extends State<DrugsDescription> {
        double height = MediaQuery.of(context).size.height;
         double width = MediaQuery.of(context).size.width;
         DateTime now = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day );
-    int TotalPogram = widget.schedule.endAt.difference(widget.schedule.startAt).inDays;
-    int weeks = TotalPogram ~/ 7;
-    int days = TotalPogram.remainder(7);
+        DateTime dateEnd =  DateTime(widget.schedule.endAt.year, widget.schedule.endAt.month, widget.schedule.endAt.day);
+        DateTime datestart =  DateTime(widget.schedule.startAt.year, widget.schedule.startAt.month, widget.schedule.startAt.day);
+ //   String dayString = "";
+      int TotalPogram = dateEnd.difference(datestart).inDays + 1;
+      log('$TotalPogram');
+      int weeks = TotalPogram ~/ 7;
+      int days = TotalPogram.remainder(7);
+
    int DateDiff = widget.schedule.endAt.difference(now).inDays;
+
+   int dosageperday = widget.schedule.dosage;
+    int tableft =0;
+    int numberofdose = TotalPogram  *  dosageperday;
+    log('$TotalPogram');
+    if(dosageperday == 1 && numberofdose > 0){
+      tableft = DateDiff * dosageperday ;
+    }else if(dosageperday == 2 && numberofdose > 2){
+      tableft = DateDiff * dosageperday ;
+    }else if(dosageperday == 3 && numberofdose > 3){
+      tableft = DateDiff * dosageperday;
+    }
+  // int totaltab = '3 times' ?
+
     return Scaffold(
       backgroundColor: Theme.of(context).primaryColor,
      appBar: AppBar(
@@ -211,7 +230,7 @@ class _DrugsDescriptionState extends State<DrugsDescription> {
                           ),
                            Text(
 
-                              'Total weeks : $weeks Week $days Days ',
+                              'Total weeks : $weeks Week $days Days',
                               textAlign: TextAlign.left,
                               style: TextStyle(
                                 fontSize: config.xMargin(context, 5),
@@ -241,7 +260,7 @@ class _DrugsDescriptionState extends State<DrugsDescription> {
                                 fontWeight: FontWeight.bold,
                               ),
                             ),Text(
-                              'Total 169 Tablets : 104 Left',
+                              'Total $numberofdose : $tableft Left',
                               textAlign: TextAlign.left,
                               style: TextStyle(
                                 fontSize: config.xMargin(context, 5),
@@ -260,9 +279,7 @@ class _DrugsDescriptionState extends State<DrugsDescription> {
                     child: FlatButton(
                         //Navigate to home screen after saving details in db
                         onPressed: () {
-                          log('on click $now');
-                          log('weeks $weeks');
-                          log(' days $days');
+
 
                         print('${widget.schedule.drugName}');
                         print('${widget.schedule.endAt}');
