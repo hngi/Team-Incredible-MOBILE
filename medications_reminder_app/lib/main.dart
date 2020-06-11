@@ -15,7 +15,7 @@ void main() async {
   final directory = await getApplicationDocumentsDirectory();
   Hive.init(directory.path);
   Hive.registerAdapter(ScheduleAdapter());
-  await Hive.openBox<Schedule>('sheduleBox');
+  await Hive.openBox<Schedule>('scheduleBox');
   runApp(MyApp());
 }
 
@@ -23,19 +23,20 @@ class MyApp extends StatelessWidget {
   static final navigatorKey = new GlobalKey<NavigatorState>();
   @override
   Widget build(BuildContext context) {
+
     return ChangeNotifierProvider<DB>(
         create: (context) => DB(),
         child: MaterialApp(
-          initialRoute: '/',
-          routes: {
-            '/': (BuildContext context) => SplashScreen(),
-            '/home': (BuildContext context) => HomeScreen(),
-            '/drugsdescription': (BuildContext context) =>
-                DrugsDescriptionScreen(),
-            '/addreminders': (BuildContext context) => RemindersScreen(),
-          },
-          theme: appThemeLight,
-          title: 'MedBuzz',
-        ));
+          debugShowCheckedModeBanner: false,
+      initialRoute: '/',
+      routes: {
+        '/': (BuildContext context) => SplashScreen(),
+        '/home': (BuildContext context) => HomeScreen(),
+        '/drugsdescription': (BuildContext context) => DrugsDescriptionScreen(),
+        '/addreminders': (BuildContext context) => RemindersScreen(),
+      },
+      theme: appThemeLight,
+      title: 'MedBuzz',
+      ));
   }
 }

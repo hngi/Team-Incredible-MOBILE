@@ -7,10 +7,6 @@ import 'package:medications_reminder_app/responsiveness/size_config.dart';
 import 'package:medications_reminder_app/ui/home_screen.dart';
 import 'package:provider/provider.dart';
 
-//Note that the colors are #2c7b4b(main colour) and sub colours #fdfcff and #40b26d for button
-//! Colours have now been included in the app_theme.dart file so you can use Theme.of(context).whatever_color you like
-//I already added the google fonts package, use poppins
-//I'M COUNTING ON YOU!!!
 class RemindersScreen extends StatelessWidget {
   final String buttonText;
   final bool refresh;
@@ -322,20 +318,20 @@ class _RemindersState extends State<Reminders> {
                                           db.firstTime.hour,
                                           db.firstTime.minute
                                         ],
-                                        secondTime: db.secondTime.hour !=
-                                                TimeOfDay.now()
+                                        secondTime:
+                                        db.secondTime != null
                                             ? [
                                                 db.secondTime.hour,
                                                 db.secondTime.minute
                                               ]
                                             : [],
-                                        thirdTime:
-                                            db.thirdTime.hour != TimeOfDay.now()
-                                                ? [
-                                                    db.thirdTime.hour,
-                                                    db.thirdTime.minute
-                                                  ]
-                                                : [],
+                                    thirdTime:
+                                        db.thirdTime != null
+                                            ? [
+                                                db.thirdTime.hour,
+                                                db.thirdTime.minute
+                                              ]
+                                            : [],
                                       ));
                                       var configdb = db;
                                       List<TimeOfDay> times2 = [
@@ -380,20 +376,20 @@ class _RemindersState extends State<Reminders> {
                                           db.firstTime.hour,
                                           db.firstTime.minute
                                         ],
-                                        secondTime: db.secondTime.hour !=
-                                                TimeOfDay.now()
+                                        secondTime:
+                                        db.secondTime != null
                                             ? [
                                                 db.secondTime.hour,
                                                 db.secondTime.minute
                                               ]
                                             : [],
-                                        thirdTime:
-                                            db.thirdTime.hour != TimeOfDay.now()
-                                                ? [
-                                                    db.thirdTime.hour,
-                                                    db.thirdTime.minute
-                                                  ]
-                                                : [],
+                                    thirdTime:
+                                        db.thirdTime != null
+                                            ? [
+                                                db.thirdTime.hour,
+                                                db.thirdTime.minute
+                                              ]
+                                            : [],
                                       ));
                                       widget.notificationManager.removeReminder(
                                           widget.schedule.index);

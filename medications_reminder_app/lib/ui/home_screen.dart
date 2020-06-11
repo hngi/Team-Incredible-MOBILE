@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
 import 'package:medications_reminder_app/DB/db.dart';
-import 'package:medications_reminder_app/model/schedule_model.dart';
 import 'package:medications_reminder_app/navigation/app_navigation/navigation.dart';
 import 'package:medications_reminder_app/responsiveness/size_config.dart';
 import 'package:medications_reminder_app/ui/add_reminders_screen.dart';
@@ -40,8 +38,9 @@ class CustomHomeScreen extends StatefulWidget {
 }
 
 class _CustomHomeScreenState extends State<CustomHomeScreen> {
+
   @override
-  void initState() {
+  void initState() { 
     super.initState();
     Provider.of<DB>(context, listen: false).getSchedules();
   }
@@ -66,7 +65,7 @@ class _CustomHomeScreenState extends State<CustomHomeScreen> {
                 image: AssetImage('images/medbuzz.png')),
             centerTitle: true,
             title: Text('My Schedules',
-                style: Theme.of(context).textTheme.headline.copyWith(
+                style: Theme.of(context).textTheme.headline6.copyWith(
                       color: Theme.of(context).primaryColorLight,
                     )),
           ),
@@ -100,21 +99,10 @@ class _CustomHomeScreenState extends State<CustomHomeScreen> {
                           splashColor: Theme.of(context).buttonColor,
                           child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                e.drugType == 'Tablet'
-                                    ? shape('images/icons8-tablets-32.png')
-                                    : e.drugType == 'Capsule'
-                                        ? shape('images/icons8-pill-32.png')
-                                        : e.drugType == 'Drops'
-                                            ? shape(
-                                                'images/icons8-drop-of-blood-32.png')
-                                            : e.drugType == 'Injection'
-                                                ? shape(
-                                                    'images/icons8-syringe-32.png')
-                                                : SizedBox(
-                                                    height: config.yMargin(
-                                                        context, 1.5),
-                                                  ),
+                              children:[
+                                e.drugType == 'Tablet' ? shape('images/icons8-tablets-32.png') :  e.drugType == 'Capsule' ? shape('images/icons8-pill-32.png') :
+                                 e.drugType == 'Drop' ? shape('images/icons8-drop-of-blood-32.png') :  e.drugType == 'Injection' ? shape('images/icons8-syringe-32.png') :
+                              SizedBox(height: config.yMargin(context, 1.5),),
                                 Text(
                                   '${e.drugName}',
                                   overflow: TextOverflow.ellipsis,

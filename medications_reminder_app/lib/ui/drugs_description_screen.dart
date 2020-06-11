@@ -6,11 +6,7 @@ import 'package:medications_reminder_app/responsiveness/size_config.dart';
 import 'package:medications_reminder_app/model/schedule_model.dart';
 import 'package:medications_reminder_app/ui/add_reminders_screen.dart';
 import 'package:medications_reminder_app/ui/home_screen.dart';
-import 'package:provider/provider.dart';
 
-//Note that the colours are #fdfcff and #40b26d for button
-//I already added the google fonts package, use poppins
-//I'M COUNTING ON YOU!!!
 class DrugsDescriptionScreen extends StatelessWidget {
   final String payload;
   final Schedule schedule;
