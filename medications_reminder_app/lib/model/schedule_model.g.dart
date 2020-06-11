@@ -13,37 +13,46 @@ class ScheduleAdapter extends TypeAdapter<Schedule> {
     var fields = <int, dynamic>{
       for (var i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return Schedule()
-      ..name = fields[0] as String
-      ..drugType = fields[1] as String
-      ..duration = fields[2] as int
-      ..frequency = fields[3] as int
-      ..startAt = fields[4] as DateTime
-      ..time = fields[5] as DateTime
-      ..endAt = fields[6] as DateTime;
+    return Schedule(
+      index: fields[9] as int,
+      drugName: fields[0] as String,
+      drugType: fields[1] as String,
+      dosage: fields[2] as int,
+      frequency: fields[3] as String,
+      startAt: fields[4] as DateTime,
+      firstTime: (fields[6] as List)?.cast<int>(),
+      secondTime: (fields[7] as List)?.cast<int>(),
+      thirdTime: (fields[8] as List)?.cast<int>(),
+      endAt: fields[5] as DateTime,
+    );
   }
 
   @override
   void write(BinaryWriter writer, Schedule obj) {
     writer
-      ..writeByte(7)
+      ..writeByte(10)
       ..writeByte(0)
-      ..write(obj.name)
+      ..write(obj.drugName)
       ..writeByte(1)
       ..write(obj.drugType)
       ..writeByte(2)
-      ..write(obj.duration)
+      ..write(obj.dosage)
       ..writeByte(3)
       ..write(obj.frequency)
       ..writeByte(4)
       ..write(obj.startAt)
       ..writeByte(5)
-      ..write(obj.time)
+      ..write(obj.endAt)
       ..writeByte(6)
-      ..write(obj.endAt);
+      ..write(obj.firstTime)
+      ..writeByte(7)
+      ..write(obj.secondTime)
+      ..writeByte(8)
+      ..write(obj.thirdTime)
+      ..writeByte(9)
+      ..write(obj.index);
   }
 
   @override
-  // TODO: implement typeId
-  int get typeId => null;
+  int get typeId => 0;
 }
