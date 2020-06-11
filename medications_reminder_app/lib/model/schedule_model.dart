@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 
 part 'schedule_model.g.dart';
@@ -21,20 +20,22 @@ class Schedule {
   DateTime startAt;
 
   @HiveField(5)
-  TimeOfDay firstTime;
-
-  @HiveField(6)
   DateTime endAt;
 
+  @HiveField(6)
+  List<int> firstTime;
+
   @HiveField(7)
-  @HiveType(typeId:15)
-  TimeOfDay secondTime;
+  List<int> secondTime;
 
   @HiveField(8)
-  @HiveType(typeId:15)
-  TimeOfDay thirdTime;
+  List<int> thirdTime;
+
+  @HiveField(9)
+  int index;
   
   Schedule({
+    this.index,
   this.drugName,
     this.drugType,
     this.dosage,
@@ -43,7 +44,7 @@ class Schedule {
     this.firstTime,
     this.secondTime,
     this.thirdTime,
-    this.endAt
+    this.endAt,
   });
 
 }

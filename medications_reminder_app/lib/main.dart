@@ -9,14 +9,12 @@ import './ui/add_reminders_screen.dart';
 import 'app_theme/app_theme.dart';
 import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:medications_reminder_app/model/time_of_day.dart';
 
 void main() async{
    WidgetsFlutterBinding.ensureInitialized();
   final directory = await getApplicationDocumentsDirectory();
   Hive.init(directory.path);
   Hive.registerAdapter(ScheduleAdapter());
-  Hive.registerAdapter(TimeOfDayAdapter());
   await Hive.openBox<Schedule>('sheduleBox');
   runApp(MyApp());
 }

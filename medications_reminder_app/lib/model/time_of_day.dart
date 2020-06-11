@@ -3,7 +3,8 @@ import 'package:hive/hive.dart';
 
 class TimeOfDayAdapter extends TypeAdapter<TimeOfDay>{
 
-
+  @override
+  final typeId = 1;
 
   @override
   void write(BinaryWriter writer, TimeOfDay obj){
@@ -25,8 +26,5 @@ class TimeOfDayAdapter extends TypeAdapter<TimeOfDay>{
       minute: fields[1] as int
     );
   }
-
-  @override
-  int get typeId => 15;
 
 }

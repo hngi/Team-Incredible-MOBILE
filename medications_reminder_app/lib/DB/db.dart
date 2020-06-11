@@ -15,8 +15,38 @@ class DB extends ChangeNotifier {
   TimeOfDay thirdTime = TimeOfDay.now();
   DateTime startDate = DateTime.now();
   DateTime endDate = DateTime.now();
+  String drugName;
 
   List<Schedule> schedules = [];
+
+  TimeOfDay timeFromDB(List<int> time){
+    return TimeOfDay(hour: time[0], minute: time[1]);
+  }
+
+  void preload(String drugName, String freq, String drugType, int dosage, List<int> firstTime, DateTime startDate, DateTime endDate, {List<int> thirdTime, List<int> secondTime,}){
+     this.drugName = drugName;
+     this.selectedFreq = freq;
+  this.selectedIndex = drugType == 'Tablet' ? 0 : drugType == 'Capsule' ? 1 : 
+  drugType == 'Drop' ? 2 : 3;
+  this.dosage = dosage;
+  this.firstTime = DB().timeFromDB(firstTime);
+  this.secondTime = secondTime == [] ? null : DB().timeFromDB(secondTime);
+  this.thirdTime = thirdTime == [] ? null : DB().timeFromDB(thirdTime);
+  this.startDate = startDate;
+  this.endDate = endDate;
+  }
+
+  void refresh(){
+    this.drugName = '';
+    this.selectedFreq = 'Once';
+  this.selectedIndex = 0;
+  this.dosage = 1;
+  this.firstTime = TimeOfDay.now();
+  this.secondTime = TimeOfDay.now();
+  this.thirdTime = TimeOfDay.now();
+  this.startDate = DateTime.now();
+  this.endDate = DateTime.now();
+  }
 
   void updateStartDate(DateTime newDate){
     this.startDate = newDate;
@@ -64,8 +94,7 @@ class DB extends ChangeNotifier {
 
   void getSchedules() async {
     var box = await Hive.openBox<Schedule>(_boxName);
-    this.schedules = box.values.toList();
-
+    this.schedules = box.values.toList().reversed.toList();
     notifyListeners();
   }
 
@@ -83,18 +112,24 @@ class DB extends ChangeNotifier {
   }
 
   void deleteSchedule(key) async {
-    var box = await Hive.openBox<Schedule>(_boxName);
+    try{
+      var box = await Hive.openBox<Schedule>(_boxName);
 
-    await box.delete(key);
+    await box.deleteAt(key);
     Hive.box(_boxName).compact();
 
     this.schedules = box.values.toList();
 
     notifyListeners();
+    }catch(e){
+      print(e);
+    }
+      
   }
 
-  void editSchedule({Schedule schedule, int scheduleKey}) async {
-    var box = await Hive.openBox<Schedule>(_boxName);
+  void editSchedule({Schedule schedule}) async {
+     int scheduleKey = schedule.index;
+    var box = Hive.box<Schedule>(_boxName);
     await box.putAt(scheduleKey, schedule);
 
     this.schedules = box.values.toList();

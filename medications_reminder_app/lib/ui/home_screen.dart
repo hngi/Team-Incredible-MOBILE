@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 import 'package:medications_reminder_app/DB/db.dart';
+import 'package:medications_reminder_app/model/schedule_model.dart';
 import 'package:medications_reminder_app/navigation/app_navigation/navigation.dart';
 import 'package:medications_reminder_app/responsiveness/size_config.dart';
 import 'package:medications_reminder_app/ui/add_reminders_screen.dart';
+import 'package:medications_reminder_app/ui/drugs_description_screen.dart';
 import 'package:provider/provider.dart';
 
 
@@ -20,7 +23,9 @@ class HomeScreen extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         //Navigate to add reminders screen
         onPressed: () {
-          Navigation().pushTo(context, RemindersScreen());
+          Navigation().pushTo(context, RemindersScreen(
+            buttonText: 'Add Schedule',
+            refresh:true));
         },
         backgroundColor: Theme.of(context).buttonColor,
         focusColor: Colors.greenAccent,
@@ -84,14 +89,17 @@ class _CustomHomeScreenState extends State<CustomHomeScreen> {
               padding: EdgeInsets.fromLTRB(config.xMargin(context, 4), config.yMargin(context, 3), 0, config.yMargin(context, 3.5)),
               sliver: SliverGrid.count(
                 crossAxisCount: 2,
-                children: db.schedules.map((e) => Row(
+                children: db.schedules.map((e) {
+                  return Row(
                   children: <Widget>[
                     Container(
                           width:MediaQuery.of(context).size.width * .45,
                           height:MediaQuery.of(context).size.width * .45,
                           child: FlatButton(
                             //Navigate to drug description screen
-                            onPressed: (){},
+                            onPressed: (){
+                              Navigation().pushTo(context, DrugsDescriptionScreen(schedule:e));
+                            },
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(config.xMargin(context, 6)),
                             ),
@@ -102,13 +110,14 @@ class _CustomHomeScreenState extends State<CustomHomeScreen> {
                               children:[
                                 e.drugType == 'Tablet' ? shape('images/icons8-tablets-32.png') :  e.drugType == 'Capsule' ? shape('images/icons8-pill-32.png') :
                                  e.drugType == 'Drops' ? shape('images/icons8-drop-of-blood-32.png') :  e.drugType == 'Injection' ? shape('images/icons8-syringe-32.png') :
-                              SizedBox(height: config.yMargin(context, 1),),
+                              SizedBox(height: config.yMargin(context, 1.5),),
                                 Text(
                                 '${e.drugName}',
+                                overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
-                                  fontSize: config.textSize(context, 5),
+                                  fontSize: config.textSize(context, 7),
                                   fontWeight: FontWeight.w600,
-                                  color: Theme.of(context).primaryColor
+                                  color: Theme.of(context).primaryColor,
                                 ),
                                 
                               ),
@@ -116,16 +125,20 @@ class _CustomHomeScreenState extends State<CustomHomeScreen> {
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: <Widget>[
-                                  Text(
-                                    e.dosage == 1 ?
-                                    '${e.dosage} ${e.drugType.toLowerCase()} ${e.frequency.toLowerCase()} daily' :
-                                    '${e.dosage} ${e.drugType.toLowerCase()}s ${e.frequency.toLowerCase()} daily' 
-                                    ,
-                                    style: TextStyle(
-                                  fontSize: config.textSize(context, 3),
-                                  fontWeight: FontWeight.w600,
-                                  color: Colors.grey[400]
+                                  Expanded(
+                                    child: Text(
+                                      e.dosage == 1 ?
+                                      '${e.dosage} ${e.drugType.toLowerCase()} ${e.frequency.toLowerCase()} daily' :
+                                      '${e.dosage} ${e.drugType.toLowerCase()}s ${e.frequency.toLowerCase()} daily' 
+                                      ,
+                                      textAlign: TextAlign.center,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(
+                                    fontSize: config.textSize(context, 3.5),
+                                    fontWeight: FontWeight.w600,
+                                    color: Colors.grey[400],
                                 ),
+                                    ),
                                   )
                                 ],
                               ),
@@ -134,7 +147,7 @@ class _CustomHomeScreenState extends State<CustomHomeScreen> {
                           ),
                         ),
                   ],
-                )).toList(),
+                );}).toList(),
                 ),
             );},
         ),
