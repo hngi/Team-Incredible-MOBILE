@@ -52,8 +52,6 @@ class ScheduleAdapter extends TypeAdapter<Schedule> {
       ..writeByte(9)
       ..write(obj.index);
   }
-
   @override
-  // TODO: implement typeId
-  int get typeId => throw UnimplementedError();
+  int get typeId => 0;
 }
