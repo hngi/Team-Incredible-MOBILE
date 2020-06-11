@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:medications_reminder_app/DB/db.dart';
 import 'package:medications_reminder_app/model/schedule_model.dart';
 import 'package:medications_reminder_app/navigation/app_navigation/navigation.dart';
+import 'package:medications_reminder_app/notifications/notification_manager.dart';
 import 'package:medications_reminder_app/responsiveness/size_config.dart';
 import 'package:medications_reminder_app/ui/home_screen.dart';
 import 'package:provider/provider.dart';
@@ -64,10 +65,9 @@ class _RemindersState extends State<Reminders> {
   @override
   Widget build(BuildContext context) {
     final db = Provider.of<DB>(context);
-    if(widget.buttonText == 'Update Schedule'){
-      nameController.text =  db.drugName ?? '';
+    if (widget.buttonText == 'Update Schedule') {
+      nameController.text = db.drugName ?? '';
     }
-    
 
     MaterialLocalizations localizations = MaterialLocalizations.of(context);
     return Scaffold(
@@ -261,7 +261,7 @@ class _RemindersState extends State<Reminders> {
                                     children: <Widget>[
                                       Text(
                                         localizations
-                                            .formatShortMonthDay(db.startDate),
+                                            .formatMediumDate(db.startDate),
                                         style: TextStyle(
                                             fontSize:
                                                 config.xMargin(context, 4.2)),
@@ -287,7 +287,7 @@ class _RemindersState extends State<Reminders> {
                                     children: <Widget>[
                                       Text(
                                         localizations
-                                            .formatShortMonthDay(db.endDate),
+                                            .formatMediumDate(db.endDate),
                                         style: TextStyle(
                                             fontSize:
                                                 config.xMargin(context, 4.2)),
@@ -310,65 +310,107 @@ class _RemindersState extends State<Reminders> {
                                     case 'Add Schedule':
                                       db.addSchedule(Schedule(
                                         index: db.scheduleLength,
-                                    drugName: nameController.text,
-                                    drugType: db.drugTypes[db.selectedIndex],
-                                    frequency: db.selectedFreq,
-                                    startAt: db.startDate,
-                                    dosage: db.dosage,
-                                    endAt: db.endDate,
-                                    firstTime: [
-                                      db.firstTime.hour,
-                                      db.firstTime.minute
-                                    ],
-                                    secondTime:
-                                        db.secondTime.hour != TimeOfDay.now()
+                                        drugName: nameController.text,
+                                        drugType:
+                                            db.drugTypes[db.selectedIndex],
+                                        frequency: db.selectedFreq,
+                                        startAt: db.startDate,
+                                        dosage: db.dosage,
+                                        endAt: db.endDate,
+                                        firstTime: [
+                                          db.firstTime.hour,
+                                          db.firstTime.minute
+                                        ],
+                                        secondTime: db.secondTime.hour !=
+                                                TimeOfDay.now()
                                             ? [
                                                 db.secondTime.hour,
                                                 db.secondTime.minute
                                               ]
                                             : [],
-                                    thirdTime:
-                                        db.thirdTime.hour != TimeOfDay.now()
-                                            ? [
-                                                db.thirdTime.hour,
-                                                db.thirdTime.minute
-                                              ]
-                                            : [],
-                                  ));
+                                        thirdTime:
+                                            db.thirdTime.hour != TimeOfDay.now()
+                                                ? [
+                                                    db.thirdTime.hour,
+                                                    db.thirdTime.minute
+                                                  ]
+                                                : [],
+                                      ));
+                                      List<int> times2 = [
+                                        widget.schedule.firstTime as int,
+                                        widget.schedule.secondTime as int
+                                      ];
+                                      List<int> times3 = [
+                                        widget.schedule.firstTime as int,
+                                        widget.schedule.secondTime as int,
+                                        widget.schedule.thirdTime as int
+                                      ];
+                                      if (widget.schedule.frequency == 'Once') {
+                                        scheduleNotifications(
+                                            widget.schedule.index,
+                                            widget.schedule.drugName,
+                                            widget.schedule.dosage.toString(),
+                                            widget.schedule.firstTime,
+                                            widget
+                                                .schedule.notificationManager);
+                                      } else if (widget.schedule.frequency ==
+                                          'Twice') {
+                                        times2.forEach((val) =>
+                                            scheduleNotifications(
+                                                widget.schedule.index,
+                                                widget.schedule.drugName,
+                                                widget.schedule.dosage
+                                                    .toString(),
+                                                val as List,
+                                                widget.schedule
+                                                    .notificationManager));
+                                      } else if (widget.schedule.frequency ==
+                                          'Thrice') {
+                                        times3.forEach((val) =>
+                                            scheduleNotifications(
+                                                widget.schedule.index,
+                                                widget.schedule.drugName,
+                                                widget.schedule.dosage
+                                                    .toString(),
+                                                val as List,
+                                                widget.schedule
+                                                    .notificationManager));
+                                      }
                                       break;
                                     case 'Update Schedule':
-                                    db.editSchedule(
-                                      schedule: Schedule(
+                                      db.editSchedule(
+                                          schedule: Schedule(
                                         index: widget.schedule.index,
-                                    drugName: nameController.text,
-                                    drugType: db.drugTypes[db.selectedIndex],
-                                    frequency: db.selectedFreq,
-                                    startAt: db.startDate,
-                                    dosage: db.dosage,
-                                    endAt: db.endDate,
-                                    firstTime: [
-                                      db.firstTime.hour,
-                                      db.firstTime.minute
-                                    ],
-                                    secondTime:
-                                        db.secondTime.hour != TimeOfDay.now()
+                                        drugName: nameController.text,
+                                        drugType:
+                                            db.drugTypes[db.selectedIndex],
+                                        frequency: db.selectedFreq,
+                                        startAt: db.startDate,
+                                        dosage: db.dosage,
+                                        endAt: db.endDate,
+                                        firstTime: [
+                                          db.firstTime.hour,
+                                          db.firstTime.minute
+                                        ],
+                                        secondTime: db.secondTime.hour !=
+                                                TimeOfDay.now()
                                             ? [
                                                 db.secondTime.hour,
                                                 db.secondTime.minute
                                               ]
                                             : [],
-                                    thirdTime:
-                                        db.thirdTime.hour != TimeOfDay.now()
-                                            ? [
-                                                db.thirdTime.hour,
-                                                db.thirdTime.minute
-                                              ]
-                                            : [],
-                                  ));
-                                    
-                                    break;
+                                        thirdTime:
+                                            db.thirdTime.hour != TimeOfDay.now()
+                                                ? [
+                                                    db.thirdTime.hour,
+                                                    db.thirdTime.minute
+                                                  ]
+                                                : [],
+                                      ));
+
+                                      break;
                                   }
-                                  
+
                                   navigation.pushFrom(context, HomeScreen());
                                 }
                               },
@@ -546,6 +588,27 @@ class _RemindersState extends State<Reminders> {
         lastDate: DateTime(db.endDate.year + 1));
     if (selectedDate != null && selectedDate != db.endDate) {
       db.updateEndDate(selectedDate);
+    }
+  }
+
+  void scheduleNotifications(int index, String drugName, String dosage,
+      List<int> time, NotificationManager manager) {
+    if (DateTime.now().day <= widget.schedule.startAt.day &&
+        widget.schedule.endAt.compareTo(DateTime.now()) >= 0) {
+      manager.showNotificationDaily(
+          index,
+          'Oya it is time to take your drug: $drugName',
+          'Dosage: $dosage',
+          time[0],
+          time[1]);
+    } else if (DateTime.now().day >= widget.schedule.startAt.day &&
+        widget.schedule.endAt.compareTo(DateTime.now()) >= 0) {
+      manager.showNotificationDaily(
+          index,
+          'Oya it is time to take your drug: $drugName',
+          'Dosage: $dosage',
+          time[0],
+          time[1]);
     }
   }
 }

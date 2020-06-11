@@ -1,9 +1,11 @@
 import 'package:hive/hive.dart';
+import 'package:medications_reminder_app/notifications/notification_manager.dart';
 
 part 'schedule_model.g.dart';
 
-@HiveType(typeId:0)
+@HiveType(typeId: 0)
 class Schedule {
+  NotificationManager notificationManager = NotificationManager();
   @HiveField(0)
   String drugName;
 
@@ -33,18 +35,17 @@ class Schedule {
 
   @HiveField(9)
   int index;
-  
-  Schedule({
-    this.index,
-  this.drugName,
-    this.drugType,
-    this.dosage,
-    this.frequency,
-    this.startAt,
-    this.firstTime,
-    this.secondTime,
-    this.thirdTime,
-    this.endAt,
-  });
 
+  Schedule(
+      {this.index,
+      this.drugName,
+      this.drugType,
+      this.dosage,
+      this.frequency,
+      this.startAt,
+      this.firstTime,
+      this.secondTime,
+      this.thirdTime,
+      this.endAt,
+      this.notificationManager});
 }
