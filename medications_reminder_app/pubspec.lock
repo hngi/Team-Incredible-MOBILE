@@ -85,6 +85,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "7.1.0"
+  characters:
+    dependency: transitive
+    description:
+      name: characters
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.3.1"
   charcode:
     dependency: transitive
     description:
@@ -148,6 +155,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.3.6"
+  dartx:
+    dependency: "direct overridden"
+    description:
+      name: dartx
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.3.0"
   file:
     dependency: transitive
     description:
@@ -189,7 +203,7 @@ packages:
     source: hosted
     version: "0.2.0"
   hive:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: hive
       url: "https://pub.dartlang.org"
@@ -308,12 +322,12 @@ packages:
     source: hosted
     version: "1.9.3"
   path:
-    dependency: transitive
+    dependency: "direct overridden"
     description:
       name: path
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.6.4"
+    version: "1.7.0"
   path_provider:
     dependency: "direct main"
     description:
@@ -473,6 +487,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.1.0"
+  time:
+    dependency: transitive
+    description:
+      name: time
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.3.0"
   timing:
     dependency: transitive
     description:

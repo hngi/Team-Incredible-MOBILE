@@ -157,7 +157,7 @@ class DB extends ChangeNotifier {
   }
 
   void getSchedules() async {
-    var box = Hive.box<Schedule>(_boxName);
+    var box = await Hive.openBox<Schedule>(_boxName);
     this.schedules = box.values.toList();
     notifyListeners();
   }
@@ -178,10 +178,9 @@ class DB extends ChangeNotifier {
   }
 
   void deleteSchedule(key) async {
-    var box = Hive.box<Schedule>(_boxName);
+    var box = await Hive.openBox<Schedule>(_boxName);
 
     await box.delete(key);
-    Hive.box(_boxName).compact();
 
     this.schedules = box.values.toList();
      box.close();
