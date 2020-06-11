@@ -328,14 +328,14 @@ class _RemindersState extends State<Reminders> {
                                       db.firstTime.minute
                                     ],
                                     secondTime:
-                                        db.secondTime.hour != TimeOfDay.now()
+                                        db.secondTime != null
                                             ? [
                                                 db.secondTime.hour,
                                                 db.secondTime.minute
                                               ]
                                             : [],
                                     thirdTime:
-                                        db.thirdTime.hour != TimeOfDay.now()
+                                        db.thirdTime != null
                                             ? [
                                                 db.thirdTime.hour,
                                                 db.thirdTime.minute
@@ -358,14 +358,14 @@ class _RemindersState extends State<Reminders> {
                                       db.firstTime.minute
                                     ],
                                     secondTime:
-                                        db.secondTime.hour != TimeOfDay.now()
+                                        db.secondTime != null
                                             ? [
                                                 db.secondTime.hour,
                                                 db.secondTime.minute
                                               ]
                                             : [],
                                     thirdTime:
-                                        db.thirdTime.hour != TimeOfDay.now()
+                                        db.thirdTime != null
                                             ? [
                                                 db.thirdTime.hour,
                                                 db.thirdTime.minute
@@ -377,6 +377,8 @@ class _RemindersState extends State<Reminders> {
                                   }
                                   
                                   navigation.pushFrom(context, HomeScreen());
+                                }else{
+                                  showSnackBar(context);
                                 }
                               },
                               child: Text(
@@ -448,7 +450,8 @@ class _RemindersState extends State<Reminders> {
           splashColor: Colors.greenAccent,
           onTap: () => selectSecondTime(context, db),
           child: Text(
-            localizations.formatTimeOfDay(db.secondTime),
+            db.secondTime != null ? localizations.formatTimeOfDay(db.secondTime):
+           localizations.formatTimeOfDay(TimeOfDay.now()),
             style: TextStyle(fontSize: config.xMargin(context, 4.2)),
           ),
         ),
@@ -462,7 +465,8 @@ class _RemindersState extends State<Reminders> {
           splashColor: Colors.greenAccent,
           onTap: () => selectThirdTime(context, db),
           child: Text(
-            localizations.formatTimeOfDay(db.thirdTime),
+            db.thirdTime != null ? localizations.formatTimeOfDay(db.thirdTime):
+           localizations.formatTimeOfDay(TimeOfDay.now()),
             style: TextStyle(fontSize: config.xMargin(context, 4.2)),
           ),
         ),
@@ -496,7 +500,9 @@ class _RemindersState extends State<Reminders> {
           splashColor: Colors.greenAccent,
           onTap: () => selectSecondTime(context, db),
           child: Text(
-            localizations.formatTimeOfDay(db.secondTime),
+           db.secondTime != null ? localizations.formatTimeOfDay(db.secondTime):
+           localizations.formatTimeOfDay(TimeOfDay.now())
+           ,
             style: TextStyle(fontSize: config.xMargin(context, 4.2)),
           ),
         ),
@@ -515,9 +521,11 @@ class _RemindersState extends State<Reminders> {
   }
 
   Future<Null> selectSecondTime(BuildContext context, DB db) async {
+    TimeOfDay initialTime = db.secondTime ?? TimeOfDay.now();
+    print(initialTime);
     final TimeOfDay selectedTime = await showTimePicker(
       context: context,
-      initialTime: db.secondTime,
+      initialTime: initialTime,
     );
     if (selectedTime != null && selectedTime != db.secondTime) {
       db.updateSecondTime(selectedTime);
@@ -525,9 +533,11 @@ class _RemindersState extends State<Reminders> {
   }
 
   Future<Null> selectThirdTime(BuildContext context, DB db) async {
+    TimeOfDay initialTime = db.thirdTime ?? TimeOfDay.now();
+    print(initialTime);
     final TimeOfDay selectedTime = await showTimePicker(
       context: context,
-      initialTime: db.thirdTime,
+      initialTime: initialTime,
     );
     if (selectedTime != null && selectedTime != db.thirdTime) {
       db.updateThirdTime(selectedTime);
@@ -556,6 +566,23 @@ class _RemindersState extends State<Reminders> {
     }
   }
 
+
+   void showSnackBar(BuildContext context) {
+    SnackBar snackBar = SnackBar(
+      backgroundColor: Colors.grey[200],
+      duration: Duration(seconds: 2),
+      content: Text(
+        'Drug name not set',
+        textAlign: TextAlign.center,
+        style: TextStyle(fontSize: config.textSize(context, 5.3), 
+        color: Theme.of(context).primaryColorDark),
+      ),
+    );
+
+    Scaffold.of(context).showSnackBar(snackBar);
+  }
+
+
   void scheduleNotifications(TimeOfDay time, NotificationManager manager, DB db) {
     if (DateTime.now().day <= db.startDate.day &&
         db.endDate.compareTo(DateTime.now()) >= 0) {
@@ -567,4 +594,5 @@ class _RemindersState extends State<Reminders> {
           9, db.drugName, db.dosage > 1 ? db.dosage.toString() + ' pills' : db.dosage.toString() + ' pill' , time.hour, time.minute);
     }
   }
+
 }
