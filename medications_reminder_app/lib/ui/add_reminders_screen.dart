@@ -329,76 +329,81 @@ class _RemindersState extends State<Reminders> {
                                   //Navigate to home screen after saving details in db
                                   onPressed: () {
                                     if (nameController.text.isNotEmpty) {
-                                      print(db.firstTime);
-                                      print(db.secondTime);
-                                      print(db.thirdTime);
+                                          var difference = db.startDate.difference(db.endDate).inDays;
+                                          if(difference < 1){
+                                            showSnackBar(context, 'Select a different Start and End Date');
+                                          }else{
+                                            print(db.firstTime);
+                                            print(db.secondTime);
+                                            print(db.thirdTime);
 
-                                      switch (widget.buttonText) {
-                                        case 'Add Schedule':
-                                          db.addSchedule(Schedule(
-                                            index: db.scheduleLength,
-                                        drugName: nameController.text,
-                                        drugType: db.drugTypes[db.selectedIndex],
-                                        frequency: db.selectedFreq,
-                                        startAt: db.startDate,
-                                        dosage: db.dosage,
-                                        endAt: db.endDate,
-                                        firstTime: [
-                                          db.firstTime.hour,
-                                          db.firstTime.minute
-                                        ],
-                                        secondTime:
-                                            db.secondTime != null
-                                                ? [
+                                            switch (widget.buttonText) {
+                                              case 'Add Schedule':
+                                                db.addSchedule(Schedule(
+                                                  index: db.scheduleLength,
+                                                  drugName: nameController.text,
+                                                  drugType: db.drugTypes[db.selectedIndex],
+                                                  frequency: db.selectedFreq,
+                                                  startAt: db.startDate,
+                                                  dosage: db.dosage,
+                                                  endAt: db.endDate,
+                                                  firstTime: [
+                                                    db.firstTime.hour,
+                                                    db.firstTime.minute
+                                                  ],
+                                                  secondTime:
+                                                  db.secondTime != null
+                                                      ? [
                                                     db.secondTime.hour,
                                                     db.secondTime.minute
                                                   ]
-                                                : [],
-                                        thirdTime:
-                                            db.thirdTime != null
-                                                ? [
+                                                      : [],
+                                                  thirdTime:
+                                                  db.thirdTime != null
+                                                      ? [
                                                     db.thirdTime.hour,
                                                     db.thirdTime.minute
                                                   ]
-                                                : [],
-                                      ));
-                                          break;
-                                        case 'Update Schedule':
-                                        db.editSchedule(
-                                          schedule: Schedule(
-                                            index: widget.schedule.index,
-                                        drugName: nameController.text,
-                                        drugType: db.drugTypes[db.selectedIndex],
-                                        frequency: db.selectedFreq,
-                                        startAt: db.startDate,
-                                        dosage: db.dosage,
-                                        endAt: db.endDate,
-                                        firstTime: [
-                                          db.firstTime.hour,
-                                          db.firstTime.minute
-                                        ],
-                                        secondTime:
-                                            db.secondTime != null
-                                                ? [
-                                                    db.secondTime.hour,
-                                                    db.secondTime.minute
-                                                  ]
-                                                : [],
-                                        thirdTime:
-                                            db.thirdTime != null
-                                                ? [
-                                                    db.thirdTime.hour,
-                                                    db.thirdTime.minute
-                                                  ]
-                                                : [],
-                                      ));
-                                        
-                                        break;
-                                      }
-                                      
-                                      navigation.pushFrom(context, HomeScreen());
+                                                      : [],
+                                                ));
+                                                break;
+                                              case 'Update Schedule':
+                                                db.editSchedule(
+                                                    schedule: Schedule(
+                                                      index: widget.schedule.index,
+                                                      drugName: nameController.text,
+                                                      drugType: db.drugTypes[db.selectedIndex],
+                                                      frequency: db.selectedFreq,
+                                                      startAt: db.startDate,
+                                                      dosage: db.dosage,
+                                                      endAt: db.endDate,
+                                                      firstTime: [
+                                                        db.firstTime.hour,
+                                                        db.firstTime.minute
+                                                      ],
+                                                      secondTime:
+                                                      db.secondTime != null
+                                                          ? [
+                                                        db.secondTime.hour,
+                                                        db.secondTime.minute
+                                                      ]
+                                                          : [],
+                                                      thirdTime:
+                                                      db.thirdTime != null
+                                                          ? [
+                                                        db.thirdTime.hour,
+                                                        db.thirdTime.minute
+                                                      ]
+                                                          : [],
+                                                    ));
+
+                                                break;
+                                            }
+
+                                            navigation.pushFrom(context, HomeScreen());
+                                          }
                                     }else{
-                                      showSnackBar(context);
+                                      showSnackBar(context,'Enter drug name');
                                     }
                                   },
                                   child: Text(
@@ -539,7 +544,7 @@ class _RemindersState extends State<Reminders> {
       initialTime: db.firstTime,
     );
     if(db.isToday() && selectedTime.hour < currentTime.hour){
-      showSnackBar(context, text: "Cannot set reminder in the past");
+      showSnackBar(context, "Cannot set reminder in the past");
     }
     else{ if (selectedTime != null && selectedTime != db.firstTime) {
       db.updateFirstTime(selectedTime);
@@ -554,7 +559,7 @@ class _RemindersState extends State<Reminders> {
       initialTime: initialTime,
     );
     if(db.isToday() && selectedTime.hour < currentTime.hour){
-      showSnackBar(context, text: "Cannot set reminder in the past");
+      showSnackBar(context, "Cannot set reminder in the past");
     }
     else {if (selectedTime != null && selectedTime != db.secondTime) {
       db.updateSecondTime(selectedTime);
@@ -569,7 +574,7 @@ class _RemindersState extends State<Reminders> {
       initialTime: initialTime,
     );
     if(db.isToday() && selectedTime.hour < currentTime.hour){
-      showSnackBar(context, text: "Cannot set reminder in the past");
+      showSnackBar(context, "Cannot set reminder in the past");
     }
     else {if (selectedTime != null && selectedTime != db.thirdTime) {
       db.updateThirdTime(selectedTime);
@@ -583,7 +588,7 @@ class _RemindersState extends State<Reminders> {
         firstDate: DateTime(db.startDate.year),
         lastDate: DateTime(db.startDate.year + 1));
         if(selectedDate.difference(db.startDate).inDays <0){
-          showSnackBar(context, text: "Cannot set reminder in the past");
+          showSnackBar(context, "Cannot set reminder in the past");
         }
    else{ if (selectedDate != null && selectedDate != db.startDate) {
       db.updateStartDate(selectedDate);
@@ -597,7 +602,7 @@ class _RemindersState extends State<Reminders> {
         firstDate: DateTime(db.endDate.year),
         lastDate: DateTime(db.endDate.year + 1));
         if(selectedDate.difference(db.startDate).inDays <0){
-          showSnackBar(context, text: "Cannot set reminder in the past");
+          showSnackBar(context, "Cannot set reminder in the past");
         }
     else {
       if (selectedDate != null && selectedDate != db.endDate) {
@@ -605,7 +610,7 @@ class _RemindersState extends State<Reminders> {
     }}
   }
 
-   void showSnackBar(BuildContext context, {String text: 'Enter drug name'}) {
+   void showSnackBar(BuildContext context, String text) {
     SnackBar snackBar = SnackBar(
       backgroundColor: Theme.of(context).buttonColor.withOpacity(.9),
       duration: Duration(seconds: 2),
