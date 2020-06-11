@@ -23,11 +23,11 @@ class _SplashScreenState extends State<SplashScreen> {
   }
   Widget build(BuildContext context) {
     return new Scaffold(
-      backgroundColor: Theme.of(context).primaryColorDark,
+      backgroundColor: Theme.of(context).primaryColor,
       body: Container(
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,
-        color: Theme.of(context).primaryColorDark,
+        color: Theme.of(context).primaryColor,
         child: ImageAnimation(child:Center(
           child: Image(
                 image: AssetImage('images/medbuzz.png')
