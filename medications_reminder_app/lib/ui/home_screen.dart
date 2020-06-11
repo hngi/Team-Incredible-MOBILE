@@ -65,7 +65,7 @@ class _CustomHomeScreenState extends State<CustomHomeScreen> {
       slivers: <Widget>[
         SliverAppBar(
           automaticallyImplyLeading: false,
-          backgroundColor: Theme.of(context).primaryColorDark,
+          backgroundColor: Theme.of(context).primaryColor,
           expandedHeight: MediaQuery.of(context).size.height * .22,
           floating: false,
           pinned:true,

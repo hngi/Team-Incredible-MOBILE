@@ -19,6 +19,10 @@ class DB extends ChangeNotifier {
 
   List<Schedule> schedules = [];
 
+  bool isToday(){
+    return this.startDate.difference(DateTime.now()) == 0;
+  }
+
   int drugsLeft(Schedule schedule){
     int drugsLeft;
     int daysLeft = DB().diffFromPresent(schedule.endAt);

@@ -98,7 +98,7 @@ class _ImageAnimationState extends State<ImageAnimation> with SingleTickerProvid
       animation: animationController,
       builder: (context, child){
         return Material(
-          color: appThemeLight.primaryColorDark,
+          color: appThemeLight.primaryColor,
           child: Transform(
             transform: Matrix4.translationValues(0, animation.value*width, 0),
             child: widget.child),

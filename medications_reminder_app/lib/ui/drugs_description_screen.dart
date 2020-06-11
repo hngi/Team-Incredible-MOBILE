@@ -84,9 +84,8 @@ class _DrugsDescriptionState extends State<DrugsDescription> {
                           children: <Widget>[
                             
                             IconButton(
-                              splashColor: Colors.greenAccent,
-                              color: Theme.of(context).buttonColor,
-                              disabledColor: Theme.of(context).buttonColor,
+                              color: Colors.redAccent,
+                              disabledColor: Colors.redAccent,
                               iconSize: config.xMargin(context, 9),
                               onPressed: () async{
                                 showSnackBar(context);
@@ -287,13 +286,13 @@ class _DrugsDescriptionState extends State<DrugsDescription> {
 
    void showSnackBar(BuildContext context) {
     SnackBar snackBar = SnackBar(
-      backgroundColor: Colors.grey[200],
+      backgroundColor:Theme.of(context).buttonColor.withOpacity(.9),
       duration: Duration(seconds: 2),
       content: Text(
         'Schedule deleted',
         textAlign: TextAlign.center,
         style: TextStyle(fontSize: config.textSize(context, 5.3), 
-        color: Theme.of(context).primaryColorDark),
+        color: Theme.of(context).primaryColorLight),
       ),
     );
 
@@ -307,28 +306,6 @@ class _DrugsDescriptionState extends State<DrugsDescription> {
       width: config.xMargin(context, 34),
       image: AssetImage(path),
       color: Theme.of(context).primaryColor,
-    );
-  }
-}
-
-class TimeButton extends StatelessWidget {
-  TimeButton({@required this.time});
-
-  final Text time;
-
-  @override
-  Widget build(BuildContext context) {
-    return ButtonTheme(
-      minWidth: 15,
-      height: 30,
-      child: FlatButton(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(5.0),
-        ),
-        color: Theme.of(context).buttonColor,
-        onPressed: () {},
-        child: time,
-      ),
     );
   }
 }
