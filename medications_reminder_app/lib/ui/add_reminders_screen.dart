@@ -6,6 +6,7 @@ import 'package:medications_reminder_app/navigation/app_navigation/navigation.da
 import 'package:medications_reminder_app/responsiveness/size_config.dart';
 import 'package:medications_reminder_app/ui/home_screen.dart';
 import 'package:provider/provider.dart';
+import '../notifications/notifications_manager.dart';
 
 //Note that the colors are #2c7b4b(main colour) and sub colours #fdfcff and #40b26d for button
 //! Colours have now been included in the app_theme.dart file so you can use Theme.of(context).whatever_color you like
@@ -29,6 +30,9 @@ class Reminders extends StatefulWidget {
   final String buttonText;
   Schedule schedule = Schedule();
   Reminders({this.refresh, this.buttonText, this.schedule});
+
+  final NotificationManager notificationManager = NotificationManager();
+
   @override
   _RemindersState createState() => _RemindersState();
 }
@@ -65,9 +69,10 @@ class _RemindersState extends State<Reminders> {
   @override
   Widget build(BuildContext context) {
     final db = Provider.of<DB>(context);
-    if (widget.buttonText == 'Update Schedule') {
-      nameController.text = db.drugName ?? '';
+    if(widget.buttonText == 'Update Schedule'){
+      nameController.text =  db.drugName ?? '';
     }
+    
 
     MaterialLocalizations localizations = MaterialLocalizations.of(context);
     return Scaffold(
@@ -75,17 +80,20 @@ class _RemindersState extends State<Reminders> {
         appBar: AppBar(
             backgroundColor: Theme.of(context).primaryColorLight,
             elevation: 0,
-            leading: IconButton(
-                icon: Icon(
-                  Icons.keyboard_backspace,
+            leading: Padding(
+              padding: const EdgeInsets.only(left: 10),
+              child: IconButton(
+                  icon: Icon(
+                    Icons.keyboard_backspace,
+                    color: Theme.of(context).primaryColor,
+                    size: config.xMargin(context, 12),
+                  ),
                   color: Theme.of(context).primaryColor,
-                  size: config.xMargin(context, 8),
-                ),
-                color: Theme.of(context).primaryColor,
-                //Navigate to previous screen
-                onPressed: () {
-                  navigation.pushFrom(context, HomeScreen());
-                })),
+                  //Navigate to previous screen
+                  onPressed: () {
+                    navigation.pushFrom(context, HomeScreen());
+                  }),
+            )),
         body: WillPopScope(
           onWillPop: () {
             navigation.pushFrom(context, HomeScreen());
@@ -93,13 +101,14 @@ class _RemindersState extends State<Reminders> {
           },
           child: Padding(
             padding:
-                EdgeInsets.symmetric(horizontal: config.xMargin(context, 5.5)),
+                EdgeInsets.symmetric(horizontal: config.xMargin(context, 7.5)),
             child: Container(
               color: Theme.of(context).primaryColorLight,
               height: MediaQuery.of(context).size.height,
               width: MediaQuery.of(context).size.width,
               child: ListView(
                 children: <Widget>[
+                  SizedBox(height: config.yMargin(context, 4)),
                   TextFormField(
                     controller: nameController,
                     cursorColor: Theme.of(context).primaryColorDark,
@@ -119,10 +128,10 @@ class _RemindersState extends State<Reminders> {
                               color: Theme.of(context).primaryColorDark)),
                       enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(
-                              color: Theme.of(context).primaryColorLight)),
+                              color: Theme.of(context).primaryColorDark)),
                     ),
                   ),
-                  SizedBox(height: config.yMargin(context, 5)),
+                  SizedBox(height: config.yMargin(context, 4)),
                   Container(
                     height: config.yMargin(context, 8),
                     child: ListView.builder(
@@ -133,8 +142,8 @@ class _RemindersState extends State<Reminders> {
                           InkWell(
                             onTap: () => db.updateSelectedIndex(index),
                             child: Container(
-                              height: config.yMargin(context, 6.5),
-                              width: config.xMargin(context, 25),
+                              height: config.yMargin(context, 5),
+                              width: config.xMargin(context, 20),
                               decoration: BoxDecoration(
                                   color: index == db.selectedIndex
                                       ? Theme.of(context).buttonColor
@@ -160,7 +169,7 @@ class _RemindersState extends State<Reminders> {
                       ),
                     ),
                   ),
-                  SizedBox(height: config.yMargin(context, 4.5)),
+                  SizedBox(height: config.yMargin(context, 3)),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
@@ -237,7 +246,6 @@ class _RemindersState extends State<Reminders> {
                           ? _twice(localizations, db)
                           : _thrice(localizations, db),
                   SizedBox(height: config.yMargin(context, 3)),
-                  SizedBox(height: config.yMargin(context, 4.5)),
                   Container(
                       height: config.yMargin(context, 50),
                       width: MediaQuery.of(context).size.width,
@@ -310,69 +318,68 @@ class _RemindersState extends State<Reminders> {
                                     case 'Add Schedule':
                                       db.addSchedule(Schedule(
                                         index: db.scheduleLength,
-                                        drugName: nameController.text,
-                                        drugType:
-                                            db.drugTypes[db.selectedIndex],
-                                        frequency: db.selectedFreq,
-                                        startAt: db.startDate,
-                                        dosage: db.dosage,
-                                        endAt: db.endDate,
-                                        firstTime: [
-                                          db.firstTime.hour,
-                                          db.firstTime.minute
-                                        ],
-                                        secondTime: db.secondTime.hour !=
-                                                TimeOfDay.now()
+                                    drugName: nameController.text,
+                                    drugType: db.drugTypes[db.selectedIndex],
+                                    frequency: db.selectedFreq,
+                                    startAt: db.startDate,
+                                    dosage: db.dosage,
+                                    endAt: db.endDate,
+                                    firstTime: [
+                                      db.firstTime.hour,
+                                      db.firstTime.minute
+                                    ],
+                                    secondTime:
+                                        db.secondTime != null
                                             ? [
                                                 db.secondTime.hour,
                                                 db.secondTime.minute
                                               ]
                                             : [],
-                                        thirdTime:
-                                            db.thirdTime.hour != TimeOfDay.now()
-                                                ? [
-                                                    db.thirdTime.hour,
-                                                    db.thirdTime.minute
-                                                  ]
-                                                : [],
-                                      ));
+                                    thirdTime:
+                                        db.thirdTime != null
+                                            ? [
+                                                db.thirdTime.hour,
+                                                db.thirdTime.minute
+                                              ]
+                                            : [],
+                                  ));
                                       break;
                                     case 'Update Schedule':
-                                      db.editSchedule(
-                                          schedule: Schedule(
+                                    db.editSchedule(
+                                      schedule: Schedule(
                                         index: widget.schedule.index,
-                                        drugName: nameController.text,
-                                        drugType:
-                                            db.drugTypes[db.selectedIndex],
-                                        frequency: db.selectedFreq,
-                                        startAt: db.startDate,
-                                        dosage: db.dosage,
-                                        endAt: db.endDate,
-                                        firstTime: [
-                                          db.firstTime.hour,
-                                          db.firstTime.minute
-                                        ],
-                                        secondTime: db.secondTime.hour !=
-                                                TimeOfDay.now()
+                                    drugName: nameController.text,
+                                    drugType: db.drugTypes[db.selectedIndex],
+                                    frequency: db.selectedFreq,
+                                    startAt: db.startDate,
+                                    dosage: db.dosage,
+                                    endAt: db.endDate,
+                                    firstTime: [
+                                      db.firstTime.hour,
+                                      db.firstTime.minute
+                                    ],
+                                    secondTime:
+                                        db.secondTime != null
                                             ? [
                                                 db.secondTime.hour,
                                                 db.secondTime.minute
                                               ]
                                             : [],
-                                        thirdTime:
-                                            db.thirdTime.hour != TimeOfDay.now()
-                                                ? [
-                                                    db.thirdTime.hour,
-                                                    db.thirdTime.minute
-                                                  ]
-                                                : [],
-                                      ));
-
-                                      break;
+                                    thirdTime:
+                                        db.thirdTime != null
+                                            ? [
+                                                db.thirdTime.hour,
+                                                db.thirdTime.minute
+                                              ]
+                                            : [],
+                                  ));
+                                    
+                                    break;
                                   }
-
+                                  
                                   navigation.pushFrom(context, HomeScreen());
-                                } else {
+                                }else{
+                                  /*
                                   snackNotification(
                                     title: 'Submition error',
                                     message: 'Name is empty',
@@ -380,6 +387,9 @@ class _RemindersState extends State<Reminders> {
                                     seconds: 3,
                                     // route: '/home' redirect user
                                   );
+                                  */
+                             
+                                  showSnackBar(context);
                                 }
                               },
                               child: Text(
@@ -451,7 +461,8 @@ class _RemindersState extends State<Reminders> {
           splashColor: Colors.greenAccent,
           onTap: () => selectSecondTime(context, db),
           child: Text(
-            localizations.formatTimeOfDay(db.secondTime),
+            db.secondTime != null ? localizations.formatTimeOfDay(db.secondTime):
+           localizations.formatTimeOfDay(TimeOfDay.now()),
             style: TextStyle(fontSize: config.xMargin(context, 4.2)),
           ),
         ),
@@ -465,7 +476,8 @@ class _RemindersState extends State<Reminders> {
           splashColor: Colors.greenAccent,
           onTap: () => selectThirdTime(context, db),
           child: Text(
-            localizations.formatTimeOfDay(db.thirdTime),
+            db.thirdTime != null ? localizations.formatTimeOfDay(db.thirdTime):
+           localizations.formatTimeOfDay(TimeOfDay.now()),
             style: TextStyle(fontSize: config.xMargin(context, 4.2)),
           ),
         ),
@@ -499,7 +511,9 @@ class _RemindersState extends State<Reminders> {
           splashColor: Colors.greenAccent,
           onTap: () => selectSecondTime(context, db),
           child: Text(
-            localizations.formatTimeOfDay(db.secondTime),
+           db.secondTime != null ? localizations.formatTimeOfDay(db.secondTime):
+           localizations.formatTimeOfDay(TimeOfDay.now())
+           ,
             style: TextStyle(fontSize: config.xMargin(context, 4.2)),
           ),
         ),
@@ -518,9 +532,11 @@ class _RemindersState extends State<Reminders> {
   }
 
   Future<Null> selectSecondTime(BuildContext context, DB db) async {
+    TimeOfDay initialTime = db.secondTime ?? TimeOfDay.now();
+    print(initialTime);
     final TimeOfDay selectedTime = await showTimePicker(
       context: context,
-      initialTime: db.secondTime,
+      initialTime: initialTime,
     );
     if (selectedTime != null && selectedTime != db.secondTime) {
       db.updateSecondTime(selectedTime);
@@ -528,9 +544,11 @@ class _RemindersState extends State<Reminders> {
   }
 
   Future<Null> selectThirdTime(BuildContext context, DB db) async {
+    TimeOfDay initialTime = db.thirdTime ?? TimeOfDay.now();
+    print(initialTime);
     final TimeOfDay selectedTime = await showTimePicker(
       context: context,
-      initialTime: db.thirdTime,
+      initialTime: initialTime,
     );
     if (selectedTime != null && selectedTime != db.thirdTime) {
       db.updateThirdTime(selectedTime);
@@ -559,6 +577,34 @@ class _RemindersState extends State<Reminders> {
     }
   }
 
+
+   void showSnackBar(BuildContext context) {
+    SnackBar snackBar = SnackBar(
+      backgroundColor: Colors.grey[200],
+      duration: Duration(seconds: 2),
+      content: Text(
+        'Drug name not set',
+        textAlign: TextAlign.center,
+        style: TextStyle(fontSize: config.textSize(context, 5.3), 
+        color: Theme.of(context).primaryColorDark),
+      ),
+    );
+
+    Scaffold.of(context).showSnackBar(snackBar);
+  }
+
+
+  void scheduleNotifications(TimeOfDay time, NotificationManager manager, DB db) {
+    if (DateTime.now().day <= db.startDate.day &&
+        db.endDate.compareTo(DateTime.now()) >= 0) {
+      manager.showNotificationDaily(
+          9, 'Paracetamol', '3 times', time.hour, time.minute);
+    } else if (DateTime.now().day >= db.startDate.day &&
+        db.endDate.compareTo(DateTime.now()) >= 0) {
+      manager.showNotificationDaily(
+          9, db.drugName, db.dosage > 1 ? db.dosage.toString() + ' pills' : db.dosage.toString() + ' pill' , time.hour, time.minute);
+    }
+  }
   snackNotification(
       {String title,
       String message,
@@ -613,4 +659,5 @@ class _RemindersState extends State<Reminders> {
         }
       });
   }
+
 }
