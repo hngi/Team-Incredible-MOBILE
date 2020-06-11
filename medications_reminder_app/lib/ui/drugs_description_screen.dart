@@ -32,7 +32,6 @@ class _DrugsDescriptionState extends State<DrugsDescription> {
   SizeConfig config = SizeConfig();
   Navigation navigation = Navigation();
   DB db = DB();
-  
   @override
   Widget build(BuildContext context) {
     MaterialLocalizations localizations = MaterialLocalizations.of(context);
