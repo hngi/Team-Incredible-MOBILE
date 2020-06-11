@@ -561,12 +561,13 @@ class _RemindersState extends State<Reminders> {
 
    void showSnackBar(BuildContext context) {
     SnackBar snackBar = SnackBar(
-      backgroundColor: Theme.of(context).primaryColor,
+      backgroundColor: Colors.grey[200],
       duration: Duration(seconds: 2),
       content: Text(
         'Drug name not set',
         textAlign: TextAlign.center,
-        style: TextStyle(fontSize: config.textSize(context, 5.3), color: Theme.of(context).primaryColorLight),
+        style: TextStyle(fontSize: config.textSize(context, 5.3), 
+        color: Theme.of(context).primaryColorDark),
       ),
     );
 
