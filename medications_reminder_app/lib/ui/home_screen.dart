@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
 import 'package:medications_reminder_app/DB/db.dart';
-import 'package:medications_reminder_app/model/schedule_model.dart';
 import 'package:medications_reminder_app/navigation/app_navigation/navigation.dart';
 import 'package:medications_reminder_app/responsiveness/size_config.dart';
 import 'package:medications_reminder_app/ui/add_reminders_screen.dart';
@@ -15,15 +13,20 @@ import 'package:provider/provider.dart';
 //I'M COUNTING ON YOU!!!
 class HomeScreen extends StatelessWidget {
  
+ final Navigation navigation = Navigation();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
-      body: CustomHomeScreen(),
+      body: WillPopScope(
+        //Exit application
+        onWillPop: ()=> navigation.pop(context),
+        child: CustomHomeScreen()),
       floatingActionButton: FloatingActionButton(
         //Navigate to add reminders screen
         onPressed: () {
-          Navigation().pushTo(context, RemindersScreen(
+          navigation.pushTo(context, RemindersScreen(
             buttonText: 'Add Schedule',
             refresh:true));
         },
@@ -134,7 +137,7 @@ class _CustomHomeScreenState extends State<CustomHomeScreen> {
                                       textAlign: TextAlign.center,
                                       overflow: TextOverflow.ellipsis,
                                       style: TextStyle(
-                                    fontSize: config.textSize(context, 3.5),
+                                    fontSize: config.textSize(context, 3.8),
                                     fontWeight: FontWeight.w600,
                                     color: Colors.grey[400],
                                 ),

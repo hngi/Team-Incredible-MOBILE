@@ -37,6 +37,9 @@ class _RemindersState extends State<Reminders> {
   @override
   void initState() {
     super.initState();
+    //Whether to populate fields with data from DB (in the case of editing a schedule)
+    //or to set all fields to their default values (in the case of adding a schedule)
+
     widget.refresh
         ? Provider.of<DB>(context, listen: false).refresh()
         : Provider.of<DB>(context, listen: false).preload(
@@ -47,10 +50,10 @@ class _RemindersState extends State<Reminders> {
             widget.schedule.firstTime,
             widget.schedule.startAt,
             widget.schedule.endAt,
-            secondTime: widget.schedule.secondTime == []
+            secondTime: widget.schedule.secondTime.length == 0
                 ? []
                 : widget.schedule.secondTime,
-            thirdTime: widget.schedule.thirdTime == []
+            thirdTime: widget.schedule.thirdTime.length == 0
                 ? []
                 : widget.schedule.thirdTime);
   }
@@ -60,6 +63,7 @@ class _RemindersState extends State<Reminders> {
 
 //Instantiating a SizeConfig object to handle responsiveness
   SizeConfig config = SizeConfig();
+  
 
   TextEditingController nameController = TextEditingController();
   @override
@@ -69,7 +73,7 @@ class _RemindersState extends State<Reminders> {
       nameController.text =  db.drugName ?? '';
     }
     
-
+    //A lifesaver that helps to format date and time
     MaterialLocalizations localizations = MaterialLocalizations.of(context);
     return Scaffold(
         backgroundColor: Theme.of(context).primaryColorLight,
@@ -94,7 +98,7 @@ class _RemindersState extends State<Reminders> {
           },
           child: Padding(
             padding:
-                EdgeInsets.symmetric(horizontal: config.xMargin(context, 5.5)),
+                EdgeInsets.symmetric(horizontal: config.xMargin(context, 5)),
             child: Container(
               color: Theme.of(context).primaryColorLight,
               height: MediaQuery.of(context).size.height,
@@ -226,7 +230,7 @@ class _RemindersState extends State<Reminders> {
                         ),
                       ],
                     ),
-                    SizedBox(height: config.yMargin(context, 2.5)),
+                    SizedBox(height: config.yMargin(context, 2.8)),
                     Text(
                       'Set time to receive notifications',
                       style: TextStyle(
@@ -309,7 +313,10 @@ class _RemindersState extends State<Reminders> {
                                 //Navigate to home screen after saving details in db
                                 onPressed: () {
                                   if (nameController.text.isNotEmpty) {
-                                    print(db.drugTypes[db.selectedIndex]);
+                                    print(db.firstTime);
+                                    print(db.secondTime);
+                                    print(db.thirdTime);
+
                                     switch (widget.buttonText) {
                                       case 'Add Schedule':
                                         db.addSchedule(Schedule(

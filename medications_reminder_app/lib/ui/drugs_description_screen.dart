@@ -7,7 +7,6 @@ import 'package:medications_reminder_app/model/schedule_model.dart';
 import 'package:medications_reminder_app/ui/add_reminders_screen.dart';
 import 'package:medications_reminder_app/ui/home_screen.dart';
 import 'package:medications_reminder_app/ui/scroll_configuration.dart';
-import 'package:provider/provider.dart';
 
 //Note that the colours are #fdfcff and #40b26d for button
 //I already added the google fonts package, use poppins
@@ -59,7 +58,7 @@ class _DrugsDescriptionState extends State<DrugsDescription> {
           return Future.value(false);
         },
            child: Container(
-              
+              margin: EdgeInsets.only(top:height*.06),
               width: width,
               decoration: BoxDecoration(
                 color: Theme.of(context).primaryColorLight,
@@ -70,7 +69,7 @@ class _DrugsDescriptionState extends State<DrugsDescription> {
               ),
              child: Container(
                color: Theme.of(context).primaryColorLight,
-              margin: EdgeInsets.only(top:height*.06, left: config.xMargin(context, 7),right: config.xMargin(context, 7)),
+              margin: EdgeInsets.only(top:height*.04, left: config.xMargin(context, 7),right: config.xMargin(context, 7)),
               
               height: height,
               width:width,
@@ -83,32 +82,22 @@ class _DrugsDescriptionState extends State<DrugsDescription> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: <Widget>[
-                            FlatButton(
+                            
+                            IconButton(
                               splashColor: Colors.greenAccent,
                               color: Theme.of(context).buttonColor,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(config.xMargin(context, 6.7))
-                              ),
-                              onPressed: (){
-                                db.deleteSchedule(widget.schedule.index);
+                              disabledColor: Theme.of(context).buttonColor,
+                              iconSize: config.xMargin(context, 9),
+                              onPressed: () async{
+                                showSnackBar(context);
+                                Future.delayed(Duration(seconds:1)).then((value) {
+                                  db.deleteSchedule(widget.schedule.index);
              navigation.pushFrom(context, HomeScreen());
+                                });
                               },
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: <Widget>[
-                                  Icon(
-                                    Icons.delete_outline,
-                                    color: Theme.of(context).primaryColorLight
+                              icon: Icon(
+                                    Icons.delete,
                                   ),
-                                  Text(
-                                    'Delete schedule',
-                                    style: TextStyle(
-                                      fontSize: config.textSize(context, 4.5),
-                                      color:Theme.of(context).primaryColorLight
-                                    )
-                                  ),
-                                ],
-                              ),
                             ),
                           ],
                         ),
@@ -275,7 +264,7 @@ class _DrugsDescriptionState extends State<DrugsDescription> {
                             'Change Schedule',
                             style: TextStyle(
                                 color: Theme.of(context).primaryColorLight,
-                                fontSize: config.xMargin(context, 5),
+                                fontSize: config.textSize(context, 6),
                                 fontWeight: FontWeight.bold),
                           ),
                           color: Theme.of(context).buttonColor,
@@ -295,6 +284,23 @@ class _DrugsDescriptionState extends State<DrugsDescription> {
       ),
     );
   }
+
+   void showSnackBar(BuildContext context) {
+    SnackBar snackBar = SnackBar(
+      backgroundColor: Colors.grey[200],
+      duration: Duration(seconds: 2),
+      content: Text(
+        'Schedule deleted',
+        textAlign: TextAlign.center,
+        style: TextStyle(fontSize: config.textSize(context, 5.3), 
+        color: Theme.of(context).primaryColorDark),
+      ),
+    );
+
+    Scaffold.of(context).showSnackBar(snackBar);
+  }
+
+
    shape(String path){
     return Image(
       height: config.yMargin(context, 12),

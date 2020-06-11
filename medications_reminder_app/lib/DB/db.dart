@@ -31,7 +31,7 @@ class DB extends ChangeNotifier {
 
   int totalQuantityOfDrugs(Schedule schedule,{int overRide}){
     int numOfDays = DB().daysTotal(schedule.startAt, schedule.endAt) != 0 ? DB().daysTotal(schedule.startAt, schedule.endAt):
-    1;
+    1; 
     if(overRide != null){
       numOfDays = overRide;
     }
@@ -118,6 +118,20 @@ class DB extends ChangeNotifier {
 
   void updateFrequency(String freq) {
     this.selectedFreq = freq;
+    switch (freq) {
+      case 'Twice':
+      this.secondTime = TimeOfDay.now();
+        this.thirdTime = null;
+        break;
+      case 'Once':
+        this.secondTime = null;
+        this.thirdTime = null;
+        break;
+      case 'Thrice':
+        this.secondTime = TimeOfDay.now();
+        this.thirdTime = TimeOfDay.now();
+        break;
+    }
     notifyListeners();
   }
 
@@ -173,7 +187,7 @@ class DB extends ChangeNotifier {
 
   void editSchedule({Schedule schedule}) async {
      int scheduleKey = schedule.index;
-    var box = Hive.box<Schedule>(_boxName);
+    var box = await Hive.openBox<Schedule>(_boxName);
     await box.putAt(scheduleKey, schedule);
 
     this.schedules = box.values.toList();
