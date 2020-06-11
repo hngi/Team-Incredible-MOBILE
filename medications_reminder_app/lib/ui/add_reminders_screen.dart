@@ -5,6 +5,7 @@ import 'package:medications_reminder_app/navigation/app_navigation/navigation.da
 import 'package:medications_reminder_app/responsiveness/size_config.dart';
 import 'package:medications_reminder_app/ui/home_screen.dart';
 import 'package:provider/provider.dart';
+import '../notifications/notifications_manager.dart';
 
 //Note that the colors are #2c7b4b(main colour) and sub colours #fdfcff and #40b26d for button
 //! Colours have now been included in the app_theme.dart file so you can use Theme.of(context).whatever_color you like
@@ -28,6 +29,9 @@ class Reminders extends StatefulWidget {
   final String buttonText;
   Schedule schedule = Schedule();
   Reminders({this.refresh, this.buttonText, this.schedule});
+
+  final NotificationManager notificationManager = NotificationManager();
+
   @override
   _RemindersState createState() => _RemindersState();
 }
@@ -75,17 +79,20 @@ class _RemindersState extends State<Reminders> {
         appBar: AppBar(
             backgroundColor: Theme.of(context).primaryColorLight,
             elevation: 0,
-            leading: IconButton(
-                icon: Icon(
-                  Icons.keyboard_backspace,
+            leading: Padding(
+              padding: const EdgeInsets.only(left: 10),
+              child: IconButton(
+                  icon: Icon(
+                    Icons.keyboard_backspace,
+                    color: Theme.of(context).primaryColor,
+                    size: config.xMargin(context, 12),
+                  ),
                   color: Theme.of(context).primaryColor,
-                  size: config.xMargin(context, 8),
-                ),
-                color: Theme.of(context).primaryColor,
-                //Navigate to previous screen
-                onPressed: () {
-                  navigation.pushFrom(context, HomeScreen());
-                })),
+                  //Navigate to previous screen
+                  onPressed: () {
+                    navigation.pushFrom(context, HomeScreen());
+                  }),
+            )),
         body: WillPopScope(
           onWillPop: () {
             navigation.pushFrom(context, HomeScreen());
@@ -93,13 +100,14 @@ class _RemindersState extends State<Reminders> {
           },
           child: Padding(
             padding:
-                EdgeInsets.symmetric(horizontal: config.xMargin(context, 5.5)),
+                EdgeInsets.symmetric(horizontal: config.xMargin(context, 7.5)),
             child: Container(
               color: Theme.of(context).primaryColorLight,
               height: MediaQuery.of(context).size.height,
               width: MediaQuery.of(context).size.width,
               child: ListView(
                 children: <Widget>[
+                  SizedBox(height: config.yMargin(context, 4)),
                   TextFormField(
                     controller: nameController,
                     cursorColor: Theme.of(context).primaryColorDark,
@@ -119,10 +127,10 @@ class _RemindersState extends State<Reminders> {
                               color: Theme.of(context).primaryColorDark)),
                       enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(
-                              color: Theme.of(context).primaryColorLight)),
+                              color: Theme.of(context).primaryColorDark)),
                     ),
                   ),
-                  SizedBox(height: config.yMargin(context, 5)),
+                  SizedBox(height: config.yMargin(context, 4)),
                   Container(
                     height: config.yMargin(context, 8),
                     child: ListView.builder(
@@ -133,8 +141,8 @@ class _RemindersState extends State<Reminders> {
                           InkWell(
                             onTap: () => db.updateSelectedIndex(index),
                             child: Container(
-                              height: config.yMargin(context, 6.5),
-                              width: config.xMargin(context, 25),
+                              height: config.yMargin(context, 5),
+                              width: config.xMargin(context, 20),
                               decoration: BoxDecoration(
                                   color: index == db.selectedIndex
                                       ? Theme.of(context).buttonColor
@@ -160,7 +168,7 @@ class _RemindersState extends State<Reminders> {
                       ),
                     ),
                   ),
-                  SizedBox(height: config.yMargin(context, 4.5)),
+                  SizedBox(height: config.yMargin(context, 3)),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
@@ -237,7 +245,6 @@ class _RemindersState extends State<Reminders> {
                           ? _twice(localizations, db)
                           : _thrice(localizations, db),
                   SizedBox(height: config.yMargin(context, 3)),
-                  SizedBox(height: config.yMargin(context, 4.5)),
                   Container(
                       height: config.yMargin(context, 50),
                       width: MediaQuery.of(context).size.width,
@@ -546,6 +553,18 @@ class _RemindersState extends State<Reminders> {
         lastDate: DateTime(db.endDate.year + 1));
     if (selectedDate != null && selectedDate != db.endDate) {
       db.updateEndDate(selectedDate);
+    }
+  }
+
+  void scheduleNotifications(TimeOfDay time, NotificationManager manager, DB db) {
+    if (DateTime.now().day <= db.startDate.day &&
+        db.endDate.compareTo(DateTime.now()) >= 0) {
+      manager.showNotificationDaily(
+          9, 'Paracetamol', '3 times', time.hour, time.minute);
+    } else if (DateTime.now().day >= db.startDate.day &&
+        db.endDate.compareTo(DateTime.now()) >= 0) {
+      manager.showNotificationDaily(
+          9, db.drugName, db.dosage > 1 ? db.dosage.toString() + ' pills' : db.dosage.toString() + ' pill' , time.hour, time.minute);
     }
   }
 }
