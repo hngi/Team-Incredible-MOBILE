@@ -15,16 +15,19 @@ void main() async{
   final directory = await getApplicationDocumentsDirectory();
   Hive.init(directory.path);
   Hive.registerAdapter(ScheduleAdapter());
-  await Hive.openBox<Schedule>('sheduleBox');
+  await Hive.openBox<Schedule>('scheduleBox');
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  static final navigatorKey = new GlobalKey<NavigatorState>();
   @override
-  Widget build(BuildContext context) {      
+  Widget build(BuildContext context) { 
+         
     return ChangeNotifierProvider<DB>(
         create: (context)=> DB(),
         child: MaterialApp(
+          debugShowCheckedModeBanner: false,
       initialRoute: '/',
       routes: {
         '/': (BuildContext context) => SplashScreen(),

@@ -13,7 +13,8 @@ import 'package:medications_reminder_app/ui/scroll_configuration.dart';
 //I'M COUNTING ON YOU!!!
 class DrugsDescriptionScreen extends StatelessWidget {
   final Schedule schedule;
-  DrugsDescriptionScreen({this.schedule});
+  final String payload;
+  DrugsDescriptionScreen({this.schedule, this.payload});
   @override
   Widget build(BuildContext context) {
     return Scaffold(body: DrugsDescription(schedule: schedule));

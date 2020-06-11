@@ -50,7 +50,6 @@ class CustomHomeScreen extends StatefulWidget {
 
 class _CustomHomeScreenState extends State<CustomHomeScreen> {
 
-  @override
   void initState() { 
     super.initState();
     Provider.of<DB>(context, listen: false).getSchedules();
@@ -93,7 +92,16 @@ class _CustomHomeScreenState extends State<CustomHomeScreen> {
               sliver: SliverGrid.count(
                 crossAxisCount: 2,
                 children: db.schedules.map((e) {
-                  return Row(
+                  return db.schedules.length == 0 ? Center(
+                    child:Text(
+                      'You have no schedules.',
+                      style: TextStyle(
+                        color: Theme.of(context).primaryColorDark,
+                        fontSize: config.textSize(context, 15)
+                      ),
+                      )
+                  ):
+                  Row(
                   children: <Widget>[
                     Container(
                           width:MediaQuery.of(context).size.width * .45,
@@ -113,6 +121,7 @@ class _CustomHomeScreenState extends State<CustomHomeScreen> {
                               children:[
                                 e.drugType == 'Tablet' ? shape('images/icons8-tablets-32.png') :  e.drugType == 'Capsule' ? shape('images/icons8-pill-32.png') :
                                  e.drugType == 'Drop' ? shape('images/drop.png') :  e.drugType == 'Injection' ? shape('images/icons8-syringe-32.png') :
+
                               SizedBox(height: config.yMargin(context, 1.5),),
                                 Text(
                                 '${e.drugName}',
