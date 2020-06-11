@@ -298,13 +298,7 @@ class _RemindersState extends State<Reminders> {
                               child: FlatButton(
                                 //Navigate to home screen after saving details in db
                                 onPressed: () {
-                                  snackNotification(
-                                    title: 'success title',
-                                    message: 'success message',
-                                    success: true,
-                                    seconds: 3,
-                                    route: '/home',
-                                  );
+                                  
                                   /*
                                     validate then display notification if succeded or not
                                     on success:true
@@ -487,56 +481,5 @@ class _RemindersState extends State<Reminders> {
     }
   }
 
-  snackNotification(
-      {String title,
-      String message,
-      bool success = true,
-      int seconds = 5,
-      String route = '/home'}) {
-    return Flushbar(
-      title: title,
-      message: message,
-      flushbarPosition: FlushbarPosition.TOP,
-      flushbarStyle: FlushbarStyle.FLOATING,
-      reverseAnimationCurve: Curves.decelerate,
-      forwardAnimationCurve: Curves.elasticOut,
-      backgroundColor: Colors.red,
-      boxShadows: [
-        BoxShadow(
-            color: success ? Colors.green[800] : Colors.red[300],
-            offset: Offset(0.0, 2.0),
-            blurRadius: 3.0)
-      ],
-      backgroundGradient: LinearGradient(colors: [
-        success ? Theme.of(context).primaryColor : Colors.red[300],
-        success ? Theme.of(context).primaryColor : Colors.red[300]
-      ]),
-      isDismissible: true,
-      duration: Duration(seconds: seconds),
-      icon: Icon(
-        success ? Icons.check : Icons.close,
-        color: success ? Colors.greenAccent : Colors.red,
-      ),
-      showProgressIndicator: true,
-      progressIndicatorBackgroundColor:
-          success ? Colors.green : Colors.red[400],
-      titleText: Text(
-        title,
-        style: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 20.0,
-            color: Theme.of(context).primaryColorLight,
-            fontFamily: "ShadowsIntoLightTwo"),
-      ),
-      messageText: Text(
-        message,
-        style: TextStyle(
-            fontSize: 18.0,
-            color: Theme.of(context).primaryColorLight,
-            fontFamily: "ShadowsIntoLightTwo"),
-      ),
-    )..show(context).then((value) {
-        Navigator.pushNamed(context, route);
-      });
-  }
+ 
 }
