@@ -19,6 +19,21 @@ class DB extends ChangeNotifier {
 
   List<Schedule> schedules = [];
 
+  String getTimeline(DateTime start, DateTime end){
+    return DB().daysTotal(start, end) <1 && diffFromPresent(end)==1 ? 'Total 1 day : ${diffFromPresent(end)} day Left' :
+    DB().daysTotal(start, end) <1 && diffFromPresent(end) !=1 ? 'Total 1 day : ${diffFromPresent(end)} days Left' :
+    'Total ${ DB().daysTotal(start, end)} days : ${diffFromPresent(end)} days Left' ;
+  }
+
+  int daysTotal(DateTime start, DateTime end){
+    var difference =  end.difference(start);
+    return difference.inDays;
+  }
+  int diffFromPresent(DateTime end){
+    var difference =  DateTime.now().difference(end);
+    return difference.inDays.abs();
+  }
+
   TimeOfDay timeFromDB(List<int> time){
     return TimeOfDay(hour: time[0], minute: time[1]);
   }
@@ -30,8 +45,8 @@ class DB extends ChangeNotifier {
   drugType == 'Drop' ? 2 : 3;
   this.dosage = dosage;
   this.firstTime = DB().timeFromDB(firstTime);
-  this.secondTime = secondTime == [] ? null : DB().timeFromDB(secondTime);
-  this.thirdTime = thirdTime == [] ? null : DB().timeFromDB(thirdTime);
+  this.secondTime = secondTime.length==0 ? null : DB().timeFromDB(secondTime);
+  this.thirdTime = thirdTime.length==0 ? null : DB().timeFromDB(thirdTime);
   this.startDate = startDate;
   this.endDate = endDate;
   }
@@ -42,8 +57,8 @@ class DB extends ChangeNotifier {
   this.selectedIndex = 0;
   this.dosage = 1;
   this.firstTime = TimeOfDay.now();
-  this.secondTime = TimeOfDay.now();
-  this.thirdTime = TimeOfDay.now();
+  this.secondTime = null;
+  this.thirdTime = null;
   this.startDate = DateTime.now();
   this.endDate = DateTime.now();
   }
@@ -93,8 +108,8 @@ class DB extends ChangeNotifier {
   }
 
   void getSchedules() async {
-    var box = await Hive.openBox<Schedule>(_boxName);
-    this.schedules = box.values.toList().reversed.toList();
+    var box = Hive.box<Schedule>(_boxName);
+    this.schedules = box.values.toList();
     notifyListeners();
   }
 
@@ -103,21 +118,24 @@ class DB extends ChangeNotifier {
   }
 
   void addSchedule(Schedule schedule) async {
-    var box = await Hive.openBox<Schedule>(_boxName);
+
+    var box = Hive.box<Schedule>(_boxName);
     await box.add(schedule);
 
     this.schedules = box.values.toList();
+    box.close();
 
     notifyListeners();
   }
 
   void deleteSchedule(key) async {
-    var box = await Hive.openBox<Schedule>(_boxName);
+    var box = Hive.box<Schedule>(_boxName);
 
-    await box.deleteAt(key);
+    await box.delete(key);
     Hive.box(_boxName).compact();
 
     this.schedules = box.values.toList();
+     box.close();
 
     notifyListeners();
       
@@ -129,6 +147,7 @@ class DB extends ChangeNotifier {
     await box.putAt(scheduleKey, schedule);
 
     this.schedules = box.values.toList();
+     box.close();
 
     notifyListeners();
   }
