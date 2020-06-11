@@ -6,6 +6,7 @@ import 'package:medications_reminder_app/responsiveness/size_config.dart';
 import 'package:medications_reminder_app/model/schedule_model.dart';
 import 'package:medications_reminder_app/ui/add_reminders_screen.dart';
 import 'package:medications_reminder_app/ui/home_screen.dart';
+import 'package:medications_reminder_app/ui/scroll_configuration.dart';
 import 'package:provider/provider.dart';
 
 //Note that the colours are #fdfcff and #40b26d for button
@@ -73,198 +74,221 @@ class _DrugsDescriptionState extends State<DrugsDescription> {
               
               height: height,
               width:width,
-              child: ListView(
-                children: <Widget>[
-                  Column(
-                    children: <Widget>[
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: <Widget>[
-                          IconButton(
-                            icon: Icon(Icons.delete_outline),
-                            iconSize: config.yMargin(context, 4.9),
-                            color: Theme.of(context).buttonColor,
-                            //Delete schedule, navigate back to home screen
-                            onPressed: (){
-                              db.deleteSchedule(widget.schedule.index);
+              child: ScrollConfiguration(
+                behavior: CustomScrollBehavior(),
+                child: ListView(
+                  children: <Widget>[
+                    Column(
+                      children: <Widget>[
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: <Widget>[
+                            FlatButton(
+                              splashColor: Colors.greenAccent,
+                              color: Theme.of(context).buttonColor,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(config.xMargin(context, 6.7))
+                              ),
+                              onPressed: (){
+                                db.deleteSchedule(widget.schedule.index);
              navigation.pushFrom(context, HomeScreen());
-                            }
-                            )
-                        ],
-                      ),
-                      Container(
-                        width:width,
-                            alignment: Alignment.center,
-                            child: Center(
+                              },
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: <Widget>[
-                                    widget.schedule.drugType == 'Tablet' ? shape('images/icons8-tablets-32.png') :  widget.schedule.drugType == 'Capsule' ? shape('images/icons8-pill-32.png') :
-                                         widget.schedule.drugType == 'Drops' ? shape('images/icons8-drop-of-blood-32.png') :  widget.schedule.drugType == 'Injection' ? shape('images/icons8-syringe-32.png') : Container(),
-                                    //SizedBox(width:config.xMargin(context, 10)),
-                                    
-                                    Expanded(
-                                      child: Text(
-                                        widget.schedule.drugName,
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                          color: Theme.of(context).primaryColor,
-                                          fontSize: config.xMargin(context, 8.5),
-                                          fontWeight: FontWeight.w600,
+                                children: <Widget>[
+                                  Icon(
+                                    Icons.delete_outline,
+                                    color: Theme.of(context).primaryColorLight
+                                  ),
+                                  Text(
+                                    'Delete schedule',
+                                    style: TextStyle(
+                                      fontSize: config.textSize(context, 4.5),
+                                      color:Theme.of(context).primaryColorLight
+                                    )
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                        Container(
+                          width:width,
+                              alignment: Alignment.center,
+                              child: Center(
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: <Widget>[
+                                      widget.schedule.drugType == 'Tablet' ? shape('images/icons8-tablets-32.png') :  widget.schedule.drugType == 'Capsule' ? shape('images/icons8-pill-32.png') :
+                                           widget.schedule.drugType == 'Drop' ? shape('images/drop.png') :  widget.schedule.drugType == 'Injection' ? shape('images/icons8-syringe-32.png') : Container(),
+                                      //SizedBox(width:config.xMargin(context, 10)),
+                                      
+                                      Expanded(
+                                        child: Text(
+                                          widget.schedule.drugName,
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                            color: Theme.of(context).primaryColor,
+                                            fontSize: config.xMargin(context, 8.5),
+                                            fontWeight: FontWeight.w600,
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                  ],
-                                ),
-                            )
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: config.yMargin(context, 6)),
-                  Container(
-                    width: width,
-                    
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        // mainAxisSize: MainAxisSize.min,
-                        children: <Widget>[
-                          Text(
-                              'Dosage',
-                              textAlign: TextAlign.left,
-                              style: TextStyle(
-                                fontSize: config.textSize(context, 7),
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                            SizedBox(height: config.yMargin(context, 2)),
-                         Row(
-                              children: <Widget>[
-                                Text(
-                                  widget.schedule.dosage == 1 ?
-                                      '${widget.schedule.dosage} ${widget.schedule.drugType.toLowerCase()}' :
-                                      '${widget.schedule.dosage} ${widget.schedule.drugType.toLowerCase()}s',
-                                  textAlign: TextAlign.left,
-                                  style: TextStyle(
-                                    color:Theme.of(context).primaryColor,
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: config.xMargin(context, 5),
+                                    ],
                                   ),
-                                ),
-                                SizedBox(
-                                  width: config.xMargin(context, 5),
-                                ),
-                                widget.schedule.firstTime.length != 0 ? Text(
-                                  localizations.formatTimeOfDay(db.timeFromDB(widget.schedule.firstTime)),
-                                  style: TextStyle(
-                                    color: Colors.grey,
-                                    fontSize: config.xMargin(context, 4)
-                                  ),
-                                ): Container(),
-                               
-                                SizedBox(
-                                  width: config.xMargin(context, 2.0),
-                                ),
-
-                                widget.schedule.secondTime.length != 0 ? Text(
-                                  localizations.formatTimeOfDay(db.timeFromDB(widget.schedule.secondTime)),
-                                  style: TextStyle(
-                                    color: Colors.grey,
-                                    fontSize: config.xMargin(context, 4)
-                                  ),
-                                ): Container(),
-                               
-                                SizedBox(
-                                  width: config.xMargin(context, 2.0),
-                                ),
-                                widget.schedule.thirdTime.length != 0 ? Text(
-                                  localizations.formatTimeOfDay(db.timeFromDB(widget.schedule.thirdTime)),
-                                  style: TextStyle(
-                                    color: Colors.grey,
-                                    fontSize: config.xMargin(context, 4)
-                                  ),
-                                ): Container(),
-                               
-                                SizedBox(
-                                  width: config.xMargin(context, 2.0),
-                                ),
-                              ],
-                            ),
-                          SizedBox(
-                            height: config.yMargin(context, 3.0),
-                          ),
-                          Text(
-                              'Program',
-                              textAlign: TextAlign.left,
-                              style: TextStyle(
-                                fontSize: config.textSize(context, 7),
-                                fontWeight: FontWeight.w600,
-                              ),
-                          ),
-                          SizedBox(
-                            height: config.yMargin(context, 2),
-                          ),
-                           Text(
-                              db.getTimeline(widget.schedule.startAt, widget.schedule.endAt),
-                              textAlign: TextAlign.left,
-                              style: TextStyle(
-                                fontSize: config.xMargin(context, 5),
-                              ),
-                          ),
-                          SizedBox(
-                            height: 40,
-                          ),
-                          Text(
-                              'Quantity',
-                              textAlign: TextAlign.left,
-                              style: TextStyle(
-                                fontSize: config.textSize(context, 7),
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                            SizedBox(height: config.yMargin(context, 2)),
+                              )
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: config.yMargin(context, 6)),
+                    Container(
+                      width: width,
+                      
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          // mainAxisSize: MainAxisSize.min,
+                          children: <Widget>[
                             Text(
-                              'Total 169 Tablets : 104 Left',
-                              textAlign: TextAlign.left,
-                              style: TextStyle(
-                                fontSize: config.xMargin(context, 5),
+                                'Dosage',
+                                textAlign: TextAlign.left,
+                                style: TextStyle(
+                                  fontSize: config.textSize(context, 7),
+                                  fontWeight: FontWeight.w600,
+                                ),
                               ),
-                          ),
-                        ],
-                      ),
-                  ),
-                  SizedBox(
-                    height: config.yMargin(context, 8),
-                  ),
-                  Center(
-                      child: Container(
-                    height: config.yMargin(context, 6.5),
-                    width: MediaQuery.of(context).size.width,
-                    child: FlatButton(
-                        //Navigate to home screen after saving details in db
-                        onPressed: () {
-                          navigation.pushToAndReplace(context, RemindersScreen(
-                            buttonText: 'Update Schedule',
-                            refresh:false,
-                            schedule: widget.schedule,
-                            ));
-                        },
-                        child: Text(
-                          'Change Schedule',
-                          style: TextStyle(
-                              color: Theme.of(context).primaryColorLight,
-                              fontSize: config.xMargin(context, 5),
-                              fontWeight: FontWeight.bold),
+                              SizedBox(height: config.yMargin(context, 2)),
+                           Row(
+                                children: <Widget>[
+                                  Text(
+                                    widget.schedule.dosage == 1 ?
+                                        '${widget.schedule.dosage} ${widget.schedule.drugType.toLowerCase()}' :
+                                        '${widget.schedule.dosage} ${widget.schedule.drugType.toLowerCase()}s',
+                                    textAlign: TextAlign.left,
+                                    style: TextStyle(
+                                      color:Theme.of(context).primaryColor,
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: config.xMargin(context, 5),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: config.xMargin(context, 5),
+                                  ),
+                                  widget.schedule.firstTime.length != 0 ? Text(
+                                    localizations.formatTimeOfDay(db.timeFromDB(widget.schedule.firstTime)),
+                                    style: TextStyle(
+                                      color: Colors.grey,
+                                      fontSize: config.xMargin(context, 4)
+                                    ),
+                                  ): Container(),
+                                 
+                                  SizedBox(
+                                    width: config.xMargin(context, 2.0),
+                                  ),
+
+                                  widget.schedule.secondTime.length != 0 ? Text(
+                                    localizations.formatTimeOfDay(db.timeFromDB(widget.schedule.secondTime)),
+                                    style: TextStyle(
+                                      color: Colors.grey,
+                                      fontSize: config.xMargin(context, 4)
+                                    ),
+                                  ): Container(),
+                                 
+                                  SizedBox(
+                                    width: config.xMargin(context, 2.0),
+                                  ),
+                                  widget.schedule.thirdTime.length != 0 ? Text(
+                                    localizations.formatTimeOfDay(db.timeFromDB(widget.schedule.thirdTime)),
+                                    style: TextStyle(
+                                      color: Colors.grey,
+                                      fontSize: config.xMargin(context, 4)
+                                    ),
+                                  ): Container(),
+                                 
+                                  SizedBox(
+                                    width: config.xMargin(context, 2.0),
+                                  ),
+                                ],
+                              ),
+                            SizedBox(
+                              height: config.yMargin(context, 3.0),
+                            ),
+                            Text(
+                                'Program',
+                                textAlign: TextAlign.left,
+                                style: TextStyle(
+                                  fontSize: config.textSize(context, 7),
+                                  fontWeight: FontWeight.w600,
+                                ),
+                            ),
+                            SizedBox(
+                              height: config.yMargin(context, 2),
+                            ),
+                             Text(
+                                db.getTimeline(widget.schedule.startAt, widget.schedule.endAt),
+                                textAlign: TextAlign.left,
+                                style: TextStyle(
+                                  fontSize: config.xMargin(context, 5),
+                                ),
+                            ),
+                            SizedBox(
+                              height: 40,
+                            ),
+                            Text(
+                                'Quantity',
+                                textAlign: TextAlign.left,
+                                style: TextStyle(
+                                  fontSize: config.textSize(context, 7),
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                              SizedBox(height: config.yMargin(context, 2)),
+                              Text(
+                                db.totalQuantityOfDrugs(widget.schedule) == 1 ?
+                                'Total ${db.totalQuantityOfDrugs(widget.schedule)} ${widget.schedule.drugType.toLowerCase()} : ${db.drugsLeft(widget.schedule)} Left' :
+                                'Total ${db.totalQuantityOfDrugs(widget.schedule)} ${widget.schedule.drugType.toLowerCase()}s : ${db.drugsLeft(widget.schedule)} Left'
+                                ,
+                                textAlign: TextAlign.left,
+                                style: TextStyle(
+                                  fontSize: config.xMargin(context, 5),
+                                ),
+                            ),
+                          ],
                         ),
-                        color: Theme.of(context).buttonColor,
-                        splashColor: Colors.greenAccent,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(
-                            config.xMargin(context, 6.3),
+                    ),
+                    SizedBox(
+                      height: config.yMargin(context, 8),
+                    ),
+                    Center(
+                        child: Container(
+                      height: config.yMargin(context, 6.5),
+                      width: MediaQuery.of(context).size.width,
+                      child: FlatButton(
+                          //Navigate to home screen after saving details in db
+                          onPressed: () {
+                            navigation.pushToAndReplace(context, RemindersScreen(
+                              buttonText: 'Update Schedule',
+                              refresh:false,
+                              schedule: widget.schedule,
+                              ));
+                          },
+                          child: Text(
+                            'Change Schedule',
+                            style: TextStyle(
+                                color: Theme.of(context).primaryColorLight,
+                                fontSize: config.xMargin(context, 5),
+                                fontWeight: FontWeight.bold),
+                          ),
+                          color: Theme.of(context).buttonColor,
+                          splashColor: Colors.greenAccent,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(
+                              config.xMargin(context, 6.3),
+                            ),
                           ),
                         ),
-                      ),
-                  ))
-                ],
+                    ))
+                  ],
+                ),
               ),
           ),
            ),

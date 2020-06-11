@@ -109,7 +109,7 @@ class _CustomHomeScreenState extends State<CustomHomeScreen> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children:[
                                 e.drugType == 'Tablet' ? shape('images/icons8-tablets-32.png') :  e.drugType == 'Capsule' ? shape('images/icons8-pill-32.png') :
-                                 e.drugType == 'Drops' ? shape('images/icons8-drop-of-blood-32.png') :  e.drugType == 'Injection' ? shape('images/icons8-syringe-32.png') :
+                                 e.drugType == 'Drop' ? shape('images/drop.png') :  e.drugType == 'Injection' ? shape('images/icons8-syringe-32.png') :
                               SizedBox(height: config.yMargin(context, 1.5),),
                                 Text(
                                 '${e.drugName}',

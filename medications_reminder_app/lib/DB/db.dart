@@ -19,6 +19,37 @@ class DB extends ChangeNotifier {
 
   List<Schedule> schedules = [];
 
+  int drugsLeft(Schedule schedule){
+    int drugsLeft;
+    int daysLeft = DB().diffFromPresent(schedule.endAt);
+    if(daysLeft == DB().daysTotal(schedule.startAt, schedule.endAt)){
+      drugsLeft = DB().totalQuantityOfDrugs(schedule);
+    }else{
+    drugsLeft = DB().totalQuantityOfDrugs(schedule) - DB().totalQuantityOfDrugs(schedule, overRide: daysLeft);}
+    return drugsLeft;
+  }
+
+  int totalQuantityOfDrugs(Schedule schedule,{int overRide}){
+    int numOfDays = DB().daysTotal(schedule.startAt, schedule.endAt) != 0 ? DB().daysTotal(schedule.startAt, schedule.endAt):
+    1;
+    if(overRide != null){
+      numOfDays = overRide;
+    }
+    int total;
+    switch (schedule.frequency) {
+      case 'Once':
+        total= schedule.dosage *numOfDays;
+        break;
+      case 'Twice':
+        total= 2 * schedule.dosage * numOfDays;
+        break;
+      case 'Thrice':
+        total= 3 * schedule.dosage * numOfDays;
+        break;
+    }
+     return total;
+  }
+
   String getTimeline(DateTime start, DateTime end){
     return DB().daysTotal(start, end) <1 && diffFromPresent(end)==1 ? 'Total 1 day : ${diffFromPresent(end)} day Left' :
     DB().daysTotal(start, end) <1 && diffFromPresent(end) !=1 ? 'Total 1 day : ${diffFromPresent(end)} days Left' :
