@@ -1,3 +1,5 @@
+import 'package:flutter/services.dart';
+
 import '../page_transitions/animations.dart';
 import 'package:flutter/material.dart';
 
@@ -18,10 +20,9 @@ pushToAndReplace(BuildContext context, Widget child){
   Navigator.pushReplacement(context, MaterialPageRoute(builder: (_)=> ForwardAnimation(child:child)));
 }
 
-///Navigates from a base screen to former screen with backward animation
 ///Exits application
 pop(BuildContext context){
-
+  SystemChannels.platform.invokeMethod('SystemNavigator.pop');
 }
 
 
