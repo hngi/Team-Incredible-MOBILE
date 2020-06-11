@@ -69,9 +69,9 @@ class _DrugsDescriptionState extends State<DrugsDescription> {
               ),
              child: Container(
                color: Theme.of(context).primaryColorLight,
-              margin: EdgeInsets.only(top:height*.1, left: config.xMargin(context, 7),right: config.xMargin(context, 7)),
+              margin: EdgeInsets.only(top:height*.06, left: config.xMargin(context, 7),right: config.xMargin(context, 7)),
               
-              height: height*.8,
+              height: height,
               width:width,
               child: ListView(
                 children: <Widget>[
@@ -93,11 +93,10 @@ class _DrugsDescriptionState extends State<DrugsDescription> {
                         ],
                       ),
                       Container(
-                        height: height * .2,
                         width:width,
                             alignment: Alignment.center,
                             child: Center(
-                              child: Column(
+                              child: Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: <Widget>[
                                     widget.schedule.drugType == 'Tablet' ? shape('images/icons8-tablets-32.png') :  widget.schedule.drugType == 'Capsule' ? shape('images/icons8-pill-32.png') :
@@ -121,7 +120,7 @@ class _DrugsDescriptionState extends State<DrugsDescription> {
                       ),
                     ],
                   ),
-                  SizedBox(height: config.yMargin(context, 8.7)),
+                  SizedBox(height: config.yMargin(context, 6)),
                   Container(
                     width: width,
                     
@@ -133,7 +132,7 @@ class _DrugsDescriptionState extends State<DrugsDescription> {
                               'Dosage',
                               textAlign: TextAlign.left,
                               style: TextStyle(
-                                fontSize: config.xMargin(context, 7),
+                                fontSize: config.textSize(context, 7),
                                 fontWeight: FontWeight.w600,
                               ),
                             ),
@@ -141,20 +140,23 @@ class _DrugsDescriptionState extends State<DrugsDescription> {
                          Row(
                               children: <Widget>[
                                 Text(
-                                  widget.schedule.dosage == 1?
-                                  'Once' : '${widget.schedule.dosage} times',
+                                  widget.schedule.dosage == 1 ?
+                                      '${widget.schedule.dosage} ${widget.schedule.drugType.toLowerCase()}' :
+                                      '${widget.schedule.dosage} ${widget.schedule.drugType.toLowerCase()}s',
                                   textAlign: TextAlign.left,
                                   style: TextStyle(
+                                    color:Theme.of(context).primaryColor,
+                                    fontWeight: FontWeight.w500,
                                     fontSize: config.xMargin(context, 5),
                                   ),
                                 ),
                                 SizedBox(
                                   width: config.xMargin(context, 5),
                                 ),
-                                widget.schedule.firstTime != [] ? Text(
+                                widget.schedule.firstTime.length != 0 ? Text(
                                   localizations.formatTimeOfDay(db.timeFromDB(widget.schedule.firstTime)),
                                   style: TextStyle(
-                                    color: Colors.grey[400],
+                                    color: Colors.grey,
                                     fontSize: config.xMargin(context, 4)
                                   ),
                                 ): Container(),
@@ -163,10 +165,10 @@ class _DrugsDescriptionState extends State<DrugsDescription> {
                                   width: config.xMargin(context, 2.0),
                                 ),
 
-                                widget.schedule.secondTime != [] ? Text(
+                                widget.schedule.secondTime.length != 0 ? Text(
                                   localizations.formatTimeOfDay(db.timeFromDB(widget.schedule.secondTime)),
                                   style: TextStyle(
-                                    color: Colors.grey[400],
+                                    color: Colors.grey,
                                     fontSize: config.xMargin(context, 4)
                                   ),
                                 ): Container(),
@@ -174,10 +176,10 @@ class _DrugsDescriptionState extends State<DrugsDescription> {
                                 SizedBox(
                                   width: config.xMargin(context, 2.0),
                                 ),
-                                widget.schedule.thirdTime != [] ? Text(
+                                widget.schedule.thirdTime.length != 0 ? Text(
                                   localizations.formatTimeOfDay(db.timeFromDB(widget.schedule.thirdTime)),
                                   style: TextStyle(
-                                    color: Colors.grey[400],
+                                    color: Colors.grey,
                                     fontSize: config.xMargin(context, 4)
                                   ),
                                 ): Container(),
@@ -194,12 +196,15 @@ class _DrugsDescriptionState extends State<DrugsDescription> {
                               'Program',
                               textAlign: TextAlign.left,
                               style: TextStyle(
-                                fontSize: config.xMargin(context, 4.5),
-                                fontWeight: FontWeight.bold,
+                                fontSize: config.textSize(context, 7),
+                                fontWeight: FontWeight.w600,
                               ),
                           ),
+                          SizedBox(
+                            height: config.yMargin(context, 2),
+                          ),
                            Text(
-                              'Total 8 weeks : 6 Weeks Left',
+                              db.getTimeline(widget.schedule.startAt, widget.schedule.endAt),
                               textAlign: TextAlign.left,
                               style: TextStyle(
                                 fontSize: config.xMargin(context, 5),
@@ -212,10 +217,12 @@ class _DrugsDescriptionState extends State<DrugsDescription> {
                               'Quantity',
                               textAlign: TextAlign.left,
                               style: TextStyle(
-                                fontSize: config.xMargin(context, 4.5),
-                                fontWeight: FontWeight.bold,
+                                fontSize: config.textSize(context, 7),
+                                fontWeight: FontWeight.w600,
                               ),
-                            ),Text(
+                            ),
+                            SizedBox(height: config.yMargin(context, 2)),
+                            Text(
                               'Total 169 Tablets : 104 Left',
                               textAlign: TextAlign.left,
                               style: TextStyle(
