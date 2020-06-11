@@ -38,10 +38,11 @@ class _DrugsDescriptionState extends State<DrugsDescription> {
     MaterialLocalizations localizations = MaterialLocalizations.of(context);
        double height = MediaQuery.of(context).size.height;
         double width = MediaQuery.of(context).size.width;
-    int diif = widget.schedule.endAt.difference(widget.schedule.startAt).inDays;
-    int weeks = diif ~/ 7;
-    int days = diif.remainder(7);
-   // int x = diif/7;
+        DateTime now = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day );
+    int TotalPogram = widget.schedule.endAt.difference(widget.schedule.startAt).inDays;
+    int weeks = TotalPogram ~/ 7;
+    int days = TotalPogram.remainder(7);
+   int DateDiff = widget.schedule.endAt.difference(now).inDays;
     return Scaffold(
       backgroundColor: Theme.of(context).primaryColor,
      appBar: AppBar(
@@ -205,17 +206,32 @@ class _DrugsDescriptionState extends State<DrugsDescription> {
 
                               ),
                           ),
+                          SizedBox(
+                            height: 5,
+                          ),
                            Text(
-                            // '',
-                              'Total 8 weeks : $weeks Weeks $days Days Left',
+
+                              'Total weeks : $weeks Week $days Days ',
                               textAlign: TextAlign.left,
                               style: TextStyle(
                                 fontSize: config.xMargin(context, 5),
                               ),
 
+
                           ),
                           SizedBox(
-                            height: 40,
+                            height: 5,
+                          ),
+                       Text(
+                         'Num of Days Left :  $DateDiff Days',
+                         textAlign: TextAlign.left,
+                           style: TextStyle(
+                             fontSize: config.xMargin(context, 5),
+                           ),
+
+                       ),
+                          SizedBox(
+                            height: 30,
                           ),
                           Text(
                               'Quantity',
@@ -244,9 +260,13 @@ class _DrugsDescriptionState extends State<DrugsDescription> {
                     child: FlatButton(
                         //Navigate to home screen after saving details in db
                         onPressed: () {
+                          log('on click $now');
+                          log('weeks $weeks');
+                          log(' days $days');
 
                         print('${widget.schedule.drugName}');
                         print('${widget.schedule.endAt}');
+                          log(' days $DateDiff');
                           navigation.pushToAndReplace(context, RemindersScreen(
                             buttonText: 'Update Schedule',
                             refresh:false,
