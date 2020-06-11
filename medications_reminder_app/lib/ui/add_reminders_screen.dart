@@ -25,6 +25,7 @@ class RemindersScreen extends StatelessWidget {
 }
 
 class Reminders extends StatefulWidget {
+  NotificationManager notificationManager = NotificationManager();
   final bool refresh;
   final String buttonText;
   Schedule schedule = Schedule();
@@ -336,45 +337,32 @@ class _RemindersState extends State<Reminders> {
                                                   ]
                                                 : [],
                                       ));
-                                      List<int> times2 = [
-                                        widget.schedule.firstTime as int,
-                                        widget.schedule.secondTime as int
+                                      var configdb = db;
+                                      List<TimeOfDay> times2 = [
+                                        //widget.schedule.firstTime as int
+                                        configdb.firstTime,
+                                        configdb.secondTime
                                       ];
-                                      List<int> times3 = [
-                                        widget.schedule.firstTime as int,
-                                        widget.schedule.secondTime as int,
-                                        widget.schedule.thirdTime as int
+                                      List<TimeOfDay> times3 = [
+                                        configdb.firstTime,
+                                        configdb.secondTime,
+                                        configdb.thirdTime
                                       ];
-                                      if (widget.schedule.frequency == 'Once') {
+                                      if (configdb.selectedFreq == 'Once') {
                                         scheduleNotifications(
-                                            widget.schedule.index,
-                                            widget.schedule.drugName,
-                                            widget.schedule.dosage.toString(),
-                                            widget.schedule.firstTime,
-                                            widget
-                                                .schedule.notificationManager);
-                                      } else if (widget.schedule.frequency ==
+                                            configdb.firstTime,
+                                            db,
+                                            widget.notificationManager);
+                                      } else if (configdb.selectedFreq ==
                                           'Twice') {
                                         times2.forEach((val) =>
-                                            scheduleNotifications(
-                                                widget.schedule.index,
-                                                widget.schedule.drugName,
-                                                widget.schedule.dosage
-                                                    .toString(),
-                                                val as List,
-                                                widget.schedule
-                                                    .notificationManager));
-                                      } else if (widget.schedule.frequency ==
+                                            scheduleNotifications(val, db,
+                                                widget.notificationManager));
+                                      } else if (configdb.selectedFreq ==
                                           'Thrice') {
                                         times3.forEach((val) =>
-                                            scheduleNotifications(
-                                                widget.schedule.index,
-                                                widget.schedule.drugName,
-                                                widget.schedule.dosage
-                                                    .toString(),
-                                                val as List,
-                                                widget.schedule
-                                                    .notificationManager));
+                                            scheduleNotifications(val, db,
+                                                widget.notificationManager));
                                       }
                                       break;
                                     case 'Update Schedule':
@@ -407,7 +395,30 @@ class _RemindersState extends State<Reminders> {
                                                   ]
                                                 : [],
                                       ));
-
+                                      widget.notificationManager.removeReminder(
+                                          widget.schedule.index);
+                                      List<TimeOfDay> times2 = [
+                                        //widget.schedule.firstTime as int
+                                        db.firstTime,
+                                        db.secondTime
+                                      ];
+                                      List<TimeOfDay> times3 = [
+                                        db.firstTime,
+                                        db.secondTime,
+                                        db.thirdTime
+                                      ];
+                                      if (db.selectedFreq == 'Once') {
+                                        scheduleNotifications(db.firstTime, db,
+                                            widget.notificationManager);
+                                      } else if (db.selectedFreq == 'Twice') {
+                                        times2.forEach((val) =>
+                                            scheduleNotifications(val, db,
+                                                widget.notificationManager));
+                                      } else if (db.selectedFreq == 'Thrice') {
+                                        times3.forEach((val) =>
+                                            scheduleNotifications(val, db,
+                                                widget.notificationManager));
+                                      }
                                       break;
                                   }
 
@@ -591,24 +602,24 @@ class _RemindersState extends State<Reminders> {
     }
   }
 
-  void scheduleNotifications(int index, String drugName, String dosage,
-      List<int> time, NotificationManager manager) {
-    if (DateTime.now().day <= widget.schedule.startAt.day &&
-        widget.schedule.endAt.compareTo(DateTime.now()) >= 0) {
+  void scheduleNotifications(
+      TimeOfDay time, DB db, NotificationManager manager) {
+    if (DateTime.now().day <= db.startDate.day &&
+        db.endDate.compareTo(DateTime.now()) >= 0) {
       manager.showNotificationDaily(
-          index,
-          'Oya it is time to take your drug: $drugName',
-          'Dosage: $dosage',
-          time[0],
-          time[1]);
-    } else if (DateTime.now().day >= widget.schedule.startAt.day &&
-        widget.schedule.endAt.compareTo(DateTime.now()) >= 0) {
+          db.scheduleLength,
+          'Oya it is time to take your drug: ${db.drugName}',
+          'Dosage: ${db.dosage}',
+          time.hour,
+          time.minute);
+    } else if (DateTime.now().day >= db.startDate.day &&
+        db.endDate.compareTo(DateTime.now()) >= 0) {
       manager.showNotificationDaily(
-          index,
-          'Oya it is time to take your drug: $drugName',
-          'Dosage: $dosage',
-          time[0],
-          time[1]);
+          db.scheduleLength,
+          'Oya it is time to take your drug: ${db.drugName}',
+          'Dosage: ${db.dosage}',
+          time.hour,
+          time.minute);
     }
   }
 }
