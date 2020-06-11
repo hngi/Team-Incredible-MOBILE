@@ -2,26 +2,49 @@ import 'package:hive/hive.dart';
 
 part 'schedule_model.g.dart';
 
-@HiveType(typeId: 0)
+@HiveType(typeId:0)
 class Schedule {
   @HiveField(0)
-  String name;
+  String drugName;
 
   @HiveField(1)
   String drugType;
 
   @HiveField(2)
-  int duration;
+  int dosage;
 
   @HiveField(3)
-  int frequency;
+  String frequency;
 
   @HiveField(4)
   DateTime startAt;
 
   @HiveField(5)
-  DateTime time;
+  DateTime endAt;
 
   @HiveField(6)
-  DateTime endAt;
+  List<int> firstTime;
+
+  @HiveField(7)
+  List<int> secondTime;
+
+  @HiveField(8)
+  List<int> thirdTime;
+
+  @HiveField(9)
+  int index;
+  
+  Schedule({
+    this.index,
+  this.drugName,
+    this.drugType,
+    this.dosage,
+    this.frequency,
+    this.startAt,
+    this.firstTime,
+    this.secondTime,
+    this.thirdTime,
+    this.endAt,
+  });
+
 }
