@@ -24,7 +24,4 @@ pushToAndReplace(BuildContext context, Widget child){
 pop(BuildContext context){
   SystemChannels.platform.invokeMethod('SystemNavigator.pop');
 }
-
-
-
 }

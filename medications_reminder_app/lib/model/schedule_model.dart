@@ -35,8 +35,8 @@ class Schedule {
   int index;
   
   Schedule({
-    this.index,
-  this.drugName,
+    this.index = 0,
+    this.drugName,
     this.drugType,
     this.dosage,
     this.frequency,
