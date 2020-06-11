@@ -7,6 +7,7 @@ import 'package:medications_reminder_app/model/schedule_model.dart';
 import 'package:medications_reminder_app/ui/add_reminders_screen.dart';
 import 'package:medications_reminder_app/ui/home_screen.dart';
 import 'package:provider/provider.dart';
+import 'dart:developer';
 
 //Note that the colours are #fdfcff and #40b26d for button
 //I already added the google fonts package, use poppins
@@ -31,11 +32,16 @@ class _DrugsDescriptionState extends State<DrugsDescription> {
   SizeConfig config = SizeConfig();
   Navigation navigation = Navigation();
   DB db = DB();
+
   @override
   Widget build(BuildContext context) {
     MaterialLocalizations localizations = MaterialLocalizations.of(context);
        double height = MediaQuery.of(context).size.height;
         double width = MediaQuery.of(context).size.width;
+    int diif = widget.schedule.endAt.difference(widget.schedule.startAt).inDays;
+    int weeks = diif ~/ 7;
+    int days = diif.remainder(7);
+   // int x = diif/7;
     return Scaffold(
       backgroundColor: Theme.of(context).primaryColor,
      appBar: AppBar(
@@ -196,14 +202,17 @@ class _DrugsDescriptionState extends State<DrugsDescription> {
                               style: TextStyle(
                                 fontSize: config.xMargin(context, 4.5),
                                 fontWeight: FontWeight.bold,
+
                               ),
                           ),
                            Text(
-                              'Total 8 weeks : 6 Weeks Left',
+                            // '',
+                              'Total 8 weeks : $weeks Weeks $days Days Left',
                               textAlign: TextAlign.left,
                               style: TextStyle(
                                 fontSize: config.xMargin(context, 5),
                               ),
+
                           ),
                           SizedBox(
                             height: 40,
@@ -235,6 +244,9 @@ class _DrugsDescriptionState extends State<DrugsDescription> {
                     child: FlatButton(
                         //Navigate to home screen after saving details in db
                         onPressed: () {
+
+                        print('${widget.schedule.drugName}');
+                        print('${widget.schedule.endAt}');
                           navigation.pushToAndReplace(context, RemindersScreen(
                             buttonText: 'Update Schedule',
                             refresh:false,
