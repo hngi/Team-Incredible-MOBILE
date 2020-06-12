@@ -130,7 +130,7 @@ class _RemindersState extends State<Reminders> {
                             color: Theme.of(context).primaryColorDark,
                             fontSize: config.xMargin(context, 5.5)),
                         decoration: InputDecoration(
-                          hintText: 'Drug name',
+                          hintText: 'Enter drug name',
                           hintStyle: TextStyle(
                               fontSize: config.xMargin(context, 5),
                               color: Theme.of(context).primaryColor),
