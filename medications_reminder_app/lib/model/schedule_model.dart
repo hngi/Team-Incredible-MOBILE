@@ -39,7 +39,7 @@ class Schedule {
   
   Schedule({
     this.index,
-  this.drugName,
+    this.drugName,
     this.drugType,
     this.dosage,
     this.frequency,
