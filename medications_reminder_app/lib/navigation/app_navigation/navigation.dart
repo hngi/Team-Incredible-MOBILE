@@ -1,7 +1,7 @@
+import 'package:flutter/services.dart';
+
 import '../page_transitions/animations.dart';
 import 'package:flutter/material.dart';
-
-//TODO: Modify class to handle navigation with named routes
 
 class Navigation{
 
@@ -20,10 +20,9 @@ pushToAndReplace(BuildContext context, Widget child){
   Navigator.pushReplacement(context, MaterialPageRoute(builder: (_)=> ForwardAnimation(child:child)));
 }
 
-///Navigates from a base screen to former screen with backward animation
 ///Exits application
 pop(BuildContext context){
-
+  SystemChannels.platform.invokeMethod('SystemNavigator.pop');
 }
 
 
