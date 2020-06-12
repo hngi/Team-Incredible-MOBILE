@@ -69,10 +69,9 @@ class _RemindersState extends State<Reminders> {
   @override
   Widget build(BuildContext context) {
     final db = Provider.of<DB>(context);
-    if(widget.buttonText == 'Update Schedule'){
-      nameController.text =  db.drugName ?? '';
+    if (widget.buttonText == 'Update Schedule') {
+      nameController.text = db.drugName ?? '';
     }
-    
 
     MaterialLocalizations localizations = MaterialLocalizations.of(context);
     return Scaffold(
@@ -318,78 +317,74 @@ class _RemindersState extends State<Reminders> {
                                     case 'Add Schedule':
                                       db.addSchedule(Schedule(
                                         index: db.scheduleLength,
-                                    drugName: nameController.text,
-                                    drugType: db.drugTypes[db.selectedIndex],
-                                    frequency: db.selectedFreq,
-                                    startAt: db.startDate,
-                                    dosage: db.dosage,
-                                    endAt: db.endDate,
-                                    firstTime: [
-                                      db.firstTime.hour,
-                                      db.firstTime.minute
-                                    ],
-                                    secondTime:
-                                        db.secondTime != null
+                                        drugName: nameController.text,
+                                        drugType:
+                                            db.drugTypes[db.selectedIndex],
+                                        frequency: db.selectedFreq,
+                                        startAt: db.startDate,
+                                        dosage: db.dosage,
+                                        endAt: db.endDate,
+                                        firstTime: [
+                                          db.firstTime.hour,
+                                          db.firstTime.minute
+                                        ],
+                                        secondTime: db.secondTime != null
                                             ? [
                                                 db.secondTime.hour,
                                                 db.secondTime.minute
                                               ]
                                             : [],
-                                    thirdTime:
-                                        db.thirdTime != null
+                                        thirdTime: db.thirdTime != null
                                             ? [
                                                 db.thirdTime.hour,
                                                 db.thirdTime.minute
                                               ]
                                             : [],
-                                  ));
+                                      ));
                                       break;
                                     case 'Update Schedule':
-                                    db.editSchedule(
-                                      schedule: Schedule(
+                                      db.editSchedule(
+                                          schedule: Schedule(
                                         index: widget.schedule.index,
-                                    drugName: nameController.text,
-                                    drugType: db.drugTypes[db.selectedIndex],
-                                    frequency: db.selectedFreq,
-                                    startAt: db.startDate,
-                                    dosage: db.dosage,
-                                    endAt: db.endDate,
-                                    firstTime: [
-                                      db.firstTime.hour,
-                                      db.firstTime.minute
-                                    ],
-                                    secondTime:
-                                        db.secondTime != null
+                                        drugName: nameController.text,
+                                        drugType:
+                                            db.drugTypes[db.selectedIndex],
+                                        frequency: db.selectedFreq,
+                                        startAt: db.startDate,
+                                        dosage: db.dosage,
+                                        endAt: db.endDate,
+                                        firstTime: [
+                                          db.firstTime.hour,
+                                          db.firstTime.minute
+                                        ],
+                                        secondTime: db.secondTime != null
                                             ? [
                                                 db.secondTime.hour,
                                                 db.secondTime.minute
                                               ]
                                             : [],
-                                    thirdTime:
-                                        db.thirdTime != null
+                                        thirdTime: db.thirdTime != null
                                             ? [
                                                 db.thirdTime.hour,
                                                 db.thirdTime.minute
                                               ]
                                             : [],
-                                  ));
-                                    
-                                    break;
+                                      ));
+
+                                      break;
                                   }
-                                  
+
                                   navigation.pushFrom(context, HomeScreen());
-                                }else{
-                                  /*
-                                  snackNotification(
-                                    title: 'Submition error',
-                                    message: 'Name is empty',
+                                } else {
+                                  customSnackbar(
+                                    title: 'Message',
+                                    message: 'Drug name not set',
                                     success: false,
                                     seconds: 3,
                                     // route: '/home' redirect user
                                   );
-                                  */
-                             
-                                  showSnackBar(context);
+
+                                  //showSnackBar(context);
                                 }
                               },
                               child: Text(
@@ -461,8 +456,9 @@ class _RemindersState extends State<Reminders> {
           splashColor: Colors.greenAccent,
           onTap: () => selectSecondTime(context, db),
           child: Text(
-            db.secondTime != null ? localizations.formatTimeOfDay(db.secondTime):
-           localizations.formatTimeOfDay(TimeOfDay.now()),
+            db.secondTime != null
+                ? localizations.formatTimeOfDay(db.secondTime)
+                : localizations.formatTimeOfDay(TimeOfDay.now()),
             style: TextStyle(fontSize: config.xMargin(context, 4.2)),
           ),
         ),
@@ -476,8 +472,9 @@ class _RemindersState extends State<Reminders> {
           splashColor: Colors.greenAccent,
           onTap: () => selectThirdTime(context, db),
           child: Text(
-            db.thirdTime != null ? localizations.formatTimeOfDay(db.thirdTime):
-           localizations.formatTimeOfDay(TimeOfDay.now()),
+            db.thirdTime != null
+                ? localizations.formatTimeOfDay(db.thirdTime)
+                : localizations.formatTimeOfDay(TimeOfDay.now()),
             style: TextStyle(fontSize: config.xMargin(context, 4.2)),
           ),
         ),
@@ -511,9 +508,9 @@ class _RemindersState extends State<Reminders> {
           splashColor: Colors.greenAccent,
           onTap: () => selectSecondTime(context, db),
           child: Text(
-           db.secondTime != null ? localizations.formatTimeOfDay(db.secondTime):
-           localizations.formatTimeOfDay(TimeOfDay.now())
-           ,
+            db.secondTime != null
+                ? localizations.formatTimeOfDay(db.secondTime)
+                : localizations.formatTimeOfDay(TimeOfDay.now()),
             style: TextStyle(fontSize: config.xMargin(context, 4.2)),
           ),
         ),
@@ -577,24 +574,24 @@ class _RemindersState extends State<Reminders> {
     }
   }
 
-
-   void showSnackBar(BuildContext context) {
+  void showSnackBar(BuildContext context) {
     SnackBar snackBar = SnackBar(
       backgroundColor: Colors.grey[200],
       duration: Duration(seconds: 2),
       content: Text(
         'Drug name not set',
         textAlign: TextAlign.center,
-        style: TextStyle(fontSize: config.textSize(context, 5.3), 
-        color: Theme.of(context).primaryColorDark),
+        style: TextStyle(
+            fontSize: config.textSize(context, 5.3),
+            color: Theme.of(context).primaryColorDark),
       ),
     );
 
     Scaffold.of(context).showSnackBar(snackBar);
   }
 
-
-  void scheduleNotifications(TimeOfDay time, NotificationManager manager, DB db) {
+  void scheduleNotifications(
+      TimeOfDay time, NotificationManager manager, DB db) {
     if (DateTime.now().day <= db.startDate.day &&
         db.endDate.compareTo(DateTime.now()) >= 0) {
       manager.showNotificationDaily(
@@ -602,19 +599,27 @@ class _RemindersState extends State<Reminders> {
     } else if (DateTime.now().day >= db.startDate.day &&
         db.endDate.compareTo(DateTime.now()) >= 0) {
       manager.showNotificationDaily(
-          9, db.drugName, db.dosage > 1 ? db.dosage.toString() + ' pills' : db.dosage.toString() + ' pill' , time.hour, time.minute);
+          9,
+          db.drugName,
+          db.dosage > 1
+              ? db.dosage.toString() + ' pills'
+              : db.dosage.toString() + ' pill',
+          time.hour,
+          time.minute);
     }
   }
-  snackNotification(
+
+  customSnackbar(
       {String title,
       String message,
       bool success = true,
-      int seconds = 5,
+      int seconds = 2,
       String route}) {
     return Flushbar(
       title: title,
       message: message,
-      flushbarPosition:success?FlushbarPosition.TOP:FlushbarPosition.BOTTOM,
+      flushbarPosition:
+          success ? FlushbarPosition.TOP : FlushbarPosition.BOTTOM,
       flushbarStyle: FlushbarStyle.FLOATING,
       reverseAnimationCurve: Curves.decelerate,
       forwardAnimationCurve: Curves.elasticOut,
@@ -637,7 +642,7 @@ class _RemindersState extends State<Reminders> {
       ),
       showProgressIndicator: true,
       progressIndicatorBackgroundColor:
-          success ? Colors.green : Colors.red[400],
+          success ? Colors.greenAccent : Colors.red[400],
       titleText: Text(
         title,
         style: TextStyle(
@@ -659,5 +664,4 @@ class _RemindersState extends State<Reminders> {
         }
       });
   }
-
 }
