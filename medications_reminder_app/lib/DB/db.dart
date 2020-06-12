@@ -166,10 +166,10 @@ class DB extends ChangeNotifier {
     return schedules[index];
   }
 
-  void addSchedule(Schedule schedule) async {
+  void addSchedule(String index, Schedule schedule) async {
 
     var box = Hive.box<Schedule>(_boxName);
-    await box.put(schedule.index, schedule);
+    await box.put(index, schedule);
 
     this.schedules = box.values.toList();
     box.close();

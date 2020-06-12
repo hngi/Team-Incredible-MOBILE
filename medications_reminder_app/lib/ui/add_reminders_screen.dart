@@ -340,7 +340,7 @@ class _RemindersState extends State<Reminders> {
 
                                       switch (widget.buttonText) {
                                         case 'Add Schedule':
-                                          db.addSchedule(Schedule(
+                                          db.addSchedule(newIndex, Schedule(
                                             id: index,
                                             index: newIndex,
                                             drugName: nameController.text,
