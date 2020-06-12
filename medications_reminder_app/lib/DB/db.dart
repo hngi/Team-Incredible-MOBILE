@@ -166,10 +166,10 @@ class DB extends ChangeNotifier {
     return schedules[index];
   }
 
-  void addSchedule(Schedule schedule) async {
+  void addSchedule(String index, Schedule schedule) async {
 
     var box = Hive.box<Schedule>(_boxName);
-    await box.add(schedule);
+    await box.put(index, schedule);
 
     this.schedules = box.values.toList();
     box.close();
@@ -183,7 +183,7 @@ class DB extends ChangeNotifier {
     
 
     this.schedules = box.values.toList();
-    box.deleteAt(key);
+    box.delete(key);
      box.close();
 
     notifyListeners();
@@ -191,9 +191,9 @@ class DB extends ChangeNotifier {
   }
 
   void editSchedule({Schedule schedule}) {
-     int scheduleKey = schedule.index;
+     String scheduleKey = schedule.index;
     var box = Hive.box<Schedule>(_boxName);
-     box.putAt(scheduleKey, schedule);
+     box.put(scheduleKey, schedule);
 
     this.schedules = box.values.toList();
      box.close();

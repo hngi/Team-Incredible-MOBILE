@@ -14,7 +14,7 @@ class ScheduleAdapter extends TypeAdapter<Schedule> {
       for (var i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return Schedule(
-      index: fields[9] as int,
+      index: fields[9] as String,
       drugName: fields[0] as String,
       drugType: fields[1] as String,
       dosage: fields[2] as int,
@@ -24,13 +24,13 @@ class ScheduleAdapter extends TypeAdapter<Schedule> {
       secondTime: (fields[7] as List)?.cast<int>(),
       thirdTime: (fields[8] as List)?.cast<int>(),
       endAt: fields[5] as DateTime,
-    );
+    )..id = fields[10] as int;
   }
 
   @override
   void write(BinaryWriter writer, Schedule obj) {
     writer
-      ..writeByte(10)
+      ..writeByte(11)
       ..writeByte(0)
       ..write(obj.drugName)
       ..writeByte(1)
@@ -50,7 +50,9 @@ class ScheduleAdapter extends TypeAdapter<Schedule> {
       ..writeByte(8)
       ..write(obj.thirdTime)
       ..writeByte(9)
-      ..write(obj.index);
+      ..write(obj.index)
+      ..writeByte(10)
+      ..write(obj.id);
   }
 
   @override

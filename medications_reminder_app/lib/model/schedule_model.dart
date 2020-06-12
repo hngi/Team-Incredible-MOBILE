@@ -32,7 +32,10 @@ class Schedule {
   List<int> thirdTime;
 
   @HiveField(9)
-  int index;
+  String index;
+
+  @HiveField(10)
+  int id;
   
   Schedule({
     this.index,
@@ -45,6 +48,7 @@ class Schedule {
     this.secondTime,
     this.thirdTime,
     this.endAt,
+    this.id
   });
 
 }
