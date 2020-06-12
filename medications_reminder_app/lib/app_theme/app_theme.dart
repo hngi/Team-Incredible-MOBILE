@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 ThemeData appThemeLight = ThemeData(
   primaryColor: Color(0xff2dbfc3),
@@ -7,5 +8,6 @@ ThemeData appThemeLight = ThemeData(
   backgroundColor: Colors.grey[200],
   primaryColorBrightness: Brightness.light,
   buttonColor: Color(0xff28abaf),
-  primarySwatch: Colors.grey
+  primarySwatch: Colors.grey,
+  textTheme: GoogleFonts.poppinsTextTheme()
 );
