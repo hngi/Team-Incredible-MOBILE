@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:medications_reminder_app/DB/db.dart';
 import 'package:medications_reminder_app/model/schedule_model.dart';
@@ -342,8 +344,6 @@ class _RemindersState extends State<Reminders> {
                                         print(db.firstTime);
                                         print(db.secondTime);
                                         print(db.thirdTime);
-
-
 
                                         switch (widget.buttonText) {
                                           case 'Add Schedule':
@@ -728,10 +728,11 @@ class _RemindersState extends State<Reminders> {
 
   void scheduleNotifications(
       TimeOfDay time, DB db, NotificationManager manager) {
+    int uniqueNotificationId = new Random().nextInt(100);
     if (DateTime.now().day <= db.startDate.day &&
         db.endDate.compareTo(DateTime.now()) >= 0) {
       manager.showNotificationDaily(
-          db.scheduleLength,
+          uniqueNotificationId,
           'Drug: ' + nameController.text + '.',
          'Dosage: ' + db.dosage.toString(),
           time.hour,
