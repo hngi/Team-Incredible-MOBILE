@@ -688,8 +688,8 @@ class _RemindersState extends State<Reminders> {
         db.endDate.compareTo(DateTime.now()) >= 0) {
       manager.showNotificationDaily(
           db.scheduleLength,
-          "It's time!: ${nameController.text}",
-          'Dosage: ${db.dosage}',
+          'Drug: ' + nameController.text + '.',
+         'Dosage: ' + db.dosage.toString(),
           time.hour,
           time.minute);
     } else if (DateTime.now().day >= db.startDate.day &&

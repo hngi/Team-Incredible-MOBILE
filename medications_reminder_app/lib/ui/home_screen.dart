@@ -83,15 +83,7 @@ class _CustomHomeScreenState extends State<CustomHomeScreen> {
               sliver: SliverGrid.count(
                 crossAxisCount: 2,
                 children: db.schedules.map((e) {
-                  return db.schedules.length == 0
-                      ? Center(
-                          child: Text(
-                          'You have no schedules.',
-                          style: TextStyle(
-                              color: Theme.of(context).primaryColorDark,
-                              fontSize: config.textSize(context, 15)),
-                        ))
-                      : Row(
+                  return  Row(
                           children: <Widget>[
                             Container(
                               width: MediaQuery.of(context).size.width * .45,
@@ -128,7 +120,7 @@ class _CustomHomeScreenState extends State<CustomHomeScreen> {
                                                                   context, 1.5),
                                                         ),
                                       Text(
-                                        '${e.drugName}',
+                                        e.drugName == null ? 'Set a schedule' : '${e.drugName}',
                                         overflow: TextOverflow.ellipsis,
                                         style: TextStyle(
                                           fontSize: config.textSize(context, 7),
