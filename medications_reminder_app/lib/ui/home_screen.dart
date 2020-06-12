@@ -180,4 +180,4 @@ class _CustomHomeScreenState extends State<CustomHomeScreen> {
       color: Theme.of(context).primaryColor,
     );
   }
-}
+

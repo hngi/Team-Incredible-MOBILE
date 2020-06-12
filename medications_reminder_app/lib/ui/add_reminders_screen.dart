@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:medications_reminder_app/DB/db.dart';
 import 'package:medications_reminder_app/model/schedule_model.dart';
 import 'package:medications_reminder_app/navigation/app_navigation/navigation.dart';
@@ -7,8 +6,6 @@ import 'package:medications_reminder_app/responsiveness/size_config.dart';
 import 'package:medications_reminder_app/ui/home_screen.dart';
 import 'package:medications_reminder_app/ui/scroll_configuration.dart';
 import 'package:provider/provider.dart';
-
-import '../notifications/notifications_manager.dart';
 
 //Note that the colors are #2c7b4b(main colour) and sub colours #fdfcff and #40b26d for button
 //! Colours have now been included in the app_theme.dart file so you can use Theme.of(context).whatever_color you like
@@ -44,25 +41,6 @@ class _RemindersState extends State<Reminders> {
     super.dispose();
     focusNode.dispose();
   }
-
-  // FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-  //     new FlutterLocalNotificationsPlugin();
-
-  // initializeNotifications() async {
-  //   var initializationSettingsAndroid =
-  //       new AndroidInitializationSettings('@mipmap/ic_launcher');
-  //   var initializationSettingsIOS = new IOSInitializationSettings();
-  //   var initializationSettings = new InitializationSettings(
-  //       initializationSettingsAndroid, initializationSettingsIOS);
-  //   await flutterLocalNotificationsPlugin.initialize(initializationSettings);
-  // }
-
-  @override
-  void initState() {
-    super.initState();
-    //Whether to populate fields with data from DB (in the case of editing a schedule)
-    //or to set all fields to their default values (in the case of adding a schedule)
-    //initializeNotifications();
     widget.refresh
         ? Provider.of<DB>(context, listen: false).refresh()
         : Provider.of<DB>(context, listen: false).preload(
@@ -86,7 +64,6 @@ class _RemindersState extends State<Reminders> {
 
 //Instantiating a SizeConfig object to handle responsiveness
   SizeConfig config = SizeConfig();
-
   TextEditingController nameController = TextEditingController();
   FocusNode focusNode = FocusNode();
   @override
@@ -379,34 +356,6 @@ class _RemindersState extends State<Reminders> {
                                                     db.thirdTime.minute
                                                   ]
                                                 : [],
-                                          ));
-                                          var configdb = db;
-                                          List<TimeOfDay> times2 = [
-                                            //widget.schedule.firstTime as int
-                                            configdb.firstTime,
-                                            configdb.secondTime
-                                          ];
-                                          List<TimeOfDay> times3 = [
-                                            configdb.firstTime,
-                                            configdb.secondTime,
-                                            configdb.thirdTime
-                                          ];
-                                          if (configdb.selectedFreq == 'Once') {
-                                            scheduleNotifications(
-                                                configdb.firstTime,
-                                                db,
-                                                notificationManager);
-                                          } else if (configdb.selectedFreq ==
-                                              'Twice') {
-                                            times2.forEach((val) =>
-                                                scheduleNotifications(val, db,
-                                                    notificationManager));
-                                          } else if (configdb.selectedFreq ==
-                                              'Thrice') {
-                                            times3.forEach((val) =>
-                                                scheduleNotifications(val, db,
-                                                    notificationManager));
-                                          }
                                           break;
                                         case 'Update Schedule':
                                           db.editSchedule(
@@ -435,35 +384,6 @@ class _RemindersState extends State<Reminders> {
                                                     db.thirdTime.minute
                                                   ]
                                                 : [],
-                                          ));
-                                          notificationManager.removeReminder(
-                                              widget.schedule.index);
-                                          List<TimeOfDay> times2 = [
-                                            //widget.schedule.firstTime as int
-                                            db.firstTime,
-                                            db.secondTime
-                                          ];
-                                          List<TimeOfDay> times3 = [
-                                            db.firstTime,
-                                            db.secondTime,
-                                            db.thirdTime
-                                          ];
-                                          if (db.selectedFreq == 'Once') {
-                                            scheduleNotifications(db.firstTime,
-                                                db, notificationManager);
-                                          } else if (db.selectedFreq ==
-                                              'Twice') {
-                                            times2.forEach((val) =>
-                                                scheduleNotifications(val, db,
-                                                    notificationManager));
-                                          } else if (db.selectedFreq ==
-                                              'Thrice') {
-                                            times3.forEach((val) =>
-                                                scheduleNotifications(val, db,
-                                                    notificationManager));
-                                          }
-
-                                          break;
                                       }
 
                                       navigation.pushFrom(
@@ -698,33 +618,3 @@ class _RemindersState extends State<Reminders> {
 
     Scaffold.of(context).showSnackBar(snackBar);
   }
-
-  void scheduleNotifications(
-      TimeOfDay time, DB db, NotificationManager manager) {
-    if (DateTime.now().day <= db.startDate.day &&
-        db.endDate.compareTo(DateTime.now()) >= 0) {
-      manager.showNotificationDaily(
-          db.scheduleLength,
-          "It's time!: ${nameController.text}",
-          'Dosage: ${db.dosage}',
-          time.hour,
-          time.minute);
-    } else if (DateTime.now().day >= db.startDate.day &&
-        db.endDate.compareTo(DateTime.now()) >= 0) {
-      manager.showNotificationDaily(
-          db.scheduleLength,
-          "It's time! ${nameController.text}",
-          'Dosage: ${db.dosage}',
-          time.hour,
-          time.minute);
-    } else if (DateTime.now().day == db.startDate.day &&
-        DateTime.now().day == db.endDate.day) {
-      manager.showNotificationDaily(
-          db.scheduleLength,
-          "It's time to take your medication!",
-          '${nameController.text} / Dosage: ${db.dosage}',
-          time.hour,
-          time.minute);
-    }
-  }
-}
