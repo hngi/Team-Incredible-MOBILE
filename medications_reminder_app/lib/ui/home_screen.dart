@@ -83,7 +83,11 @@ class _CustomHomeScreenState extends State<CustomHomeScreen> {
               sliver: SliverGrid.count(
                 crossAxisCount: 2,
                 children: db.schedules.map((e) {
-                  return  Row(
+                  return db.schedules.length == 0 ? 
+                  Center(
+                    child: Text('No schedule')
+                  ) 
+                  : Row(
                           children: <Widget>[
                             Container(
                               width: MediaQuery.of(context).size.width * .45,
