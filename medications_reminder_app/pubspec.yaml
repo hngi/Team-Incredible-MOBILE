@@ -35,6 +35,7 @@ dependencies:
   google_fonts: ^1.0.0
 
 
+
 dependency_overrides:
   dartx: ^0.3.0  
   path: ^1.7.0
