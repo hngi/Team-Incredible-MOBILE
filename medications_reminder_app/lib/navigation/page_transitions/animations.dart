@@ -7,8 +7,9 @@ import 'package:medications_reminder_app/app_theme/app_theme.dart';
 
 class ForwardAnimation extends StatefulWidget {
   final Widget child;
+  final int milliseconds;
 
-  ForwardAnimation({this.child});
+  ForwardAnimation({this.child, this.milliseconds=200});
   @override
   _ForwardAnimationState createState() => _ForwardAnimationState();
 }
@@ -20,7 +21,7 @@ class _ForwardAnimationState extends State<ForwardAnimation> with SingleTickerPr
 
   start(){
     animationController =
-        AnimationController(duration: Duration(milliseconds: 450), vsync: this);
+        AnimationController(duration: Duration(milliseconds: widget.milliseconds), vsync: this);
     animation = Tween(begin: 1.0, end: 0.0).animate(CurvedAnimation(
         parent: animationController, curve: Curves.easeIn));
 
@@ -58,8 +59,10 @@ class _ForwardAnimationState extends State<ForwardAnimation> with SingleTickerPr
 }
 class ImageAnimation extends StatefulWidget {
   final Widget child;
+  final int milliseconds;
+  final Color color;
 
-  ImageAnimation({this.child});
+  ImageAnimation({this.child, this.color, this.milliseconds=450});
   @override
   _ImageAnimationState createState() => _ImageAnimationState();
 }
@@ -71,7 +74,7 @@ class _ImageAnimationState extends State<ImageAnimation> with SingleTickerProvid
 
   start(){
     animationController =
-        AnimationController(duration: Duration(milliseconds: 450), vsync: this);
+        AnimationController(duration: Duration(milliseconds: widget.milliseconds), vsync: this);
     animation = Tween(begin: 1.0, end: 0.0).animate(CurvedAnimation(
         parent: animationController, curve: Curves.easeIn));
 
@@ -98,7 +101,7 @@ class _ImageAnimationState extends State<ImageAnimation> with SingleTickerProvid
       animation: animationController,
       builder: (context, child){
         return Material(
-          color: appThemeLight.primaryColor,
+          color: widget.color ?? appThemeLight.primaryColor,
           child: Transform(
             transform: Matrix4.translationValues(0, animation.value*width, 0),
             child: widget.child),
@@ -123,7 +126,7 @@ class _BackwardAnimationState extends State<BackwardAnimation> with SingleTicker
 
   start(){
     animationController =
-        AnimationController(duration: Duration(milliseconds: 450), vsync: this);
+        AnimationController(duration: Duration(milliseconds: 200), vsync: this);
     animation = Tween(begin: -1.0, end: 0.0).animate(CurvedAnimation(
         parent: animationController, curve: Curves.easeIn));
 

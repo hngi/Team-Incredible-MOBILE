@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:medications_reminder_app/DB/db.dart';
 import 'package:medications_reminder_app/model/schedule_model.dart';
@@ -42,6 +40,7 @@ class _RemindersState extends State<Reminders> {
     focusNode.dispose();
   }
 
+  
   @override
   void initState() {
     super.initState();
@@ -333,173 +332,125 @@ class _RemindersState extends State<Reminders> {
                                 width: MediaQuery.of(context).size.width,
                                 child: FlatButton(
                                   //Navigate to home screen after saving details in db
-                                  onPressed: () {
+                                  onPressed: () async{
                                     if (nameController.text.isNotEmpty) {
-                                      print(db.firstTime);
-                                      print(db.secondTime);
-                                      print(db.thirdTime);
+                                      switch (widget.buttonText) {
+                                        case 'Add Schedule':
+                                          await db.addSchedule(newIndex, Schedule(
+                                            id: index,
+                                            index: newIndex,
+                                            drugName: nameController.text,
+                                            drugType:
+                                                db.drugTypes[db.selectedIndex],
+                                            frequency: db.selectedFreq,
+                                            startAt: db.startDate,
+                                            dosage: db.dosage,
+                                            endAt: db.endDate,
+                                            firstTime: [
+                                              db.firstTime.hour,
+                                              db.firstTime.minute
+                                            ],
+                                            secondTime: db.secondTime != null
+                                                ? [
+                                                    db.secondTime.hour,
+                                                    db.secondTime.minute
+                                                  ]
+                                                : [],
+                                            thirdTime: db.thirdTime != null
+                                                ? [
+                                                    db.thirdTime.hour,
+                                                    db.thirdTime.minute
+                                                  ]
+                                                : [],
+                                          ));
+                                          List<TimeOfDay> times2 = [
+                                            //widget.schedule.firstTime as int
+                                            db.firstTime,
+                                            db.secondTime
+                                          ];
+                                          List<TimeOfDay> times3 = [
+                                            db.firstTime,
+                                            db.secondTime,
+                                            db.thirdTime
+                                          ];
+                                          if (db.selectedFreq == 'Once') {
+                                            scheduleNotifications(
+                                                db.firstTime,
+                                                db,
+                                                notificationManager);
+                                          } else if (db.selectedFreq ==
+                                              'Twice') {
+                                            times2.forEach((val) =>
+                                                scheduleNotifications(val, db,
+                                                    notificationManager));
+                                          } else if (db.selectedFreq ==
+                                              'Thrice') {
+                                            times3.forEach((val) =>
+                                                scheduleNotifications(val, db,
+                                                    notificationManager));
+                                          }
+                                          break;
+                                        case 'Update Schedule':
+                                         await db.editSchedule(
+                                              schedule: Schedule(
+                                                id: widget.schedule.id,
+                                            index: widget.schedule.index,
+                                            drugName: nameController.text,
+                                            drugType:
+                                                db.drugTypes[db.selectedIndex],
+                                            frequency: db.selectedFreq,
+                                            startAt: db.startDate,
+                                            dosage: db.dosage,
+                                            endAt: db.endDate,
+                                            firstTime: [
+                                              db.firstTime.hour,
+                                              db.firstTime.minute
+                                            ],
+                                            secondTime: db.secondTime != null
+                                                ? [
+                                                    db.secondTime.hour,
+                                                    db.secondTime.minute
+                                                  ]
+                                                : [],
+                                            thirdTime: db.thirdTime != null
+                                                ? [
+                                                    db.thirdTime.hour,
+                                                    db.thirdTime.minute
+                                                  ]
+                                                : [],
+                                          ));
+                                          notificationManager.removeReminder(
+                                              widget.schedule.id);
+                                          List<TimeOfDay> times2 = [
+                                            //widget.schedule.firstTime as int
+                                            db.firstTime,
+                                            db.secondTime
+                                          ];
+                                          List<TimeOfDay> times3 = [
+                                            db.firstTime,
+                                            db.secondTime,
+                                            db.thirdTime
+                                          ];
+                                          if (db.selectedFreq == 'Once') {
+                                            scheduleNotifications(db.firstTime,
+                                                db, notificationManager);
+                                          } else if (db.selectedFreq ==
+                                              'Twice') {
+                                            times2.forEach((val) =>
+                                                scheduleNotifications(val, db,
+                                                    notificationManager));
+                                          } else if (db.selectedFreq ==
+                                              'Thrice') {
+                                            times3.forEach((val) =>
+                                                scheduleNotifications(val, db,
+                                                    notificationManager));
+                                          }
 
-                                      var difference = db.endDate
-                                          .difference(db.startDate)
-                                          .inHours;
-
-                                      if (difference == 0) {
-                                        showSnackBar(context,
-                                            text:
-                                                "Start date should be different from end date");
-                                      } else {
-                                        switch (widget.buttonText) {
-                                          case 'Add Schedule':
-                                            db.addSchedule(
-                                                newIndex,
-                                                Schedule(
-                                                  id: index,
-                                                  index: newIndex,
-                                                  drugName: nameController.text,
-                                                  drugType: db.drugTypes[
-                                                      db.selectedIndex],
-                                                  frequency: db.selectedFreq,
-                                                  startAt: db.startDate,
-                                                  dosage: db.dosage,
-                                                  endAt: db.endDate,
-                                                  firstTime: [
-                                                    db.firstTime.hour,
-                                                    db.firstTime.minute
-                                                  ],
-                                                  secondTime: db.secondTime !=
-                                                          null
-                                                      ? [
-                                                          db.secondTime.hour,
-                                                          db.secondTime.minute
-                                                        ]
-                                                      : [],
-                                                  thirdTime: db.thirdTime !=
-                                                          null
-                                                      ? [
-                                                          db.thirdTime.hour,
-                                                          db.thirdTime.minute
-                                                        ]
-                                                      : [],
-                                                ));
-                                            int festhour = db.firstTime.hour;
-                                            int festmin = db.firstTime.minute;
-                                            int firstTime = festhour + festmin;
-                                            notificationManager
-                                                .showNotificationDaily(
-                                                    firstTime,
-                                                    nameController.text,
-                                                    db.dosage.toString(),
-                                                    db.firstTime.hour,
-                                                    db.firstTime.minute);
-
-                                            if (db.secondTime != null) {
-                                              int secondhour =
-                                                  db.secondTime.hour;
-                                              int secondmin =
-                                                  db.secondTime.minute;
-                                              int secondTime =
-                                                  secondhour + secondmin;
-                                              notificationManager
-                                                  .showNotificationDaily(
-                                                      secondTime,
-                                                      nameController.text,
-                                                      db.dosage.toString(),
-                                                      db.secondTime.hour,
-                                                      db.secondTime.minute);
-                                            }
-
-                                            if (db.thirdTime != null) {
-                                              int thirdhour = db.thirdTime.hour;
-                                              int thirdmin =
-                                                  db.thirdTime.minute;
-                                              int thirdTime =
-                                                  thirdhour + thirdmin;
-                                              notificationManager
-                                                  .showNotificationDaily(
-                                                      thirdTime,
-                                                      nameController.text,
-                                                      db.dosage.toString(),
-                                                      db.thirdTime.hour,
-                                                      db.thirdTime.minute);
-                                            }
-                                            break;
-                                          case 'Update Schedule':
-                                            db.editSchedule(
-                                                schedule: Schedule(
-                                              id: widget.schedule.id,
-                                              index: widget.schedule.index,
-                                              drugName: nameController.text,
-                                              drugType: db
-                                                  .drugTypes[db.selectedIndex],
-                                              frequency: db.selectedFreq,
-                                              startAt: db.startDate,
-                                              dosage: db.dosage,
-                                              endAt: db.endDate,
-                                              firstTime: [
-                                                db.firstTime.hour,
-                                                db.firstTime.minute
-                                              ],
-                                              secondTime: db.secondTime != null
-                                                  ? [
-                                                      db.secondTime.hour,
-                                                      db.secondTime.minute
-                                                    ]
-                                                  : [],
-                                              thirdTime: db.thirdTime != null
-                                                  ? [
-                                                      db.thirdTime.hour,
-                                                      db.thirdTime.minute
-                                                    ]
-                                                  : [],
-                                            ));
-                                            int festhour = db.firstTime.hour;
-                                            int festmin = db.firstTime.minute;
-                                            int firstTime = festhour + festmin;
-                                            notificationManager
-                                                .showNotificationDaily(
-                                                    firstTime,
-                                                    nameController.text,
-                                                    db.dosage.toString(),
-                                                    db.firstTime.hour,
-                                                    db.firstTime.minute);
-
-                                            if (db.secondTime != null) {
-                                              int secondhour =
-                                                  db.secondTime.hour;
-                                              int secondmin =
-                                                  db.secondTime.minute;
-                                              int secondTime =
-                                                  secondhour + secondmin;
-                                              notificationManager
-                                                  .showNotificationDaily(
-                                                      secondTime,
-                                                      nameController.text,
-                                                      db.dosage.toString(),
-                                                      db.secondTime.hour,
-                                                      db.secondTime.minute);
-                                            }
-
-                                            if (db.thirdTime != null) {
-                                              int thirdhour = db.thirdTime.hour;
-                                              int thirdmin =
-                                                  db.thirdTime.minute;
-                                              int thirdTime =
-                                                  thirdhour + thirdmin;
-                                              notificationManager
-                                                  .showNotificationDaily(
-                                                      thirdTime,
-                                                      nameController.text,
-                                                      db.dosage.toString(),
-                                                      db.thirdTime.hour,
-                                                      db.thirdTime.minute);
-                                            }
-
-                                            break;
-                                        }
-
-                                        navigation.pushFrom(
-                                            context, HomeScreen());
+                                          break;
                                       }
+
+                                      navigation.pushFrom(
+                                          context, HomeScreen());
                                     } else {
                                       showSnackBar(context);
                                     }
@@ -729,5 +680,15 @@ class _RemindersState extends State<Reminders> {
     );
 
     Scaffold.of(context).showSnackBar(snackBar);
+  }
+
+  void scheduleNotifications(
+      TimeOfDay time, DB db, NotificationManager manager) {
+      manager.showNotificationDaily(
+          db.getUniqueId(time),
+          'Time for your medication!',
+         'Medication: ${nameController.text}\nDosage: ${db.dosage.toString()}',
+          time.hour,
+          time.minute);
   }
 }

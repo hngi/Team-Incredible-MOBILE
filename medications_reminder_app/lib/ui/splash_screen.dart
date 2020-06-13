@@ -1,9 +1,9 @@
 import 'dart:async';
-
+import 'package:hive/hive.dart';
 import 'package:flutter/material.dart';
 import 'package:medications_reminder_app/navigation/page_transitions/animations.dart';
 import 'package:medications_reminder_app/ui/home_screen.dart';
-import 'package:medications_reminder_app/navigation/app_navigation/navigation.dart';
+import 'package:medications_reminder_app/ui/onboarding.dart';
 
 
 //Note that the colors are #40b26d(main colour) and sub colour #fdfcff
@@ -16,11 +16,22 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+
+  void open() async{
+    await Hive.openBox('onboarding');
+  }
+
   @override
   void initState() {
     super.initState();
-    Timer(Duration(milliseconds: 1800),() => Navigation().pushToAndReplace(context, HomeScreen()));
+    Timer(Duration(milliseconds: 1800),() {
+       box.get('status') == 'true' ? Navigator.pushReplacement(context, MaterialPageRoute(builder: (_)=> HomeScreen())) :
+       Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => Onboarding()));
+    });
   }
+
+  var box = Hive.box('onboarding');
+
   Widget build(BuildContext context) {
     return new Scaffold(
       backgroundColor: Theme.of(context).primaryColor,

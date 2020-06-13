@@ -42,14 +42,16 @@ android {
         applicationId "com.example.medications_reminder_app"
         minSdkVersion 16
         targetSdkVersion 28
-        versionCode flutterVersionCode.toInteger()
-        versionName flutterVersionName
+        versionCode 1
+        versionName "1.0.0"
     }
 
     buildTypes {
         release {
             // TODO: Add your own signing config for the release build.
             // Signing with the debug keys for now, so `flutter run --release` works.
+            shrinkResources false
+            minifyEnabled false
             signingConfig signingConfigs.debug
             shrinkResources false
             minifyEnabled false

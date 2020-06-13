@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:medications_reminder_app/DB/db.dart';
 import 'package:medications_reminder_app/navigation/app_navigation/navigation.dart';
+import 'package:medications_reminder_app/notifications/notifications_manager.dart';
 import 'package:medications_reminder_app/responsiveness/size_config.dart';
 import 'package:medications_reminder_app/model/schedule_model.dart';
 import 'package:medications_reminder_app/ui/add_reminders_screen.dart';
@@ -32,6 +33,7 @@ class _DrugsDescriptionState extends State<DrugsDescription> {
   SizeConfig config = SizeConfig();
   Navigation navigation = Navigation();
   DB db = DB();
+  final NotificationManager notificationManager = NotificationManager();
   @override
   Widget build(BuildContext context) {
     MaterialLocalizations localizations = MaterialLocalizations.of(context);
@@ -90,8 +92,10 @@ class _DrugsDescriptionState extends State<DrugsDescription> {
                             iconSize: config.xMargin(context, 9),
                             onPressed: () async {
                               showSnackBar(context);
-                              Future.delayed(Duration(seconds: 1))
+                              Future.delayed(Duration(milliseconds: 500))
                                   .then((value) {
+                                    notificationManager.removeReminder(
+                                              widget.schedule.id);
                                 db.deleteSchedule(widget.schedule.index);
                                 navigation.pushFrom(context, HomeScreen());
                               });
@@ -156,19 +160,20 @@ class _DrugsDescriptionState extends State<DrugsDescription> {
                         SizedBox(height: config.yMargin(context, 2)),
                         Row(
                           children: <Widget>[
-                            Text(
-                              widget.schedule.dosage == 1
-                                  ? '${widget.schedule.dosage} ${widget.schedule.drugType.toLowerCase()}'
-                                  : '${widget.schedule.dosage} ${widget.schedule.drugType.toLowerCase()}s',
-                              textAlign: TextAlign.left,
-                              style: TextStyle(
-                                color: Theme.of(context).primaryColor,
-                                fontWeight: FontWeight.w500,
-                                fontSize: config.xMargin(context, 5),
+                            Expanded(
+                              flex:2,
+                              child: Text(
+                                db.scheduleDescription(widget.schedule),
+                                textAlign: TextAlign.left,
+                                style: TextStyle(
+                                  color: Theme.of(context).primaryColor,
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: config.xMargin(context, 5),
+                                ),
                               ),
                             ),
                             SizedBox(
-                              width: config.xMargin(context, 5),
+                              width: config.xMargin(context, 4.5),
                             ),
                             widget.schedule.firstTime.length != 0
                                 ? Text(
@@ -176,7 +181,7 @@ class _DrugsDescriptionState extends State<DrugsDescription> {
                                         .timeFromDB(widget.schedule.firstTime)),
                                     style: TextStyle(
                                         color: Colors.grey,
-                                        fontSize: config.xMargin(context, 4)),
+                                        fontSize: config.xMargin(context, 3.8)),
                                   )
                                 : Container(),
                             SizedBox(
@@ -188,23 +193,21 @@ class _DrugsDescriptionState extends State<DrugsDescription> {
                                         widget.schedule.secondTime)),
                                     style: TextStyle(
                                         color: Colors.grey,
-                                        fontSize: config.xMargin(context, 4)),
+                                        fontSize: config.xMargin(context, 3.8)),
                                   )
                                 : Container(),
                             SizedBox(
                               width: config.xMargin(context, 2.0),
                             ),
                             widget.schedule.thirdTime.length != 0
-                                ? Expanded(
-                                    child: Text(
+                                ? Text(
                                       localizations.formatTimeOfDay(
                                           db.timeFromDB(
                                               widget.schedule.thirdTime)),
                                       style: TextStyle(
                                           color: Colors.grey,
-                                          fontSize: config.xMargin(context, 4)),
-                                    ),
-                                  )
+                                          fontSize: config.xMargin(context, 3.8)),
+                                    )
                                 : Container(),
                             SizedBox(
                               width: config.xMargin(context, 2.0),
@@ -262,6 +265,7 @@ class _DrugsDescriptionState extends State<DrugsDescription> {
                   ),
                   Center(
                       child: Container(
+                        margin: EdgeInsets.only(bottom: config.yMargin(context, 4)),
                     height: config.yMargin(context, 6.5),
                     width: MediaQuery.of(context).size.width,
                     child: FlatButton(
