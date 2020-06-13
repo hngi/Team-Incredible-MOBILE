@@ -34,13 +34,14 @@ class NotificationManager {
       int id, String title, String body, int hour, int minute) async {
     var time = new Time(hour, minute, 0);
     await flutterLocalNotificationsPlugin.showDailyAtTime(
-        id, title, body, time, getPlatformChannelSpecfics());
-    print('Notification Succesfully Scheduled at ${time.toString()}');
+        id, title, body, time, getPlatformChannelSpecfics(id));
+    print(
+        'Notification Succesfully Scheduled at ${time.toString()} with id of $id');
   }
 
-  getPlatformChannelSpecfics() {
+  getPlatformChannelSpecfics(int id) {
     var androidPlatformChannelSpecifics = AndroidNotificationDetails(
-        'your channel id', 'your channel name', 'your channel description',
+        '$id', 'your channel name', 'your channel description',
         importance: Importance.Max,
         priority: Priority.High,
         ticker: 'Medicine Reminder');

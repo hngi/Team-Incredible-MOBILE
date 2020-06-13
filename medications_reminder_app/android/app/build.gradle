@@ -25,6 +25,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
+
 android {
     compileSdkVersion 28
 
@@ -52,6 +53,9 @@ android {
             shrinkResources false
             minifyEnabled false
             signingConfig signingConfigs.debug
+            shrinkResources false
+            minifyEnabled false
+
         }
     }
 }
