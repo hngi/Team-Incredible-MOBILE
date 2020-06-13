@@ -685,9 +685,9 @@ class _RemindersState extends State<Reminders> {
   void scheduleNotifications(
       TimeOfDay time, DB db, NotificationManager manager) {
       manager.showNotificationDaily(
-          int.parse('${time.hour}${time.minute}${db.schedules.length}'),
-          'Drug: ' + nameController.text + '.',
-         'Dosage: ' + db.dosage.toString(),
+          db.getUniqueId(time),
+          'Time for your medication!',
+         'Medication: ${nameController.text}\nDosage: ${db.dosage.toString()}',
           time.hour,
           time.minute);
   }

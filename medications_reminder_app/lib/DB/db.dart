@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
+import 'dart:math';
 import 'package:medications_reminder_app/model/schedule_model.dart';
 
 class DB extends ChangeNotifier {
@@ -18,6 +19,10 @@ class DB extends ChangeNotifier {
   String drugName;
 
   List<Schedule> schedules = [];
+
+  int getUniqueId(TimeOfDay time){
+    return int.parse('${time.hour}${time.minute}${this.schedules.length}${Random().nextInt(90)+1}');
+  }
 
   String scheduleDescription(Schedule schedule){
     String description;
