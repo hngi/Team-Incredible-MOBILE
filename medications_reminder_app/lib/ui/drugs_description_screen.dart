@@ -8,6 +8,7 @@ import 'package:medications_reminder_app/model/schedule_model.dart';
 import 'package:medications_reminder_app/ui/add_reminders_screen.dart';
 import 'package:medications_reminder_app/ui/home_screen.dart';
 import 'package:medications_reminder_app/ui/scroll_configuration.dart';
+import 'dart:developer';
 
 //Note that the colours are #fdfcff and #40b26d for button
 //I already added the google fonts package, use poppins
@@ -39,6 +40,30 @@ class _DrugsDescriptionState extends State<DrugsDescription> {
     MaterialLocalizations localizations = MaterialLocalizations.of(context);
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
+
+    DateTime now = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day );
+    DateTime dateEnd =  DateTime(widget.schedule.endAt.year, widget.schedule.endAt.month, widget.schedule.endAt.day);
+    DateTime datestart =  DateTime(widget.schedule.startAt.year, widget.schedule.startAt.month, widget.schedule.startAt.day);
+    //   String dayString = "";
+    int TotalPogram = dateEnd.difference(datestart).inDays + 1;
+    log('$TotalPogram');
+    int weeks = TotalPogram ~/ 7;
+    int days = TotalPogram.remainder(7);
+    log('${widget.schedule.startAt}');
+    log('${widget.schedule.endAt}');
+    int DateDiff = widget.schedule.endAt.difference(now).inDays;
+
+    int dosageperday = widget.schedule.dosage;
+    int tableft =0;
+    int numberofdose = TotalPogram  *  dosageperday;
+    log('$TotalPogram');
+    if(dosageperday == 1 && numberofdose > 0){
+      tableft = DateDiff * dosageperday ;
+    }else if(dosageperday == 2 && numberofdose > 2){
+      tableft = DateDiff * dosageperday ;
+    }else if(dosageperday == 3 && numberofdose > 3){
+      tableft = DateDiff * dosageperday;
+    }
     return Scaffold(
       backgroundColor: Theme.of(context).primaryColor,
       appBar: AppBar(
@@ -228,10 +253,11 @@ class _DrugsDescriptionState extends State<DrugsDescription> {
                         SizedBox(
                           height: config.yMargin(context, 2),
                         ),
-                        Text(
-                          db.getTimeline(
-                              widget.schedule.startAt, widget.schedule.endAt),
-                          textAlign: TextAlign.left,
+                     //   Text(
+                        //  db.getTimeline(
+                         //     widget.schedule.startAt, widget.schedule.endAt),
+                          Text('Total $TotalPogram Days : $DateDiff Days Left'
+                            ,
                           style: TextStyle(
                             fontSize: config.xMargin(context, 5),
                           ),
@@ -248,14 +274,19 @@ class _DrugsDescriptionState extends State<DrugsDescription> {
                           ),
                         ),
                         SizedBox(height: config.yMargin(context, 2)),
-                        Text(
-                          db.totalQuantityOfDrugs(widget.schedule) == 1
-                              ? 'Total ${db.totalQuantityOfDrugs(widget.schedule)} ${widget.schedule.drugType.toLowerCase()} : ${db.drugsLeft(widget.schedule)} Left'
-                              : 'Total ${db.totalQuantityOfDrugs(widget.schedule)} ${widget.schedule.drugType.toLowerCase()}s : ${db.drugsLeft(widget.schedule)} Left',
-                          textAlign: TextAlign.left,
-                          style: TextStyle(
-                            fontSize: config.xMargin(context, 5),
-                          ),
+                    Text('Total $numberofdose Tablets : $tableft Left'
+                      ,
+                      style: TextStyle(
+                        fontSize: config.xMargin(context, 5),
+                      ),
+                       // Text(
+                         // db.totalQuantityOfDrugs(widget.schedule) == 1
+                           //   ? 'Total ${db.totalQuantityOfDrugs(widget.schedule)} ${widget.schedule.drugType.toLowerCase()} : ${db.drugsLeft(widget.schedule)} Left'
+                             // : 'Total ${db.totalQuantityOfDrugs(widget.schedule)} ${widget.schedule.drugType.toLowerCase()}s : ${db.drugsLeft(widget.schedule)} Left',
+                          //textAlign: TextAlign.left,
+                          //style: TextStyle(
+                            //fontSize: config.xMargin(context, 5),
+                          //),
                         ),
                       ],
                     ),
