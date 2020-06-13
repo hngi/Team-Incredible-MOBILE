@@ -156,15 +156,16 @@ class _DrugsDescriptionState extends State<DrugsDescription> {
                         SizedBox(height: config.yMargin(context, 2)),
                         Row(
                           children: <Widget>[
-                            Text(
-                              widget.schedule.dosage == 1
-                                  ? '${widget.schedule.dosage} ${widget.schedule.drugType.toLowerCase()}'
-                                  : '${widget.schedule.dosage} ${widget.schedule.drugType.toLowerCase()}s',
-                              textAlign: TextAlign.left,
-                              style: TextStyle(
-                                color: Theme.of(context).primaryColor,
-                                fontWeight: FontWeight.w500,
-                                fontSize: config.xMargin(context, 5),
+                            Expanded(
+                              flex:2,
+                              child: Text(
+                                db.scheduleDescription(widget.schedule),
+                                textAlign: TextAlign.left,
+                                style: TextStyle(
+                                  color: Theme.of(context).primaryColor,
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: config.xMargin(context, 5),
+                                ),
                               ),
                             ),
                             SizedBox(
@@ -262,6 +263,7 @@ class _DrugsDescriptionState extends State<DrugsDescription> {
                   ),
                   Center(
                       child: Container(
+                        margin: EdgeInsets.only(bottom: config.yMargin(context, 4)),
                     height: config.yMargin(context, 6.5),
                     width: MediaQuery.of(context).size.width,
                     child: FlatButton(

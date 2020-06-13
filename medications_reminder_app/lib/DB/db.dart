@@ -19,6 +19,26 @@ class DB extends ChangeNotifier {
 
   List<Schedule> schedules = [];
 
+  String scheduleDescription(Schedule schedule){
+    String description;
+    switch (schedule.drugType) {
+      case 'Injection':
+         if(schedule.dosage == 1){
+           description = '${schedule.dosage} shot ${schedule.frequency.toLowerCase()} daily';
+         }else{
+          description = '${schedule.dosage} shots ${schedule.frequency.toLowerCase()} daily';
+         }                                         
+        break;
+      default:
+      if(schedule.dosage == 1){
+           description = '${schedule.dosage} ${schedule.drugType.toLowerCase()} ${schedule.frequency.toLowerCase()} daily';
+         }else{
+          description = '${schedule.dosage} ${schedule.drugType.toLowerCase()}s ${schedule.frequency.toLowerCase()} daily';
+         }  
+    }
+    return description;
+  }
+
   bool isToday(){
     return this.startDate.difference(DateTime.now()) == 0;
   }
@@ -166,7 +186,7 @@ class DB extends ChangeNotifier {
     return schedules[index];
   }
 
-  void addSchedule(String index, Schedule schedule) async {
+  Future<void> addSchedule(String index, Schedule schedule) async {
 
     var box = Hive.box<Schedule>(_boxName);
     await box.put(index, schedule);
@@ -190,10 +210,10 @@ class DB extends ChangeNotifier {
       
   }
 
-  void editSchedule({Schedule schedule}) {
+  Future<void> editSchedule({Schedule schedule}) async{
      String scheduleKey = schedule.index;
     var box = Hive.box<Schedule>(_boxName);
-     box.put(scheduleKey, schedule);
+     await box.put(scheduleKey, schedule);
 
     this.schedules = box.values.toList();
      box.close();

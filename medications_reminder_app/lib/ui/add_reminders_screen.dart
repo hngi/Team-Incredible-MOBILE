@@ -332,15 +332,11 @@ class _RemindersState extends State<Reminders> {
                                 width: MediaQuery.of(context).size.width,
                                 child: FlatButton(
                                   //Navigate to home screen after saving details in db
-                                  onPressed: () {
+                                  onPressed: () async{
                                     if (nameController.text.isNotEmpty) {
-                                      print(db.firstTime);
-                                      print(db.secondTime);
-                                      print(db.thirdTime);
-
                                       switch (widget.buttonText) {
                                         case 'Add Schedule':
-                                          db.addSchedule(newIndex, Schedule(
+                                          await db.addSchedule(newIndex, Schedule(
                                             id: index,
                                             index: newIndex,
                                             drugName: nameController.text,
@@ -367,37 +363,35 @@ class _RemindersState extends State<Reminders> {
                                                   ]
                                                 : [],
                                           ));
-                                          var configdb = db;
                                           List<TimeOfDay> times2 = [
                                             //widget.schedule.firstTime as int
-                                            configdb.firstTime,
-                                            configdb.secondTime
+                                            db.firstTime,
+                                            db.secondTime
                                           ];
                                           List<TimeOfDay> times3 = [
-                                            configdb.firstTime,
-                                            configdb.secondTime,
-                                            configdb.thirdTime
+                                            db.firstTime,
+                                            db.secondTime,
+                                            db.thirdTime
                                           ];
-                                          if (configdb.selectedFreq == 'Once') {
+                                          if (db.selectedFreq == 'Once') {
                                             scheduleNotifications(
-                                             index,
-                                                configdb.firstTime,
+                                                db.firstTime,
                                                 db,
                                                 notificationManager);
-                                          } else if (configdb.selectedFreq ==
+                                          } else if (db.selectedFreq ==
                                               'Twice') {
                                             times2.forEach((val) =>
-                                                scheduleNotifications(index, val, db,
+                                                scheduleNotifications(val, db,
                                                     notificationManager));
-                                          } else if (configdb.selectedFreq ==
+                                          } else if (db.selectedFreq ==
                                               'Thrice') {
                                             times3.forEach((val) =>
-                                                scheduleNotifications(index, val, db,
+                                                scheduleNotifications(val, db,
                                                     notificationManager));
                                           }
                                           break;
                                         case 'Update Schedule':
-                                          db.editSchedule(
+                                         await db.editSchedule(
                                               schedule: Schedule(
                                                 id: widget.schedule.id,
                                             index: widget.schedule.index,
@@ -438,17 +432,17 @@ class _RemindersState extends State<Reminders> {
                                             db.thirdTime
                                           ];
                                           if (db.selectedFreq == 'Once') {
-                                            scheduleNotifications(widget.schedule.id, db.firstTime,
+                                            scheduleNotifications(db.firstTime,
                                                 db, notificationManager);
                                           } else if (db.selectedFreq ==
                                               'Twice') {
                                             times2.forEach((val) =>
-                                                scheduleNotifications(widget.schedule.id,val, db,
+                                                scheduleNotifications(val, db,
                                                     notificationManager));
                                           } else if (db.selectedFreq ==
                                               'Thrice') {
                                             times3.forEach((val) =>
-                                                scheduleNotifications(widget.schedule.id, val, db,
+                                                scheduleNotifications(val, db,
                                                     notificationManager));
                                           }
 
@@ -688,32 +682,13 @@ class _RemindersState extends State<Reminders> {
     Scaffold.of(context).showSnackBar(snackBar);
   }
 
-  void scheduleNotifications(int id,
+  void scheduleNotifications(
       TimeOfDay time, DB db, NotificationManager manager) {
-    if (DateTime.now().day <= db.startDate.day &&
-        db.endDate.compareTo(DateTime.now()) >= 0) {
       manager.showNotificationDaily(
-          id,
+          int.parse('${time.hour}${time.minute}${db.schedules.length}'),
           'Drug: ' + nameController.text + '.',
          'Dosage: ' + db.dosage.toString(),
           time.hour,
           time.minute);
-    } else if (DateTime.now().day >= db.startDate.day &&
-        db.endDate.compareTo(DateTime.now()) >= 0) {
-      manager.showNotificationDaily(
-          id,
-         'Drug: ' + nameController.text + '.',
-         'Dosage: ' + db.dosage.toString(),
-          time.hour,
-          time.minute);
-    } else if (DateTime.now().day == db.startDate.day &&
-        DateTime.now().day == db.endDate.day) {
-      manager.showNotificationDaily(
-          id,
-          'Drug: ' + nameController.text + '.',
-         'Dosage: ' + db.dosage.toString(),
-          time.hour,
-          time.minute);
-    }
   }
 }
